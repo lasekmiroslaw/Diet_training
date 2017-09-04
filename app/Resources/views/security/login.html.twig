@@ -1,19 +1,21 @@
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
+{% extends 'base.html.twig' %}
+{% block title %}Logowanie{% endblock %}
+{% block body %}
+  {% if error %}
+      <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+  {% endif %}
 
-<form action="{{ path('login') }}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+  <form action="{{ path('login') }}" method="post">
+      <label for="username">Username:</label>
+      <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" />
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
+      <label for="password">Password:</label>
+      <input type="password" id="password" class="form-control" name="_password" />
 
-
-    <input type="hidden" name="_target_path" value="/account" />
-
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-    <button type="submit">login</button>
-</form>
+      <input type="hidden" name="_target_path" value="/account" />
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+      <br />
+      <button type="submit" class="btn btn-secondary btn-lg btn-block">login</button>
+  </form>
+  <a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a>
+{% endblock %}

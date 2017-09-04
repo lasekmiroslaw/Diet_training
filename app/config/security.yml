@@ -22,9 +22,8 @@ security:
             security: false
 
         main:
+
             anonymous: ~
-
-
 
             pattern:    ^/
             http_basic: ~
@@ -43,11 +42,6 @@ security:
                 username_parameter: _username
                 password_parameter: _password
 
-        # CSRF Protection in the Login Form
-        secured_area:
-            # ...
-            form_login:
-                # ...
                 csrf_token_generator: security.csrf.token_manager
 
     access_control:
