@@ -2,12 +2,20 @@
 # https://symfony.com/doc/current/security.html
 security:
 
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: ~
+        our_db_provider:
+            entity:
+                class: AppBundle:User
+                property: username
+                # if you're using multiple entity managers
+                # manager_name: customer
 
     firewalls:
+
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -15,6 +23,35 @@ security:
 
         main:
             anonymous: ~
+
+
+
+            pattern:    ^/
+            http_basic: ~
+            provider: our_db_provider
+
+            form_login:
+                # submit the login form here
+                check_path: /login
+
+                # the user is redirected here when they need to log in
+                login_path: /login
+
+                # login success redirecting options (read further below)
+                always_use_default_target_path: true
+                default_target_path: /
+                
+        # CSRF Protection in the Login Form
+        secured_area:
+            # ...
+            form_login:
+                # ...
+                csrf_token_generator: security.csrf.token_manager
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
