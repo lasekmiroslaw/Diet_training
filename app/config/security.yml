@@ -40,7 +40,9 @@ security:
                 # login success redirecting options (read further below)
                 always_use_default_target_path: true
                 default_target_path: /
-                
+                username_parameter: _username
+                password_parameter: _password
+
         # CSRF Protection in the Login Form
         secured_area:
             # ...
@@ -51,6 +53,7 @@ security:
     access_control:
         # require ROLE_ADMIN for /admin*
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
             # activate different ways to authenticate
 
