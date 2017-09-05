@@ -19,15 +19,16 @@ class RegisterForm extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('username', TextType::class)
+            ->add('username', TextType::class, array('label' => 'Użytkownik'))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options'  => array('label' => 'Hasło'),
+                'second_options' => array('label' => 'Powtórz hasło'),
             ))
             ->add('termsAccepted', CheckboxType::class, array(
                 'mapped' => false,
                 'constraints' => new IsTrue(),
+                'label' => 'Akceptuję warunki'
             ))
         ;
     }
