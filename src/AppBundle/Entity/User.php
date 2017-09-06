@@ -28,12 +28,25 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=25, unique=true)
+     * @Assert\NotBlank(message = "Proszę wprowadzić nazwę użytkownika")
+     * @Assert\Length(
+     *      min = 4,
+     *      max = 25,
+     *      minMessage = "Twoja nazwa użytkownika musi zawierać conajmniej 4 znaki",
+     *      maxMessage = "Twoja nazwa użytkownika może zawierać maksymalnie 25 znaków"
+     * )
      */
     private $username;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message = "Proszę wprowadzić hasło")
      * @Assert\Length(max=4096)
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 64,
+     *      minMessage = "Twoje hasło musi zawierać conajmniej 6 znaków",
+     *      maxMessage = "Twoje hasło może zawierać maksymalnie 64 znaki"
+     * )
      */
     private $plainPassword;
 
@@ -41,6 +54,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=64)
+     * @Assert\NotBlank(message = "Proszę wprowadzić hasło")
      */
     private $password;
 
@@ -48,6 +62,11 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=64, unique=true)
+     * @Assert\NotBlank(message = "Proszę wprowadzić adres email")
+     * @Assert\Email(
+     *     message = "Proszę wprowadzić emaila we właściwym foramcie",
+     *     checkMX = true
+     * )
      */
     private $email;
 

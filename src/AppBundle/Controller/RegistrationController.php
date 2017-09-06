@@ -36,12 +36,19 @@ class RegistrationController extends Controller
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('user_confirmation');
         }
 
         return $this->render(
             'forms/register.html.twig',
             array('form' => $form->createView())
         );
+    }
+
+    /**
+     * @Route("/confirm", name="user_confirmation")
+     */
+    public function confirmAction() {
+        return $this->render('default/confirm.html.twig');
     }
 }
