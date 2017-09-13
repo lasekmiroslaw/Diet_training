@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import "forms/macros/form_elements.html.twig" as formElements %}
 {% block title %}Rejestracja{% endblock %}
 {% block body %}
   {{ form_start(form) }}
@@ -7,6 +8,12 @@
       {{ form_row(form.plainPassword.first) }}
       {{ form_row(form.plainPassword.second) }}
       {{ form_row(form.termsAccepted) }}
+      {% for message in app.flashes('error') %}
+      <div class="flash-error">
+      {{ message }}
+      </div>
+      {% endfor %}
+      {{ formElements.recaptcha("6Lc7eDAUAAAAAH94e9XGkdPZlUzdBt8SlSYOIlQq")}}
       <button type="submit">Register!</button>
   {{ form_end(form) }}
   <br>

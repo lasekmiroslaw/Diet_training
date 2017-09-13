@@ -4,8 +4,94 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "620010b4a6c5f00f26dd7a5230eff84d",
+    "content-hash": "c2955670d0317b36f8fc1fc5f12e66ce",
     "packages": [
+        {
+            "name": "captcha-com/captcha",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.captcha.com/botdetect-php-captcha-library.git",
+                "reference": "0b647099184e6f830478ee55152c50162bdcd838"
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "suggest": {
+                "captcha-com/cakephp-captcha": "BotDetect 4 PHP Captcha generator integration for the CakePHP framework.",
+                "captcha-com/laravel-captcha": "BotDetect 4 PHP Captcha generator integration for the Laravel framework.",
+                "captcha-com/symfony-captcha-bundle": "BotDetect 4 PHP Captcha generator integration for the Symfony framework."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Commercial"
+            ],
+            "authors": [
+                {
+                    "name": "BotDetect Captcha",
+                    "email": "botdetect.support@captcha.com",
+                    "homepage": "http://captcha.com/php-captcha.html"
+                }
+            ],
+            "description": "BotDetect 4 PHP Captcha Generator -- Free composer package.",
+            "homepage": "http://captcha.com/php-captcha.html",
+            "keywords": [
+                "captcha"
+            ],
+            "time": "2016-06-06T13:31:24+00:00"
+        },
+        {
+            "name": "captcha-com/symfony-captcha-bundle",
+            "version": "4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/captcha-com/symfony-captcha-bundle.git",
+                "reference": "2dcf8a3efc34b24af7bb157667448d78a3ab562b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/captcha-com/symfony-captcha-bundle/zipball/2dcf8a3efc34b24af7bb157667448d78a3ab562b",
+                "reference": "2dcf8a3efc34b24af7bb157667448d78a3ab562b",
+                "shasum": ""
+            },
+            "require": {
+                "captcha-com/captcha": "4.*",
+                "php": ">=5.3.9"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Captcha\\Bundle\\CaptchaBundle\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "BotDetect Captcha",
+                    "email": "botdetect.support@captcha.com",
+                    "homepage": "http://captcha.com/doc/php/symfony-captcha-bundle-quickstart.html"
+                }
+            ],
+            "description": "BotDetect 4 PHP Captcha generator integration for the Symfony framework.",
+            "homepage": "http://captcha.com/doc/php/symfony-captcha-bundle-quickstart.html",
+            "keywords": [
+                "captcha",
+                "captcha bundle",
+                "symfony captcha"
+            ],
+            "time": "2017-06-21T17:22:03+00:00"
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.0.7",
@@ -886,6 +972,51 @@
                 "rest"
             ],
             "time": "2016-10-17T18:31:11+00:00"
+        },
+        {
+            "name": "google/recaptcha",
+            "version": "1.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google/recaptcha.git",
+                "reference": "5a56d15ca10a7b75158178752b2ad8f755eb4f78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google/recaptcha/zipball/5a56d15ca10a7b75158178752b2ad8f755eb4f78",
+                "reference": "5a56d15ca10a7b75158178752b2ad8f755eb4f78",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ReCaptcha\\": "src/ReCaptcha"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Client library for reCAPTCHA, a free service that protect websites from spam and abuse.",
+            "homepage": "http://www.google.com/recaptcha/",
+            "keywords": [
+                "Abuse",
+                "captcha",
+                "recaptcha",
+                "spam"
+            ],
+            "time": "2017-03-09T18:44:34+00:00"
         },
         {
             "name": "incenteev/composer-parameter-handler",

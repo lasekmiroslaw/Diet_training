@@ -54,7 +54,6 @@ class User implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=64)
-     * @Assert\NotBlank(message = "Proszę wprowadzić hasło")
      */
     private $password;
 
@@ -64,7 +63,7 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="email", type="string", length=64, unique=true)
      * @Assert\NotBlank(message = "Proszę wprowadzić adres email")
      * @Assert\Email(
-     *     message = "Proszę wprowadzić emaila we właściwym foramcie",
+     *     message = "Proszę wprowadzić adres email",
      *     checkMX = true
      * )
      */
@@ -256,4 +255,5 @@ class User implements AdvancedUserInterface, \Serializable
             $this->isActive,
         ) = unserialize($serialized);
     }
+
 }

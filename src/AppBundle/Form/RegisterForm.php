@@ -21,6 +21,7 @@ class RegisterForm extends AbstractType
             ->add('email', EmailType::class)
             ->add('username', TextType::class, array('label' => 'Użytkownik'))
             ->add('plainPassword', RepeatedType::class, array(
+                'invalid_message' => 'Wprowadzone hasła nie są identyczne',
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Hasło'),
                 'second_options' => array('label' => 'Powtórz hasło'),
@@ -28,9 +29,8 @@ class RegisterForm extends AbstractType
             ->add('termsAccepted', CheckboxType::class, array(
                 'mapped' => false,
                 'constraints' => new IsTrue(),
-                'label' => 'Akceptuję warunki'
-            ))
-        ;
+                'label' => 'Akceptuję regulamin'
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
