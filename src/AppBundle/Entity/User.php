@@ -35,6 +35,12 @@ class User implements AdvancedUserInterface, \Serializable
      *      minMessage = "Twoja nazwa użytkownika musi zawierać conajmniej 4 znaki",
      *      maxMessage = "Twoja nazwa użytkownika może zawierać maksymalnie 25 znaków"
      * )
+     *
+     * @Assert\Regex(
+     *      pattern="/^[a-zA-Z0-9_-]{4,25}$/",
+     *      htmlPattern = "/^[a-zA-Z0-9_-]{4,25}$/",
+     *      message="Login może zawierać tylko litery i cyfry oraz znaki - , _"
+     *)
      */
     private $username;
 
@@ -47,6 +53,12 @@ class User implements AdvancedUserInterface, \Serializable
      *      minMessage = "Twoje hasło musi zawierać conajmniej 6 znaków",
      *      maxMessage = "Twoje hasło może zawierać maksymalnie 64 znaki"
      * )
+     *
+     * @Assert\Regex(
+     *      pattern="/^[a-zA-Z0-9_-]{6,64}$/",
+     *      htmlPattern = "/^[a-zA-Z0-9_-]{6,64}$/",
+     *      message="Hasło może zawierać tylko litery i cyfry oraz oraz znaki - , _"
+     *)
      */
     private $plainPassword;
 

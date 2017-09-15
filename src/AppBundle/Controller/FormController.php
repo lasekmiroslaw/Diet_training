@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use AppBundle\Entity\changePassword;
+use AppBundle\Form\ChangePasswordType;
 
 class FormController extends Controller
 {
@@ -31,4 +33,26 @@ class FormController extends Controller
              'form' => $form->createView(),
          ));
      }
+
+     /**
+      * @Route("/change_password", name="change_password")
+      */
+      public function changePasswordAction(Request $request)
+       {
+
+         $changePasswordModel = new ChangePassword();
+         $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
+
+         $form->handleRequest($request);
+
+         if ($form->isSubmitted() && $form->isValid()) {
+             // perform some action,
+             // such as encoding with MessageDigestPasswordEncoder and persist
+             return $this->redirect($this->generateUrl('homepage'));
+         }
+
+         return $this->render(':security:changepassword.html.twig', array(
+             'form' => $form->createView(),
+         ));
+       }
 }
