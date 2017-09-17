@@ -208,7 +208,7 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function __construct()
     {
-    $this->isActive = true;
+    $this->isActive = false;
     }
 
     public function getSalt()

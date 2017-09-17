@@ -12,6 +12,7 @@ use ReCaptcha\ReCaptcha;
 
 class RegistrationController extends Controller
 {
+
     /**
      * @Route("/register", name="user_registration")
      */
@@ -37,10 +38,11 @@ class RegistrationController extends Controller
             $em->persist($user);
             $em->flush();
 
-
+            //Encode email
+            $encodedEmail = base64_encode($user->getEmail());
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
-            return $this->redirectToRoute('user_confirmation');
+            return $this->redirectToRoute('registration_email', array('email' => $encodedEmail));
         }
 
         # check if captcha response isn't get throw a message
@@ -56,7 +58,54 @@ class RegistrationController extends Controller
             'forms/register.html.twig',
             array('form' => $form->createView())
         );
-      }
+    }
+
+    /**
+     * @Route("/register_email/{email}", name="registration_email")
+     */
+    public function emailAction($email, \Swift_Mailer $mailer)
+    {
+        $url = $this->get('router')->generate('user_activation', array(
+              'email' => $email
+          ));
+        $decodedEmail = base64_decode($email);
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('lasekdeveloper@gmail.com')
+            ->setTo($decodedEmail)
+            ->setBody(
+                $this->renderView(
+                    // app/Resources/views/Emails/registration.html.twig
+                    'emails/registration.html.twig', array('activeLink' => $url)
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
+
+        // or, you can also fetch the mailer service this way
+        // $this->get('mailer')->send($message);
+
+        return $this->render('default/confirm.html.twig');
+    }
+
+    /**
+     * @Route("/activate{email}", name="user_activation")
+     */
+    public function activationAction($email) {
+        $decodedEmail = base64_decode($email);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->findOneByEmail($decodedEmail);
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No user found for email '.$decodedEmail
+            );
+        }
+
+        $user->setIsActive(1);
+        $em->flush();
+        return $this->redirectToRoute('login');
+    }
 
     /**
      * @Route("/confirm", name="user_confirmation")
@@ -64,4 +113,7 @@ class RegistrationController extends Controller
     public function confirmAction() {
         return $this->render('default/confirm.html.twig');
     }
+
+
+
 }
