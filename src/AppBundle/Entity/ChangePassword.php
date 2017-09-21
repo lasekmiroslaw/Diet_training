@@ -7,50 +7,50 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 class ChangePassword
 {
+    /**
+     * @SecurityAssert\UserPassword(
+     *     message = "Wrong value for your current password"
+     * )
+     */
+    protected $oldPassword;
 
-/**
- * @SecurityAssert\UserPassword(
- *     message = "Wrong value for your current password"
- * )
- */
-protected $oldPassword;
+    /**
+     * @Assert\Length(
+     *     min = 6,
+     *     minMessage = "Password should by at least 6 chars long"
+     * )
+     */
+    protected $newPassword;
 
-/**
- * @Assert\Length(
- *     min = 6,
- *     minMessage = "Password should by at least 6 chars long"
- * )
- */
-protected $newPassword;
+    /**
+     * @return mixed
+     */
+    public function getOldPassword()
+    {
+        return $this->oldPassword;
+    }
 
-/**
- * @return mixed
- */
-public function getOldPassword()
-{
-    return $this->oldPassword;
-}
+    /**
+     * @param mixed $oldPassword
+     */
+    public function setOldPassword($oldPassword)
+    {
+        $this->oldPassword = $oldPassword;
+    }
 
-/**
- * @param mixed $oldPassword
- */
-public function setOldPassword($oldPassword)
-{
-    $this->oldPassword = $oldPassword;
-}
+    /**
+     * @return mixed
+     */
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
 
-/**
- * @return mixed
- */
-public function getNewPassword()
-{
-    return $this->newPassword;
-}
-
-/**
- * @param mixed $newPassword
- */
-public function setNewPassword($newPassword)
-{
-    $this->newPassword = $newPassword;
+    /**
+     * @param mixed $newPassword
+     */
+    public function setNewPassword($newPassword)
+    {
+        $this->newPassword = $newPassword;
+    }
 }
