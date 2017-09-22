@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,7 +31,7 @@ trait UserData
     /**
      * @var int
      *
-     * @ORM\Column(name="weight", type="integer")
+     * @ORM\Column(name="weight", type="float")
      */
     private $weight;
 
@@ -47,7 +47,7 @@ trait UserData
      *
      * @ORM\Column(name="acitivity", type="string", length=50)
      */
-    private $acitivity;
+    private $activity;
 
     /**
      * @var int
@@ -140,27 +140,27 @@ trait UserData
     }
 
     /**
-     * Set acitivity
+     * Set activity
      *
-     * @param string $acitivity
+     * @param string $activity
      *
      * @return UserData
      */
-    public function setAcitivity($acitivity)
+    public function setActivity($activity)
     {
-        $this->acitivity = $acitivity;
+        $this->activity = $activity;
 
         return $this;
     }
 
     /**
-     * Get acitivity
+     * Get activity
      *
      * @return string
      */
-    public function getAcitivity()
+    public function getActivity()
     {
-        return $this->acitivity;
+        return $this->activity;
     }
 
     /**

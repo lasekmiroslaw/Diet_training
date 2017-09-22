@@ -17,8 +17,7 @@ class LoginForm extends AbstractType
             ->add('username', TextType::class, array('label' => 'Użytkownik',
           ))
             ->add('password', PasswordType::class, array('label' => 'Hasło',
-          ))
-        ;
+          ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

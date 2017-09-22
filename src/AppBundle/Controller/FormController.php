@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\LoginForm;
+use AppBundle\Form\UserDataForm;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -55,4 +56,18 @@ class FormController extends Controller
              'form' => $form->createView(),
          ));
        }
+
+       /**
+        * @Route("/data_form", name="data_form")
+        */
+       public function userDataAction(Request $request, AuthenticationUtils $authUtils)
+        {
+
+            $user = new User();
+            $form = $this->createForm(UserDataForm::class, $user);
+            $form->handleRequest($request);
+            return $this->render('forms/data_form.html.twig', array(
+                'form' => $form->createView(),
+            ));
+        }
 }

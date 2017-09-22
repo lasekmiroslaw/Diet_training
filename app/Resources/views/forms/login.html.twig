@@ -1,18 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}Logowanie{% endblock %}
 {% block body %}
-  {% if error %}
-        {{ error.message | replace({"Bad credentials." : "Niewłaściwy użytkownik lub hasło"}) }}
-  {% endif %}
-  {{ form_start(form) }}
-      {{ form_row(form.username) }}
-      {{ form_row(form.password) }}
-      <button type="submit">Zaloguj się</button>
-      <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
-  {{ form_end(form) }}
-
-  <a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a>
-
-  <br>
-  <a href="{{ path('logout') }}">Wyloguj się!</a>
+      {% if error %}
+            {{ error.message | replace({"Bad credentials." : "Niewłaściwy użytkownik lub hasło"}) }}
+      {% endif %}
+      {{ form_start(form) }}
+            {{ form_row(form.username) }}
+            {{ form_row(form.password) }}
+            <button type="submit">Zaloguj się</button>
+            <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
+      {{ form_end(form) }}
+      <a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a><br>
+      <a href="{{ path('logout') }}">Wyloguj się!</a>
 {% endblock %}

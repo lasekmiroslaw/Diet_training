@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block title %}Dane użytkownika{% endblock %}
+{% block body %}
+	  {{ form_start(form) }}
+	  		{{ form_row(form.age) }}
+	  		{{ form_row(form.weight) }}
+	  		{{ form_row(form.height) }}
+	  		{{ form_row(form.activity) }}
+	  		{{ form_row(form.calories) }}
+			<button type="submit">Potwierdź</button>
+	  {{ form_end(form) }}
+{% endblock %}
