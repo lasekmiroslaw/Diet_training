@@ -69,7 +69,7 @@ class RegistrationController extends Controller
               'email' => $email
           ));
         $decodedEmail = base64_decode($email);
-        $message = (new \Swift_Message('Hello Email'))
+        $message = (new \Swift_Message('Witamy w dieta i trening! Potwierdź swoją rejestrację!'))
             ->setFrom('lasekdeveloper@gmail.com')
             ->setTo($decodedEmail)
             ->setBody(

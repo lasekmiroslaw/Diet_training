@@ -1,8 +1,9 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UserData
@@ -10,8 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user_data")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserDataRepository")
  */
-trait UserData
+class UserData
 {
+    /**
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     */
+     private $userId;
+
     /**
      * @var int
      *

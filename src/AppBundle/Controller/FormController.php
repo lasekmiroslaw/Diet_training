@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserData;
 use AppBundle\Form\LoginForm;
 use AppBundle\Form\UserDataForm;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,8 +64,8 @@ class FormController extends Controller
        public function userDataAction(Request $request, AuthenticationUtils $authUtils)
         {
 
-            $user = new User();
-            $form = $this->createForm(UserDataForm::class, $user);
+            $userData = new UserData();
+            $form = $this->createForm(UserDataForm::class, $userData);
             $form->handleRequest($request);
             return $this->render('forms/data_form.html.twig', array(
                 'form' => $form->createView(),

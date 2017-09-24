@@ -36,7 +36,7 @@ security:
 
                 # login success redirecting options (read further below)
                 always_use_default_target_path: true
-                default_target_path: /
+                default_target_path: /data_form
                 username_parameter: login_form[username]
                 password_parameter: login_form[password]
 
