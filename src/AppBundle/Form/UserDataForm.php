@@ -15,9 +15,9 @@ class UserDataForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('age', NumberType::class, array('label' => 'Wiek'))
-            ->add('weight', NumberType::class ,array('label' => 'Waga'))
-            ->add('height', NumberType::class, array('label' => 'Wzrost'))
+            ->add('age', NumberType::class, array('label' => 'Wiek', 'invalid_message' => 'Proszę wprowadzić liczbę'))
+            ->add('weight', NumberType::class ,array('label' => 'Waga', 'invalid_message' => 'Proszę wprowadzić liczbę'))
+            ->add('height', NumberType::class, array('label' => 'Wzrost', 'invalid_message' => 'Proszę wprowadzić liczbę'))
             ->add('activity', ChoiceType::class, array('label' => 'Aktywność', 'choices'  => array(
                 'leżący lub siedzący tryb życia/brak aktywności fizycznej' => 1,
                 'praca siedząca/aktywność fizyczna na niskim poziomie' => 1.2,
@@ -25,7 +25,7 @@ class UserDataForm extends AbstractType
                 'lekka praca fizyczna/trening 3-4 razy w tygodniu' => 1.6,
                 'praca fizyczna/trening 5 razy w tygodniu' => 1.8,
                 'ciężka praca fizyczna/codzienny trening' => 2)))
-            ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne'));
+            ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne', 'invalid_message' => 'Proszę wprowadzić liczbę'));
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -32,6 +32,12 @@ class UserData
      * @var int
      *
      * @ORM\Column(name="age", type="integer")
+     * @Assert\NotBlank(message = "Proszę podać swój wiek")
+     * @Assert\Regex(
+     *      pattern="/^[0-9]{1,3}$/",
+     *      htmlPattern ="/^[0-9]{1,3}$/",
+     *      message="Proszę wprowadzić odpowiednią liczbę"
+     *)
      */
     private $age;
 
@@ -39,6 +45,12 @@ class UserData
      * @var int
      *
      * @ORM\Column(name="weight", type="float")
+     * @Assert\NotBlank(message = "Proszę podać swoją wagę")
+     * @Assert\Regex(
+     *      pattern="/^\d{2,3}([\.,]\d{1,2})?$/",
+     *      htmlPattern ="/^\d{2,3}([\.,]\d{1,2})?$/",
+     *      message="Proszę wprowadzić liczbę odpowiednią liczbę"
+     *)
      */
     private $weight;
 
@@ -46,6 +58,12 @@ class UserData
      * @var int
      *
      * @ORM\Column(name="height", type="integer")
+     * @Assert\NotBlank(message = "Proszę podać swój wzrost")
+     * @Assert\Regex(
+     *      pattern="/^[0-9]{2,3}$/",
+     *      htmlPattern ="/^[0-9]{2,3}$/",
+     *      message="Proszę wprowadzić odpowiednią liczbę"
+     *)
      */
     private $height;
 
@@ -60,6 +78,12 @@ class UserData
      * @var int
      *
      * @ORM\Column(name="calories", type="integer")
+     * @Assert\NotBlank(message = "Proszę podać swoję zapotrzebowanie kaloryczne lub kliknąć w przycisk oblicz")
+     * @Assert\Regex(
+     *      pattern="/^[0-9]{3,5}$/",
+     *      htmlPattern ="/^[0-9]{3,5}$/",
+     *      message="Proszę wprowadzić odpowiednią liczbę"
+     *)
      */
     private $calories;
 
