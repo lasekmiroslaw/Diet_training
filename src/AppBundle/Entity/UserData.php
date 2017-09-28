@@ -75,6 +75,13 @@ class UserData
     private $activity;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="gender", type="string", length=9)
+     */
+    private $gender;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="calories", type="integer")
@@ -86,7 +93,6 @@ class UserData
      *)
      */
     private $calories;
-
 
     /**
      * Get id
@@ -192,6 +198,30 @@ class UserData
     public function getActivity()
     {
         return $this->activity;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     *
+     * @return UserData
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 
     /**

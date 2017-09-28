@@ -8,7 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class UserDataForm extends AbstractType
 {
@@ -25,8 +26,11 @@ class UserDataForm extends AbstractType
                 'lekka praca fizyczna/trening 3-4 razy w tygodniu' => 1.6,
                 'praca fizyczna/trening 5 razy w tygodniu' => 1.8,
                 'ciężka praca fizyczna/codzienny trening' => 2)))
-            ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne', 'invalid_message' => 'Proszę wprowadzić liczbę'));
-    }
+            ->add('gender', ChoiceType::class, array('label' => 'Płeć', 'choices'  => array(
+                'mężczyzna' => 'mezczyzna',
+                'kobieta' => 'kobieta',)))
+            ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne', 'invalid_message' =>'Proszę wprowadzić liczbę'));
+        }
 
     public function configureOptions(OptionsResolver $resolver)
     {
@@ -34,5 +38,4 @@ class UserDataForm extends AbstractType
             'data_class' => UserData::class,
         ));
     }
-
 }

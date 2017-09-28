@@ -12,8 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use AppBundle\Entity\changePassword;
 use AppBundle\Form\ChangePasswordType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class FormController extends Controller
+class FormsController extends Controller
 {
     /**
      * @Route("/login", name="login")
@@ -67,8 +68,31 @@ class FormController extends Controller
             $userData = new UserData();
             $form = $this->createForm(UserDataForm::class, $userData);
             $form->handleRequest($request);
+
+            if($request->request->get('age')){
+
+                $age = $_POST['age'];
+                $weight = $_POST['weight'];
+                $height = $_POST['height'];
+                $activity = $_POST['activity'];
+                $gender = $_POST['gender'];
+
+                $calories = ceil((66.5 + (13.7*$weight) + (5*$height) - (6.8*$age))*$activity);
+
+
+                $arr = ['user_calories' => $calories];
+
+
+                return new JsonResponse($arr);
+
+               }
+
             return $this->render('forms/data_form.html.twig', array(
                 'form' => $form->createView(),
             ));
         }
+
+
+
+
 }

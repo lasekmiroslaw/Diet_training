@@ -6,7 +6,51 @@
 	  		{{ form_row(form.weight) }}
 	  		{{ form_row(form.height) }}
 	  		{{ form_row(form.activity) }}
+	  		{{ form_row(form.gender) }}
 	  		{{ form_row(form.calories) }}
+			<button type="button" id = "calculateCaloriesButton">Oblicz</button>
 			<button type="submit">Potwierdź</button>
 	  {{ form_end(form) }}
+
+	  <div id="ajax-results">sdsdasadsa</div>
+
+	  {% block scripts %}
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	  <script>
+
+
+	  $('#calculateCaloriesButton').on('click', function(){
+		  let $age = $('#user_data_form_age').val();
+		  let $weight = $('#user_data_form_weight').val();
+		  let $height = $('#user_data_form_height').val();
+		  let $activity = $('#user_data_form_activity').val();
+		  let $gender = $('#user_data_form_gender').val();
+
+		  let user_data = {
+			  age: $age,
+			  weight: $weight,
+			  height: $height,
+			  activity: $activity,
+			  gender: $gender,
+		};
+	  	$.ajax({
+
+	  		url:  '{{ path('data_form') }}',
+	  		type: "POST",
+	  		dataType: "json",
+	  		data:
+	  			user_data,
+	  		async: true,
+	  		success: function (data)
+	  		{
+				console.log(data);
+	  			$('#user_data_form_calories').val(data.user_calories);
+	  		}
+	  	});
+	  	return false;
+
+	  });
+	  </script>
+	  {% endblock %}
+
 {% endblock %}
