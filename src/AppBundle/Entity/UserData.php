@@ -247,4 +247,15 @@ class UserData
     {
         return $this->calories;
     }
+
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 }

@@ -49,8 +49,6 @@ class FormsController extends Controller
          $form->handleRequest($request);
 
          if ($form->isSubmitted() && $form->isValid()) {
-             // perform some action,
-             // such as encoding with MessageDigestPasswordEncoder and persist
              return $this->redirect($this->generateUrl('homepage'));
          }
 
@@ -66,33 +64,47 @@ class FormsController extends Controller
         {
 
             $userData = new UserData();
+            $user = $this->getUser();
+
             $form = $this->createForm(UserDataForm::class, $userData);
             $form->handleRequest($request);
 
             if($request->request->get('age')){
+                $calculatedCalories = $this->calculateCalories();
+                return new JsonResponse($calculatedCalories);
+            }
 
-                $age = $_POST['age'];
-                $weight = $_POST['weight'];
-                $height = $_POST['height'];
-                $activity = $_POST['activity'];
-                $gender = $_POST['gender'];
-
-                $calories = ceil((66.5 + (13.7*$weight) + (5*$height) - (6.8*$age))*$activity);
-
-
-                $arr = ['user_calories' => $calories];
-
-
-                return new JsonResponse($arr);
-
-               }
+            if ($form->isSubmitted() && $form->isValid()) {
+                $userData->setUserId($user);
+                $userDatabaseData = $this->getDoctrine()->getManager();
+                $userDatabaseData->persist($userData);
+                $userDatabaseData->flush();
+                return $this->redirectToRoute('homepage');
+            }
 
             return $this->render('forms/data_form.html.twig', array(
                 'form' => $form->createView(),
             ));
         }
 
+        public function calculateCalories() {
 
+                $request = Request::createFromGlobals();
+                $age = $request->get('age');
+                $weight = $request->get('weight');
+                $height = $request->get('height');
+                $activity = $request->get('activity');
+                $gender = $request->get('gender');
+
+                if($gender == 'mezczyzna') {
+                    $calories = ceil((66.5 + (13.7*$weight) + (5*$height) - (6.8*$age))*$activity);
+                }
+                if($gender == 'kobieta') {
+                    $calories = ceil((655 + (9.6*$weight) + (1.85*$height) - (4.7*$age))*$activity);
+                }
+
+                return $arrayCalories = ['user_calories' => $calories];
+        }
 
 
 }

@@ -34,14 +34,13 @@ class RegistrationController extends Controller
             $user->setPassword($password);
 
             // 4) save the User!
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+            $databaseUser = $this->getDoctrine()->getManager();
+            $databaseUser->persist($user);
+            $databaseUser->flush();
 
             //Encode email
             $encodedEmail = base64_encode($user->getEmail());
-            // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
+
             return $this->redirectToRoute('registration_email', array('email' => $encodedEmail));
         }
 
