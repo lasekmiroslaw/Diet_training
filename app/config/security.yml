@@ -53,7 +53,6 @@ security:
         - { path: ^/confirm, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/email, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/activate, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/data_form, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
 
             # activate different ways to authenticate

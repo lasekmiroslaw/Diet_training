@@ -81,6 +81,7 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $email;
 
+
     /**
      * @var bool
      *
@@ -88,6 +89,12 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="isUserData", type="boolean")
+     */
+    private $userData;
 
     /**
      * Get id
@@ -266,6 +273,17 @@ class User implements AdvancedUserInterface, \Serializable
             $this->password,
             $this->isActive,
         ) = unserialize($serialized);
+    }
+
+    public function setUserData($userData)
+    {
+        $this->userData = $userData;
+        return $this;
+    }
+
+    public function getUserData()
+    {
+        return $this->userData;
     }
 
 }

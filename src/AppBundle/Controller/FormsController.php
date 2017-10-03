@@ -65,6 +65,12 @@ class FormsController extends Controller
 
             $userData = new UserData();
             $user = $this->getUser();
+            $HasUserData = $user->getUserData();
+
+            if($HasUserData === true)
+                {
+                   return $this->redirectToRoute('homepage');
+                }
 
             $form = $this->createForm(UserDataForm::class, $userData);
             $form->handleRequest($request);
@@ -75,9 +81,11 @@ class FormsController extends Controller
             }
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $user->setUserData(true);
                 $userData->setUserId($user);
                 $userDatabaseData = $this->getDoctrine()->getManager();
                 $userDatabaseData->persist($userData);
+                $userDatabaseData->persist($user);
                 $userDatabaseData->flush();
                 return $this->redirectToRoute('homepage');
             }
