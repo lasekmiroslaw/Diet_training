@@ -2,7 +2,7 @@
 {% block title %}Logowanie{% endblock %}
 {% block body %}
       {% if error %}
-            {{ error.message | replace({"Bad credentials." : "Niewłaściwy użytkownik lub hasło"}) }}
+            <div>{{ error.messageKey|trans() }}</div>
       {% endif %}
       {{ form_start(form) }}
             {{ form_row(form.username) }}

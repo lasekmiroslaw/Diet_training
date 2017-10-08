@@ -21,6 +21,10 @@ class FormsController extends Controller
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
      {
+         if ($this->isGranted('ROLE_USER'))
+         {
+             return $this->redirectToRoute('homepage');
+         }
 
          $user = new User();
          $form = $this->createForm(LoginForm::class, $user);
@@ -37,32 +41,12 @@ class FormsController extends Controller
          ));
      }
 
-     /**
-      * @Route("/change_password", name="change_password")
-      */
-      public function changePasswordAction(Request $request)
-       {
-
-         $changePasswordModel = new ChangePassword();
-         $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
-
-         $form->handleRequest($request);
-
-         if ($form->isSubmitted() && $form->isValid()) {
-             return $this->redirect($this->generateUrl('homepage'));
-         }
-
-         return $this->render(':security:changepassword.html.twig', array(
-             'form' => $form->createView(),
-         ));
-       }
 
        /**
         * @Route("/data_form", name="data_form")
         */
        public function userDataAction(Request $request, AuthenticationUtils $authUtils)
         {
-
             $userData = new UserData();
             $user = $this->getUser();
             $HasUserData = $user->getUserData();
@@ -96,23 +80,39 @@ class FormsController extends Controller
         }
 
         public function calculateCalories() {
+            $request = Request::createFromGlobals();
+            $age = $request->get('age');
+            $weight = $request->get('weight');
+            $height = $request->get('height');
+            $activity = $request->get('activity');
+            $gender = $request->get('gender');
 
-                $request = Request::createFromGlobals();
-                $age = $request->get('age');
-                $weight = $request->get('weight');
-                $height = $request->get('height');
-                $activity = $request->get('activity');
-                $gender = $request->get('gender');
+            if($gender == 'mezczyzna') {
+                $calories = ceil((66.5 + (13.7*$weight) + (5*$height) - (6.8*$age))*$activity);
+            }
+            if($gender == 'kobieta') {
+                $calories = ceil((655 + (9.6*$weight) + (1.85*$height) - (4.7*$age))*$activity);
+            }
 
-                if($gender == 'mezczyzna') {
-                    $calories = ceil((66.5 + (13.7*$weight) + (5*$height) - (6.8*$age))*$activity);
-                }
-                if($gender == 'kobieta') {
-                    $calories = ceil((655 + (9.6*$weight) + (1.85*$height) - (4.7*$age))*$activity);
-                }
-
-                return $arrayCalories = ['user_calories' => $calories];
+            return $arrayCalories = ['user_calories' => $calories];
         }
 
+        /**
+        * @Route("/change_password", name="change_password")
+        */
+        public function changePasswordAction(Request $request)
+        {
+            $changePasswordModel = new ChangePassword();
+            $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
 
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                return $this->redirect($this->generateUrl('homepage'));
+            }
+
+            return $this->render(':security:changepassword.html.twig', array(
+            'form' => $form->createView(),
+            ));
+        }
 }

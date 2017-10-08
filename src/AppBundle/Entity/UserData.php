@@ -20,8 +20,6 @@ class UserData
      private $userId;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -29,8 +27,6 @@ class UserData
     private $id;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="age", type="integer")
      * @Assert\NotBlank(message = "Proszę podać swój wiek")
      * @Assert\Regex(
@@ -42,21 +38,17 @@ class UserData
     private $age;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="weight", type="float")
      * @Assert\NotBlank(message = "Proszę podać swoją wagę")
      * @Assert\Regex(
      *      pattern="/^\d{2,3}([\.,]\d{1,2})?$/",
      *      htmlPattern ="/^\d{2,3}([\.,]\d{1,2})?$/",
-     *      message="Proszę wprowadzić liczbę odpowiednią liczbę"
+     *      message="Proszę wprowadzić odpowiednią liczbę"
      *)
      */
     private $weight;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="height", type="integer")
      * @Assert\NotBlank(message = "Proszę podać swój wzrost")
      * @Assert\Regex(
@@ -67,11 +59,6 @@ class UserData
      */
     private $height;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="acitivity", type="string", length=50)
-     */
     private $activity;
 
     /**
@@ -82,8 +69,6 @@ class UserData
     private $gender;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="calories", type="integer")
      * @Assert\NotBlank(message = "Proszę podać swoję zapotrzebowanie kaloryczne lub kliknąć w przycisk oblicz")
      * @Assert\Regex(

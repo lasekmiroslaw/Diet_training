@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
-{% block title %}Homepage{% endblock %}
+{% block title %}Twoja dieta i trening{% endblock %}
+{% block resources %}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+{% endblock %}
 {% block body %}
-    Jestes na stronie guwnej
+    <div class="caloriesCircle">{{ calories }}</div>
+    <div class="normalText">
+        Kalorie 0<br>
+        Białko 0g 0%<br>
+        Węglowodany 0g 0%<br>
+        Tłuszcze 0g 0%<br>
+        Pozostało {{ calories }} kcal
+    </div>
 {% endblock %}

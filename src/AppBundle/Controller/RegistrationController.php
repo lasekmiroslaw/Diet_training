@@ -18,7 +18,11 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-
+        if ($this->isGranted('ROLE_USER'))
+        {
+            return $this->redirectToRoute('homepage');
+        }
+        
         $user = new User();
         $form = $this->createForm(RegisterForm::class, $user);
 
@@ -64,7 +68,7 @@ class RegistrationController extends Controller
      */
     public function emailAction($email, \Swift_Mailer $mailer)
     {
-        $url = $this->get('router')->generate('user_activation', array(
+        $activateUrl = $this->get('router')->generate('user_activation', array(
               'email' => $email
           ));
         $decodedEmail = base64_decode($email);
@@ -74,7 +78,7 @@ class RegistrationController extends Controller
             ->setBody(
                 $this->renderView(
                     // app/Resources/views/Emails/registration.html.twig
-                    'emails/registration.html.twig', array('activeLink' => $url)
+                    'emails/registration.html.twig', array('activeLink' => $activateUrl)
                 ),
                 'text/html'
             );

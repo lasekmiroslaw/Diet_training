@@ -16,8 +16,6 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 class User implements AdvancedUserInterface, \Serializable
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,8 +23,6 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="username", type="string", length=25, unique=true)
      * @Assert\NotBlank(message = "Proszę wprowadzić nazwę użytkownika")
      * @Assert\Length(
@@ -63,15 +59,11 @@ class User implements AdvancedUserInterface, \Serializable
     private $plainPassword;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=64, unique=true)
      * @Assert\NotBlank(message = "Proszę wprowadzić adres email")
      * @Assert\Email(
@@ -83,15 +75,11 @@ class User implements AdvancedUserInterface, \Serializable
 
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="isActive", type="boolean")
      */
     private $isActive;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="isUserData", type="boolean")
      */
     private $userData;
