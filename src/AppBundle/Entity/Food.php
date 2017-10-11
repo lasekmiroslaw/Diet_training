@@ -16,7 +16,7 @@ class Food
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="food")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    private $category;
+    private $categoryId;
 
     /**
      * @var int
@@ -30,119 +30,119 @@ class Food
     /**
      * @var string
      *
-     * @ORM\Column(name="nazwa produktu", type="string", length=55)
+     * @ORM\Column(name="nazwa_produktu", type="string", length=55)
      */
     private $name;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wartosc energetyczna kcal", type="integer")
+     * @ORM\Column(name="wartosc_energetyczna_kcal", type="integer")
      */
     private $calories;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="woda g", type="decimal", precision=3, scale=1, nullable=true)
+     * @ORM\Column(name="woda_g", type="decimal", precision=3, scale=1, nullable=true)
      */
     private $water;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="bialko ogolem g", type="decimal", precision=3, scale=1, nullable=true)
+     * @ORM\Column(name="bialko_ogolem_g", type="decimal", precision=3, scale=1, nullable=true)
      */
     private $totalProtein;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="bialko zwierzece g", type="decimal", precision=3, scale=1, nullable=true)
+     * @ORM\Column(name="bialko_zwierzece_g", type="decimal", precision=3, scale=1, nullable=true)
      */
     private $animalProtein;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="bialko roslinne g", type="decimal", precision=3, scale=1, nullable=true)
+     * @ORM\Column(name="bialko_roslinne_g", type="decimal", precision=3, scale=1, nullable=true)
      */
     private $vegetableProtein;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tluszcz g", type="decimal", precision=4, scale=1, nullable=true)
+     * @ORM\Column(name="tluszcz_g", type="decimal", precision=4, scale=1, nullable=true)
      */
     private $fat;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="weglowodany g", type="decimal", precision=3, scale=1, nullable=true)
+     * @ORM\Column(name="weglowodany_g", type="decimal", precision=3, scale=1, nullable=true)
      */
     private $carbohydrates;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="sod mg", type="integer", nullable=true)
+     * @ORM\Column(name="sod_mg", type="integer", nullable=true)
      */
     private $sodium;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="potas mg", type="integer", nullable=true)
+     * @ORM\Column(name="potas_mg", type="integer", nullable=true)
      */
     private $potassium;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="wapn mg", type="integer", nullable=true)
+     * @ORM\Column(name="wapn_mg", type="integer", nullable=true)
      */
     private $calcium;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="fosfor mg", type="integer", nullable=true)
+     * @ORM\Column(name="fosfor_mg", type="integer", nullable=true)
      */
     private $phosphor;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="magnez mg", type="integer", nullable=true)
+     * @ORM\Column(name="magnez_mg", type="integer", nullable=true)
      */
     private $magnesium;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="zelazo mg", type="decimal", precision=3, scale=1, nullable=true)
+     * @ORM\Column(name="zelazo_mg", type="decimal", precision=3, scale=1, nullable=true)
      */
     private $iron;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="cynk mg", type="decimal", precision=4, scale=2, nullable=true)
+     * @ORM\Column(name="cynk_mg", type="decimal", precision=4, scale=2, nullable=true)
      */
     private $zinc;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="miedz mg", type="decimal", precision=3, scale=2, nullable=true)
+     * @ORM\Column(name="miedz_mg", type="decimal", precision=3, scale=2, nullable=true)
      */
     private $copper;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mangan mg", type="decimal", precision=4, scale=2, nullable=true)
+     * @ORM\Column(name="mangan_mg", type="decimal", precision=4, scale=2, nullable=true)
      */
     private $manganese;
 

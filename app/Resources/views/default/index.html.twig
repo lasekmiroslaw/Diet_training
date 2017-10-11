@@ -2,14 +2,55 @@
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
-    <div class="caloriesCircle">{{ calories }}</div>
-    <div class="normalText">
-        Kalorie 0<br>
-        Białko 0g 0%<br>
-        Węglowodany 0g 0%<br>
-        Tłuszcze 0g 0%<br>
-        Pozostało {{ calories }} kcal
+    <div class="container-fluid">
+        <header>
+            <span class="hello">Witaj {{userName}}</span>
+            <a href="{{ path('logout') }}" class="logout">Wyloguj się!</a>
+        </header>
+
+        <main class="">
+            <div class="row">
+                <div class="caloriesCircle col-12 col-md-8">
+                    {{ calories }}
+                </div>
+                <div class="normalText col-6 col-md-4">
+                    Kalorie 0<br>
+                    Białko 0g 0%<br>
+                    Węglowodany 0g 0%<br>
+                    Tłuszcze 0g 0%<br>
+                    Pozostało {{ calories }} kcal
+                </div>
+            </div>
+            <div class="meals">
+                <div class="meal">
+                    Śniadanie<br>
+                    <a href="{{ path('product_categories') }}"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button></a>
+                </div>
+                <div class="meal">
+                    Lunch<br>
+                    <a href="{{ path('product_categories') }}"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button></a>
+                </div>
+                <div class="meal">
+                    Obiad<br>
+                    <a href="{{ path('product_categories') }}"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button></a>
+                </div>
+                <div class="meal">
+                    Kolacja<br>
+                    <a href="{{ path('product_categories') }}"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button></a>
+                </div>
+                <div class="meal">
+                    Przekąski<br>
+                    <a href="{{ path('product_categories') }}"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button></a>
+                </div>
+                <div class="meal">
+                    Inne<br>
+                    <a href="{{ path('product_categories') }}"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button></a>
+                </div>
+            </div>
+        </main>
+
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Category
 {
     /**
-     * @ORM\OneToMany(targetEntity="Food", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Food", mappedBy="categoryId")
      */
     private $food;
 
