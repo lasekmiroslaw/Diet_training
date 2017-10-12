@@ -7,7 +7,7 @@
 {% block body %}
 	{% for product in products %}
 		<ul>
-			<a href="#"><li>{{product.name}}</li></a>
+			<a href="{{ path('product') }}/{{product.name}} "><li>{{product.name}}</li></a>
 		</ul>
 	{% endfor %}
 {% endblock %}

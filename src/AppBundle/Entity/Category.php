@@ -73,4 +73,29 @@ class Category
     {
         return $this->name;
     }
+
+    /**
+     * Set food
+     *
+     * @param string $food
+     *
+     * @return Category
+     */
+    public function setFood($food)
+    {
+        $this->food = $food;
+
+        return $this;
+    }
+
+    /**
+     * Get food
+     *
+     * @return string
+     */
+    public function getFood()
+    {
+        return $this->food;
+    }
+
 }
