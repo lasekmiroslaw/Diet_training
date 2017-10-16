@@ -16,7 +16,7 @@ class Food
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="food")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    private $categoryId;
+    protected $categoryId;
 
     /**
      * @var int
@@ -25,126 +25,126 @@ class Food
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nazwa_produktu", type="string", length=55)
      */
-    private $name;
+    protected $name;
 
     /**
      * @var int
      *
      * @ORM\Column(name="wartosc_energetyczna_kcal", type="integer")
      */
-    private $calories;
+    protected $calories;
 
     /**
      * @var string
      *
      * @ORM\Column(name="woda_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    private $water;
+    protected $water;
 
     /**
      * @var string
      *
      * @ORM\Column(name="bialko_ogolem_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    private $totalProtein;
+    protected $totalProtein;
 
     /**
      * @var string
      *
      * @ORM\Column(name="bialko_zwierzece_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    private $animalProtein;
+    protected $animalProtein;
 
     /**
      * @var string
      *
      * @ORM\Column(name="bialko_roslinne_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    private $vegetableProtein;
+    protected $vegetableProtein;
 
     /**
      * @var string
      *
      * @ORM\Column(name="tluszcz_g", type="decimal", precision=4, scale=1, nullable=true)
      */
-    private $fat;
+    protected $fat;
 
     /**
      * @var string
      *
      * @ORM\Column(name="weglowodany_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    private $carbohydrates;
+    protected $carbohydrates;
 
     /**
      * @var int
      *
      * @ORM\Column(name="sod_mg", type="integer", nullable=true)
      */
-    private $sodium;
+    protected $sodium;
 
     /**
      * @var int
      *
      * @ORM\Column(name="potas_mg", type="integer", nullable=true)
      */
-    private $potassium;
+    protected $potassium;
 
     /**
      * @var int
      *
      * @ORM\Column(name="wapn_mg", type="integer", nullable=true)
      */
-    private $calcium;
+    protected $calcium;
 
     /**
      * @var int
      *
      * @ORM\Column(name="fosfor_mg", type="integer", nullable=true)
      */
-    private $phosphor;
+    protected $phosphor;
 
     /**
      * @var int
      *
      * @ORM\Column(name="magnez_mg", type="integer", nullable=true)
      */
-    private $magnesium;
+    protected $magnesium;
 
     /**
      * @var string
      *
      * @ORM\Column(name="zelazo_mg", type="decimal", precision=3, scale=1, nullable=true)
      */
-    private $iron;
+    protected $iron;
 
     /**
      * @var string
      *
      * @ORM\Column(name="cynk_mg", type="decimal", precision=4, scale=2, nullable=true)
      */
-    private $zinc;
+    protected $zinc;
 
     /**
      * @var string
      *
      * @ORM\Column(name="miedz_mg", type="decimal", precision=3, scale=2, nullable=true)
      */
-    private $copper;
+    protected $copper;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangan_mg", type="decimal", precision=4, scale=2, nullable=true)
      */
-    private $manganese;
+    protected $manganese;
 
 
     /**
