@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="food_categories_fruits")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FoodCategories\FruitsRepository")
  */
-class Fruits extends Food
+class Fruits extends FoodCategory
 {
     /**
      * @var int

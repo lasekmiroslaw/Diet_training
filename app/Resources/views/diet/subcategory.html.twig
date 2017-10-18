@@ -5,9 +5,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
-	{% for product in products %}
+    {% for product in products %}
 		<ul>
-			<a href="{{ path('product') }}/{{product.name}} "><li>{{product.name}}</li></a>
+			<a href="{#{{ path('product_subcategory') }}/{{subcategory.name}}#}"><li>{{product.name}}</li></a>
 		</ul>
 	{% endfor %}
 {% endblock %}

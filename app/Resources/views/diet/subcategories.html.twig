@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twoja dieta i trening{% endblock %}
+{% block resources %}
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+{% endblock %}
+{% block body %}
+    {% for subcategory in subcategories %}
+		<ul>
+			<a href="{{ path('product_subcategory') }}/{{subcategory.name}}"><li>{{subcategory.name}}</li></a>
+		</ul>
+	{% endfor %}
+{% endblock %}

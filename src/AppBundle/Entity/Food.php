@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Food
  *
  * @ORM\Table(name="food")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\FoodRepository")
+ * @ORM\Entity(repositoryClass="Subcategory")
  */
 class Food
 {
@@ -16,7 +16,13 @@ class Food
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="food")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    protected $categoryId;
+    private $categoryId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FoodCategories\FoodCategory", inversedBy="product")
+     * @ORM\JoinColumn(name="subcategory_id", referencedColumnName="id")
+     */
+    private $subcategoryId;
 
     /**
      * @var int
@@ -25,126 +31,126 @@ class Food
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nazwa_produktu", type="string", length=55)
      */
-    protected $name;
+    private $name;
 
     /**
      * @var int
      *
      * @ORM\Column(name="wartosc_energetyczna_kcal", type="integer")
      */
-    protected $calories;
+    private $calories;
 
     /**
      * @var string
      *
      * @ORM\Column(name="woda_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    protected $water;
+    private $water;
 
     /**
      * @var string
      *
      * @ORM\Column(name="bialko_ogolem_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    protected $totalProtein;
+    private $totalProtein;
 
     /**
      * @var string
      *
      * @ORM\Column(name="bialko_zwierzece_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    protected $animalProtein;
+    private $animalProtein;
 
     /**
      * @var string
      *
      * @ORM\Column(name="bialko_roslinne_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    protected $vegetableProtein;
+    private $vegetableProtein;
 
     /**
      * @var string
      *
      * @ORM\Column(name="tluszcz_g", type="decimal", precision=4, scale=1, nullable=true)
      */
-    protected $fat;
+    private $fat;
 
     /**
      * @var string
      *
      * @ORM\Column(name="weglowodany_g", type="decimal", precision=3, scale=1, nullable=true)
      */
-    protected $carbohydrates;
+    private $carbohydrates;
 
     /**
      * @var int
      *
      * @ORM\Column(name="sod_mg", type="integer", nullable=true)
      */
-    protected $sodium;
+    private $sodium;
 
     /**
      * @var int
      *
      * @ORM\Column(name="potas_mg", type="integer", nullable=true)
      */
-    protected $potassium;
+    private $potassium;
 
     /**
      * @var int
      *
      * @ORM\Column(name="wapn_mg", type="integer", nullable=true)
      */
-    protected $calcium;
+    private $calcium;
 
     /**
      * @var int
      *
      * @ORM\Column(name="fosfor_mg", type="integer", nullable=true)
      */
-    protected $phosphor;
+    private $phosphor;
 
     /**
      * @var int
      *
      * @ORM\Column(name="magnez_mg", type="integer", nullable=true)
      */
-    protected $magnesium;
+    private $magnesium;
 
     /**
      * @var string
      *
      * @ORM\Column(name="zelazo_mg", type="decimal", precision=3, scale=1, nullable=true)
      */
-    protected $iron;
+    private $iron;
 
     /**
      * @var string
      *
      * @ORM\Column(name="cynk_mg", type="decimal", precision=4, scale=2, nullable=true)
      */
-    protected $zinc;
+    private $zinc;
 
     /**
      * @var string
      *
      * @ORM\Column(name="miedz_mg", type="decimal", precision=3, scale=2, nullable=true)
      */
-    protected $copper;
+    private $copper;
 
     /**
      * @var string
      *
      * @ORM\Column(name="mangan_mg", type="decimal", precision=4, scale=2, nullable=true)
      */
-    protected $manganese;
+    private $manganese;
 
 
     /**

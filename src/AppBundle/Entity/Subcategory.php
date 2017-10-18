@@ -3,32 +3,29 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Category
- *
- * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
+ * FoodCategory
+ * @ORM\Table(name="subcategory")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SubcategoryRepository")
  */
-class Category
+class Subcategory
 {
     /**
-     * @ORM\OneToMany(targetEntity="Food", mappedBy="categoryId")
+     * @ORM\OneToMany(targetEntity="Food", mappedBy="subcategoryId")
      */
-    private $food;
+    private $product;
 
     /**
-     * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="categoryId")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="subcategory")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    private $subcategory;
+    private $categoryId;
 
     public function __construct()
     {
-        $this->food = new ArrayCollection();
-        $this->subcategory = new ArrayCollection();
+        $this->product = new ArrayCollection();
     }
-
     /**
      * @var int
      *
@@ -36,7 +33,7 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
@@ -44,7 +41,6 @@ class Category
      * @ORM\Column(name="name", type="string", length=55)
      */
     protected $name;
-
 
     /**
      * Get id
@@ -61,7 +57,7 @@ class Category
      *
      * @param string $name
      *
-     * @return Category
+     * @return FoodCategory
      */
     public function setName($name)
     {
@@ -81,51 +77,50 @@ class Category
     }
 
     /**
-     * Set food
+     * Set product
      *
-     * @param string $food
+     * @param string $product
      *
-     * @return Category
+     * @return FoodCategory
      */
-    public function setFood($food)
+    public function setProduct($product)
     {
-        $this->food = $food;
+        $this->product = $product;
 
         return $this;
     }
 
     /**
-     * Get food
+     * Get product
      *
      * @return string
      */
-    public function getFood()
+    public function getProduct()
     {
-        return $this->food;
+        return $this->product;
     }
 
     /**
-     * Set subcategory
+     * Set categoryId
      *
-     * @param string $subcategory
+     * @param string $categoryId
      *
-     * @return Category
+     * @return FoodCategory
      */
-    public function setSubcategory($subcategory)
+    public function setCategoryId($categoryId)
     {
-        $this->subcategory = $subcategory;
+        $this->categoryId = $categoryId;
 
         return $this;
     }
 
     /**
-     * Get subcategory
+     * Get categoryId
      *
      * @return string
      */
-    public function getSubcategory()
+    public function getCategoryId()
     {
-        return $this->subcategory;
+        return $this->categoryId;
     }
-
 }
