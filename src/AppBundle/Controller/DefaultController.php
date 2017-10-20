@@ -10,6 +10,7 @@ use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
@@ -36,8 +37,6 @@ class DefaultController extends Controller
 
         $percentCalories = round(($caloriesLeft/$calories)*100);
 
-
-
         return $this->render('default/index.html.twig', [
              'caloriesLeft' => $caloriesLeft,
              'userName' => $userName,
@@ -48,7 +47,7 @@ class DefaultController extends Controller
     /**
     * @Route("/dodaj/{meal}", name="product_categories", requirements={"meal": "sniadanie|lunch|obiad|kolacja|przekaski|inne"})
     */
-    public function showCategoriesAction(Request $request, $meal = 'meal')
+    public function showCategoriesAction(Request $request, $meal = 'meal', SessionInterface $session)
     {
         $categoriesRepository = $this->getDoctrine()
             ->getRepository(Category::class);
@@ -56,6 +55,7 @@ class DefaultController extends Controller
             ->select('c.name')
             ->getQuery();
         $categories = $categoriesQuery->getResult();
+        $session->set('meal', $meal);
 
         return $this->render('diet/categories.html.twig', [
             'categories' => $categories,
@@ -66,12 +66,11 @@ class DefaultController extends Controller
     * @Route(
         *"/dodaj_swoje_posilki/{category}", name="product_category",
     *    requirements={
-    *        "category": "Nabial|Miesa|Ryby|Tluszcze|Zboza|Warzywa|Owoce, nasiona i orzechy|
-    *        Slodycze, cukry i przekaski|Napoje i alkohole|Przyprawy i sosy|Zupy|Dania gotowe"
+    *        "category": "Nabial|Miesa|Ryby|Tluszcze|Zboza|Warzywa|Owoce, nasiona i orzechy|Slodycze, cukry i przekaski|Napoje i alkohole|Przyprawy i sosy|Zupy|Dania gotowe"
     *    }
     *)
     */
-    public function showSubcategoriesAction($category ='category')
+    public function showSubcategoriesAction(Request $request, $category ='category')
     {
         $categoriesRepository = $this->getDoctrine()
             ->getRepository(Category::class)
@@ -86,17 +85,85 @@ class DefaultController extends Controller
     /**
     * @Route("/dodaj_produkt/{subcategory}", name="product_subcategory")
     */
-    public function showSubcategoryAction($subcategory ='subcategory')
+    public function showSubcategoryAction(Request $request, $subcategory ='subcategory')
     {
         $subcategoriesRepository = $this->getDoctrine()
             ->getRepository(Subcategory::class)
             ->findOneByName($subcategory);
         $products = $subcategoriesRepository->getProduct();
 
+        $previousPage = $request->headers->get('referer');
+
+        if($request->isXmlHttpRequest())
+        {
+            $productArray = $this->getNutrients($products);
+            return new JsonResponse($productArray);
+        }
+        // if($request->get('produtQuantity'))
+        // {
+        //     $productArray = $this->getNutrients($products);
+        //     return new JsonResponse($productArray);
+            // $produtQuantity = $request->get('produtQuantity');
+            // $updatedProductArray = [
+            //     'gram' => $produtQuantity,
+            // ];
+            // return new JsonResponse($updatedProductArray);
+        // }
+
         return $this->render('diet/subcategory.html.twig', [
             'products' => $products,
+            'previousPage' => $previousPage,
         ]);
     }
+
+    private function getNutrients($products)
+    {
+        $request = Request::createFromGlobals();
+        $productId = $request->get('productId');
+        $productQuantity = $request->get('productQuantity');
+        $product = $products->get($productId);
+
+        $name = $product->getName();
+
+        $caloriesPer100 = $product->getCalories();
+        $calories = $this->calculateNutrients($caloriesPer100, $productQuantity);
+
+        $proteinPer100 = $product->getTotalProtein();
+        $protein = $this->calculateNutrients($proteinPer100, $productQuantity);
+
+        $carbohydratesPer100 = $product->getCarbohydrates();
+        $carbohydrates = $this->calculateNutrients($carbohydratesPer100, $productQuantity);
+
+        $fatPer100 = $product->getFat();
+        $fat = $this->calculateNutrients($fatPer100, $productQuantity);
+
+
+        return $productArray = [
+            'name' => $name,
+            'calories' => $calories,
+            'protein' => $protein,
+            'carbohydrates' => $carbohydrates,
+            'fat' => $fat,
+        ];
+    }
+
+    private function calculateNutrients($productPer100, $productQuantity)
+    {
+        $productPerQuantity = ($productPer100 * $productQuantity)/100;
+        return $productPerQuantity;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     // /**

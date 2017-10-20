@@ -22,33 +22,28 @@ class RegistrationController extends Controller
         {
             return $this->redirectToRoute('homepage');
         }
-        
+
         $user = new User();
         $form = $this->createForm(RegisterForm::class, $user);
 
-        // recaptcha
         $recaptcha = new ReCaptcha('6Lc7eDAUAAAAAL1Qh1BD791rUTAJToBi1Mgkrf8q');
         $resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-        // 2) handle the submit (will only happen on POST)
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() && $resp->isSuccess()) {
 
-            // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            // 4) save the User!
             $databaseUser = $this->getDoctrine()->getManager();
             $databaseUser->persist($user);
             $databaseUser->flush();
 
-            //Encode email
             $encodedEmail = base64_encode($user->getEmail());
 
             return $this->redirectToRoute('registration_email', array('email' => $encodedEmail));
         }
 
-        # check if captcha response isn't get throw a message
         if($form->isSubmitted() &&  $form->isValid() && !$resp->isSuccess()){
 
             $this->addFlash(

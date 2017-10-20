@@ -2,12 +2,58 @@
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
-    {% for product in products %}
-		<ul>
-			<a href="{#{{ path('product_subcategory') }}/{{subcategory.name}}#}"><li>{{product.name}}</li></a>
-		</ul>
-	{% endfor %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{ previousPage }}">Poprzednia strona</a>
+                <ul class="productList">
+                    {% for product in products %}
+                        <li id="{{ loop.index0 }}" class="productItem">
+                		    <a href="#">{{ product.name }}</a>
+                            <div class="productMacros">
+                                Białko: {{ product.totalProtein }}g
+                                Węglowodany: {{ product.carbohydrates }}g
+                                Tłuszcz: {{ product.fat }}g
+                            </div>
+                        </li>
+                        <div class="productCalories">
+                            {{ product.calories }}kcal w 100g
+                        </div>
+                	{% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="nutrients">
+                    <div class="productForm hide">
+                        <div class="productInfo"></div>
+                        <div class="productGram"><input type="number" name="produtQuantity" id="produtQuantity" value="100"></div>
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Kalorie</td>
+                                <td class="calories"></td>
+                            </tr>
+                            <tr>
+                                <td>Białko</td>
+                                <td class="protein"></td>
+                            </tr>
+                            <tr>
+                                <td>Węglowodany</td>
+                                <td class="carbohydrates"></td>
+                            </tr>
+                            <tr>
+                                <td>Tłuszcze</td>
+                                <td class="fat"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block scripts %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script src="{{ asset('javascript/product.js') }}"></script>
+    {% endblock %}
 {% endblock %}

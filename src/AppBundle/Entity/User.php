@@ -80,7 +80,7 @@ class User implements AdvancedUserInterface, \Serializable
     private $isActive;
 
     /**
-     * @ORM\Column(name="isUserData", type="boolean")
+     * @ORM\Column(name="isUserData", type="boolean", nullable=true)
      */
     private $userData;
 

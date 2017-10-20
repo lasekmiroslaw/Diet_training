@@ -59,7 +59,7 @@ class FormsController extends Controller
             $form = $this->createForm(UserDataForm::class, $userData);
             $form->handleRequest($request);
 
-            if($request->request->get('age')){
+            if($request->isXmlHttpRequest()){
                 $calculatedCalories = $this->calculateCalories();
                 return new JsonResponse($calculatedCalories);
             }
@@ -93,8 +93,8 @@ class FormsController extends Controller
             if($gender == 'kobieta') {
                 $calories = ceil((655 + (9.6*$weight) + (1.85*$height) - (4.7*$age))*$activity);
             }
-
-            return $arrayCalories = ['user_calories' => $calories];
+            $arrayCalories = ['user_calories' => $calories];
+            return $arrayCalories;
         }
 
         /**

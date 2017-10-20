@@ -5,9 +5,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
-    {% for subcategory in subcategories %}
-		<ul>
-			<a href="{{ path('product_subcategory') }}/{{subcategory.name}}"><li>{{subcategory.name}}</li></a>
-		</ul>
-	{% endfor %}
+    <a href="{{ path('product_categories') }}">Poprzednia strona</a>
+    <ul>
+        {% for subcategory in subcategories %}
+            <li>
+    	        <a href="{{ path('product_subcategory') }}/{{subcategory.name}}">{{subcategory.name}}</a>
+            </li>
+    	{% endfor %}
+    </ul>
 {% endblock %}

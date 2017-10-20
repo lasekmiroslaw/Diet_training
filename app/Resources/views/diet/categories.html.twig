@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
+    <a href="{{ path('homepage') }}">Poprzednia strona</a>
 	<ul>
 		{% for category in categories %}
-			<a href="{{ path('product_category') }}/{{category.name}}">
-				<li>{{category.name}}</li>
-			</a>
+    		<li>
+                <a href="{{ path('product_category') }}/{{category.name}}">{{category.name}}</a>
+            </li>
 		{% endfor %}
 	</ul>
 {% endblock %}
