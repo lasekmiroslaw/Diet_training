@@ -30,7 +30,7 @@ class UserDataForm extends AbstractType
                 'mężczyzna' => 'mezczyzna',
                 'kobieta' => 'kobieta',)))
             ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne', 'invalid_message' =>'Proszę wprowadzić liczbę'));
-        }
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {

@@ -5,48 +5,54 @@
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
-        <div class="row">
+        <a href="{{ previousPage }}">Poprzednia strona</a>
+        <div class="row productContainer">
             <div class="col-md-6">
-                <a href="{{ previousPage }}">Poprzednia strona</a>
-                <ul class="productList">
+                <ul class="productList list-group">
                     {% for product in products %}
-                        <li id="{{ loop.index0 }}" class="productItem">
+                        <li id="{{ loop.index0 }}" class="productItem list-group-item">
                 		    <a href="#">{{ product.name }}</a>
                             <div class="productMacros">
                                 Białko: {{ product.totalProtein }}g
                                 Węglowodany: {{ product.carbohydrates }}g
                                 Tłuszcz: {{ product.fat }}g
                             </div>
+                            <div class="productCalories">
+                                {{ product.calories }}kcal w 100g
+                            </div>
                         </li>
-                        <div class="productCalories">
-                            {{ product.calories }}kcal w 100g
-                        </div>
                 	{% endfor %}
                 </ul>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="nutrients">
                     <div class="productForm hide">
                         <div class="productInfo"></div>
-                        <div class="productGram"><input type="number" name="produtQuantity" id="produtQuantity" value="100"></div>
-                        <table class="table table-striped">
-                            <tr>
-                                <td>Kalorie</td>
-                                <td class="calories"></td>
-                            </tr>
-                            <tr>
-                                <td>Białko</td>
-                                <td class="protein"></td>
-                            </tr>
-                            <tr>
-                                <td>Węglowodany</td>
-                                <td class="carbohydrates"></td>
-                            </tr>
-                            <tr>
-                                <td>Tłuszcze</td>
-                                <td class="fat"></td>
-                            </tr>
-                        </table>
+                        {{ form_start(form) }}
+                            {{ form_row(form.productId) }}
+                            {{ form_row(form.quantity) }}
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Kalorie</td>
+                                    <td class="calories"></td>
+                                </tr>
+                                <tr>
+                                    <td>Białko</td>
+                                    <td class="protein"></td>
+                                </tr>
+                                <tr>
+                                    <td>Węglowodany</td>
+                                    <td class="carbohydrates"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tłuszcze</td>
+                                    <td class="fat"></td>
+                                </tr>
+                            </table>
+                            <div class="hide hiddenMeal">{{ meal }}</div>
+                            {{ form_row(form.meal) }}
+                            {{ form_row(form.add) }}
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>

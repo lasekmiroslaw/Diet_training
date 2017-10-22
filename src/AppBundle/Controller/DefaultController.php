@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\UserData;
+use AppBundle\Entity\UserFood;
+use AppBundle\Form\UserFoodForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
@@ -85,7 +87,7 @@ class DefaultController extends Controller
     /**
     * @Route("/dodaj_produkt/{subcategory}", name="product_subcategory")
     */
-    public function showSubcategoryAction(Request $request, $subcategory ='subcategory')
+    public function showSubcategoryAction(Request $request, $subcategory ='subcategory', SessionInterface $session)
     {
         $subcategoriesRepository = $this->getDoctrine()
             ->getRepository(Subcategory::class)
@@ -99,20 +101,18 @@ class DefaultController extends Controller
             $productArray = $this->getNutrients($products);
             return new JsonResponse($productArray);
         }
-        // if($request->get('produtQuantity'))
-        // {
-        //     $productArray = $this->getNutrients($products);
-        //     return new JsonResponse($productArray);
-            // $produtQuantity = $request->get('produtQuantity');
-            // $updatedProductArray = [
-            //     'gram' => $produtQuantity,
-            // ];
-            // return new JsonResponse($updatedProductArray);
-        // }
+
+        $sessionMeal = $session->get('meal');
+
+        $userFood = new UserFood();
+        $form = $this->createForm(UserFoodForm::class, $userFood);
+        $form->handleRequest($request);
 
         return $this->render('diet/subcategory.html.twig', [
             'products' => $products,
             'previousPage' => $previousPage,
+            'meal' => $sessionMeal,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -122,6 +122,7 @@ class DefaultController extends Controller
         $productId = $request->get('productId');
         $productQuantity = $request->get('productQuantity');
         $product = $products->get($productId);
+        $foodId = $product->getId();
 
         $name = $product->getName();
 
@@ -137,19 +138,19 @@ class DefaultController extends Controller
         $fatPer100 = $product->getFat();
         $fat = $this->calculateNutrients($fatPer100, $productQuantity);
 
-
         return $productArray = [
             'name' => $name,
             'calories' => $calories,
             'protein' => $protein,
             'carbohydrates' => $carbohydrates,
             'fat' => $fat,
+            'foodId' => $foodId,
         ];
     }
 
     private function calculateNutrients($productPer100, $productQuantity)
     {
-        $productPerQuantity = ($productPer100 * $productQuantity)/100;
+        $productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
         return $productPerQuantity;
     }
 
