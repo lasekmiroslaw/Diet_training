@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UserFood
@@ -24,7 +25,16 @@ class UserFood
     /**
      * @var int
      *
-     * @ORM\Column(name="quantity", type="integer")
+     * @ORM\Column(name="quantity", type="decimal", precision=6, scale=1)
+     * @Assert\NotBlank(message = "Proszę wprowadzić ilość")
+     * @Assert\Type(
+     *     type="numeric",
+     *     message="Proszę wprowadzić liczbę"
+     * )
+     * @Assert\Length(
+     *      max = 6 ,
+     *      maxMessage = "Za duża ilość"
+     *)
      */
     private $quantity;
 
@@ -38,14 +48,16 @@ class UserFood
     /**
      * @var int
      *
-     * @ORM\Column(name="productId", type="integer")
+     * @ORM\ManyToOne(targetEntity="Food")
+     * @ORM\JoinColumn(name="$productId", referencedColumnName="id")
      */
     private $productId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="userId", type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
      */
     private $userId;
 

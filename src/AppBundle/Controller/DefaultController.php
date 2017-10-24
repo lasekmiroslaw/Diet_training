@@ -107,6 +107,12 @@ class DefaultController extends Controller
         $userFood = new UserFood();
         $form = $this->createForm(UserFoodForm::class, $userFood);
         $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->flushUserFood($form, $userFood);
+            $this->redirectToRoute('homepage');
+
+        }
 
         return $this->render('diet/subcategory.html.twig', [
             'products' => $products,
@@ -154,7 +160,29 @@ class DefaultController extends Controller
         return $productPerQuantity;
     }
 
+    private function flushUserFood($form, $userFood)
+    {
+        $productId = $form["productId"]->getData();
+        $repository = $this->getDoctrine()->getRepository(Food::class);
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+            'SELECT f
+            FROM AppBundle:Food f
+            WHERE f.id = :id'
+        )->setParameter('id', $productId);
+        $product = $query->getResult();
+        $userFood->setProductId($product[0]);
 
+        $user = $this->getUser();
+        $userFood->setUserId($user);
+
+        $today = new \DateTime();
+        $userFood->setDate($today);
+
+        $dbUserFood = $this->getDoctrine()->getManager();
+        $dbUserFood->persist($userFood);
+        $dbUserFood->flush();
+    }
 
 
 

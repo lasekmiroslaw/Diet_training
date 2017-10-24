@@ -31,6 +31,7 @@
                         {{ form_start(form) }}
                             {{ form_row(form.productId) }}
                             {{ form_row(form.quantity) }}
+                            <div id="error"></div>
                             <table class="table table-striped">
                                 <tr>
                                     <td>Kalorie</td>
@@ -61,5 +62,6 @@
     {% block scripts %}
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
           <script src="{{ asset('javascript/product.js') }}"></script>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     {% endblock %}
 {% endblock %}

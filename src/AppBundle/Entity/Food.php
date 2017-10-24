@@ -19,7 +19,7 @@ class Food
     private $categoryId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\FoodCategories\FoodCategory", inversedBy="product")
+     * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="product")
      * @ORM\JoinColumn(name="subcategory_id", referencedColumnName="id")
      */
     private $subcategoryId;

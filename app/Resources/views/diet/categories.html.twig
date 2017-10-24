@@ -6,9 +6,9 @@
 {% endblock %}
 {% block body %}
     <a href="{{ path('homepage') }}">Poprzednia strona</a>
-	<ul>
+	<ul class="list-group">
 		{% for category in categories %}
-    		<li>
+    		<li class="list-group-item">
                 <a href="{{ path('product_category') }}/{{category.name}}">{{category.name}}</a>
             </li>
 		{% endfor %}
