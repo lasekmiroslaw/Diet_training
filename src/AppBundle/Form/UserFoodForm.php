@@ -27,7 +27,11 @@ class UserFoodForm extends AbstractType
                 'Kolacja' => 'kolacja',
                 'Przekąski' => 'przekaski',
                 'Inne' => 'inne')))
-            ->add('add', SubmitType::class, array('label' => 'Dodaj produkt'));
+            ->add('add', SubmitType::class, array('label' => 'Dodaj produkt'))
+            ->add('calories', NumberType::class, array('label' => false, 'scale' => 1))
+            ->add('totalProtein', NumberType::class, array('label' => false, 'scale' => 1))
+            ->add('fat', NumberType::class, array('label' => false, 'scale' => 1))
+            ->add('carbohydrates', NumberType::class, array('label' => false, 'scale' => 1));
     }
 
     public function configureOptions(OptionsResolver $resolver)

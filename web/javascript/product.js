@@ -1,19 +1,17 @@
 var Product = {};
 var $hiddenMeal = $('.hiddenMeal').html();
-$(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 
+$(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
 $('#user_food_form_quantity').on('keyup', getNutrientsOnKeyup);
-
-
 $('#user_food_form_add').click(
 function (e) {
 	let quantity = $('#user_food_form_quantity').val();
-	if(quantity.match(/^\d{1,6}([\.,]\d{1,2})?$/)) {
+	if(quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
 		return true;
 	}
 	else {
-		$('#error').html('Podaj prawidłową ilosc');
+		$('#error').html('Podaj prawidłową ilość');
 		e.preventDefault();
 		e.stopImmediatePropagation();
 	}
@@ -45,7 +43,7 @@ function getNutrientsOnKeyup(e) {
 		productQuantity: $product_quantity
 	};
 
-	if($product_quantity.match(/^\d{1,6}([\.,]\d{1,2})?$/)) {
+	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
 	addNutrients();
 	}
 }
@@ -62,10 +60,10 @@ function addNutrients() {
 		success: function(data)
 		{
 		  	$('.productInfo').html(data.name);
-		  	$('.calories').html(data.calories + 'kcal');
-		  	$('.protein').html(data.protein +' g');
-		  	$('.carbohydrates').html(data.carbohydrates +' g');
-		  	$('.fat').html(data.fat +' g');
+		  	$('#user_food_form_calories').val(data.calories);
+		  	$('#user_food_form_totalProtein').val(data.protein);
+		  	$('#user_food_form_carbohydrates').val(data.carbohydrates);
+		  	$('#user_food_form_fat').val(data.fat);
 			$('#user_food_form_productId').val(data.foodId);
 		}
 	});

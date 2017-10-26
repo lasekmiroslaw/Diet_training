@@ -5,7 +5,7 @@
 {% endblock %}
 {% block body %}
     <div class="container-fluid">
-        <a href="{{ previousPage }}">Poprzednia strona</a>
+        <a href="{{ path('product_category') }}/{{ category }}">Poprzednia strona</a>
         <div class="row productContainer">
             <div class="col-md-6">
                 <ul class="productList list-group">
@@ -35,19 +35,19 @@
                             <table class="table table-striped">
                                 <tr>
                                     <td>Kalorie</td>
-                                    <td class="calories"></td>
+                                    <td class="calories">{{ form_row(form.calories, { 'attr': { 'readonly': 'true' }}) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Białko</td>
-                                    <td class="protein"></td>
+                                    <td class="protein">{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true' }}) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Węglowodany</td>
-                                    <td class="carbohydrates"></td>
+                                    <td class="carbohydrates">{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true' }}) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Tłuszcze</td>
-                                    <td class="fat"></td>
+                                    <td class="fat">{{ form_row(form.fat, { 'attr': { 'readonly': 'true' }}) }}</td>
                                 </tr>
                             </table>
                             <div class="hide hiddenMeal">{{ meal }}</div>

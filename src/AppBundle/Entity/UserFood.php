@@ -27,13 +27,10 @@ class UserFood
      *
      * @ORM\Column(name="quantity", type="decimal", precision=6, scale=1)
      * @Assert\NotBlank(message = "Proszę wprowadzić ilość")
-     * @Assert\Type(
-     *     type="numeric",
-     *     message="Proszę wprowadzić liczbę"
-     * )
-     * @Assert\Length(
-     *      max = 6 ,
-     *      maxMessage = "Za duża ilość"
+     * @Assert\Regex(
+     *      pattern="/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/",
+     *      htmlPattern ="/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/",
+     *      message="Podaj prawidłową ilość"
      *)
      */
     private $quantity;
@@ -44,6 +41,34 @@ class UserFood
      * @ORM\Column(name="meal", type="string", length=55)
      */
     private $meal;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="calories", type="integer")
+     */
+    private $calories;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="protein", type="decimal", precision=3, scale=1, nullable=true)
+     */
+    private $totalProtein;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fat", type="decimal", precision=4, scale=1, nullable=true)
+     */
+    private $fat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="carbohydrates", type="decimal", precision=3, scale=1, nullable=true)
+     */
+    private $carbohydrates;
 
     /**
      * @var int
@@ -199,4 +224,100 @@ class UserFood
     {
         return $this->date;
     }
+
+    /**
+     * Set calories
+     *
+     * @param integer $calories
+     *
+     * @return Food
+     */
+    public function setCalories($calories)
+    {
+        $this->calories = $calories;
+
+        return $this;
+    }
+
+    /**
+     * Get calories
+     *
+     * @return int
+     */
+    public function getCalories()
+    {
+        return $this->calories;
+    }
+
+    /**
+     * Set totalProtein
+     *
+     * @param string $totalProtein
+     *
+     * @return Food
+     */
+    public function setTotalProtein($totalProtein)
+    {
+        $this->totalProtein = $totalProtein;
+
+        return $this;
+    }
+
+    /**
+     * Get totalProtein
+     *
+     * @return string
+     */
+    public function getTotalProtein()
+    {
+        return $this->totalProtein;
+    }
+
+    /**
+     * Set fat
+     *
+     * @param string $fat
+     *
+     * @return Food
+     */
+    public function setFat($fat)
+    {
+        $this->fat = $fat;
+
+        return $this;
+    }
+
+    /**
+     * Get fat
+     *
+     * @return string
+     */
+    public function getFat()
+    {
+        return $this->fat;
+    }
+
+        /**
+         * Set carbohydrates
+         *
+         * @param string $carbohydrates
+         *
+         * @return Food
+         */
+        public function setCarbohydrates($carbohydrates)
+        {
+            $this->carbohydrates = $carbohydrates;
+
+            return $this;
+        }
+
+        /**
+         * Get carbohydrates
+         *
+         * @return string
+         */
+        public function getCarbohydrates()
+        {
+            return $this->carbohydrates;
+        }
 }
