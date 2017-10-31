@@ -97,7 +97,7 @@ class SubcategoryController extends Controller
 		return $productPerQuantity;
 	}
 
-	private function flushUserFood($form, $userFood)
+	private function flushUserFood($form, UserFood $userFood)
 	{
 		$productId = $form["productId"]->getData();
 		$em = $this->getDoctrine()->getManager();

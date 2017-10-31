@@ -16,6 +16,7 @@ function (e) {
 		e.stopImmediatePropagation();
 	}
 });
+//$('#user_food_form_quantity').submit(submitHandler);
 
 function getNutrientsOnClick(e) {
 	$('#user_food_form_quantity').val(100);
@@ -32,6 +33,7 @@ function getNutrientsOnClick(e) {
 	$(document).ajaxStop(function(){
     	$('.productForm').removeClass('hide');
 	});
+	return false;
 }
 
 function getNutrientsOnKeyup(e) {
@@ -67,4 +69,5 @@ function addNutrients() {
 			$('#user_food_form_productId').val(data.foodId);
 		}
 	});
+	return false;
 }

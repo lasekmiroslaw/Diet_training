@@ -36,24 +36,84 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
-			'SELECT SUM(s.calories)
+			'SELECT SUM(s.calories) as calories,
+                    SUM(s.fat) as fat,
+                    SUM(s.totalProtein) as protein,
+                    SUM(s.carbohydrates) as carbohydrates
 			FROM AppBundle:UserFood s
 			WHERE s.userId = :id'
 		)->setParameter('id', $userId);
-		$userCalories = $query->getSingleScalarResult();
+		$userMacroNutrients = $query->getResult();
 
-        $caloriesLeft = $dailyCalories - $userCalories;
+        $currentCalories = $userMacroNutrients[0]['calories'];
+        $caloriesLeft = $dailyCalories - $currentCalories;
+        $percentCalories = $this->calculatePercentShare($currentCalories, $dailyCalories);
 
-        $percentCalories = round(($caloriesLeft/$dailyCalories)*100);
+        $protein = $userMacroNutrients[0]['protein'];
+        $carbohydrates = $userMacroNutrients[0]['carbohydrates'];
+        $fat = $userMacroNutrients[0]['fat'];
 
+        $percentProtein = $this->calculatePercentShare($protein, $currentCalories, 4);
+        $percentCarbohydrates = $this->calculatePercentShare($carbohydrates, $currentCalories, 4);
+        $percentFat = $this->calculatePercentShare($fat, $currentCalories, 9);
 
-
+        $meal = [
+            'breakfast' => 'sniadanie',
+            'lunch' => 'lunch',
+            'dinner' => 'obiad',
+            'supper' => 'kolacja',
+            'snacks' => 'przekaski',
+            'other' => 'inne',
+        ];
+        $breakfast = $this->getMealProducts($userId, $meal['breakfast']);
+        $lunch = $this->getMealProducts($userId, $meal['lunch']);
+        $dinner = $this->getMealProducts($userId, $meal['dinner']);
+        $supper = $this->getMealProducts($userId, $meal['supper']);
+        $snacks = $this->getMealProducts($userId, $meal['snacks']);
+        $other = $this->getMealProducts($userId, $meal['other']);
 
         return $this->render('default/index.html.twig', [
-             'caloriesLeft' => $caloriesLeft,
              'userName' => $userName,
-             'percentCalories' => $percentCalories,
              'dailyCalories' => $dailyCalories,
+             'caloriesLeft' => $caloriesLeft,
+             'percentCalories' => $percentCalories,
+             'protein' => $protein,
+             'percentProtein' => $percentProtein,
+             'carbohydrates' => $carbohydrates,
+             'percentCarbohydrates' => $percentCarbohydrates,
+             'fat' => $fat,
+             'percentFat' => $percentFat,
+
+             'breakfast' => $breakfast,
+             'lunch' => $lunch,
+             'dinner' => $dinner,
+             'supper' => $supper,
+             'snacks' => $snacks,
+             'other' => $other,
         ]);
+    }
+
+    public function calculatePercentShare($value, $totalValue, $factor = 1)
+    {
+        $percentShare = round((($value*$factor)/$totalValue)*100);
+        return $percentShare;
+    }
+
+    private function getMealProducts(Int $userId, String $meal)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $mealFoodQuery = $em->createQuery(
+			'SELECT a.name
+			FROM AppBundle:UserFood s
+            JOIN s.productId a
+            WITH s.productId = a.id
+            AND  s.meal = :meal
+            AND  s.userId =:id '
+		)->setParameters(array(
+            'id' => $userId,
+            'meal' => $meal,
+        ));
+		$mealFood = $mealFoodQuery->getResult();
+        return $mealFood;
     }
 }
