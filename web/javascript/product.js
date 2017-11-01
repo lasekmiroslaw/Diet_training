@@ -3,20 +3,22 @@ var $hiddenMeal = $('.hiddenMeal').html();
 
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
-$('#user_food_form_quantity').on('keyup', getNutrientsOnKeyup);
+$('#user_food_form_quantity').keyup(debounce(getNutrientsOnKeyup , 500));
+$(document).ajaxStop( function() {
 $('#user_food_form_add').click(
-function (e) {
-	let quantity = $('#user_food_form_quantity').val();
-	if(quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
-		return true;
-	}
-	else {
-		$('#error').html('Podaj prawidłową ilość');
-		e.preventDefault();
-		e.stopImmediatePropagation();
-	}
+	function(e) {
+		let quantity = $('#user_food_form_quantity').val();
+		if(quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
+				return true;
+		}
+		else {
+			$('#error').html('Podaj prawidłową ilość');
+			e.preventDefault();
+			e.stopImmediatePropagation();
+		}
+	});
 });
-//$('#user_food_form_quantity').submit(submitHandler);
+
 
 function getNutrientsOnClick(e) {
 	$('#user_food_form_quantity').val(100);
@@ -50,7 +52,6 @@ function getNutrientsOnKeyup(e) {
 	}
 }
 
-
 function addNutrients() {
 	const url = $(location).attr('href');
 	return $.ajax({
@@ -67,7 +68,27 @@ function addNutrients() {
 		  	$('#user_food_form_carbohydrates').val(data.carbohydrates);
 		  	$('#user_food_form_fat').val(data.fat);
 			$('#user_food_form_productId').val(data.foodId);
+		},
+		error: function(jqXHR,  textStatus, errorThrown) {
+			$('form').submit(function(e) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+			});
 		}
 	});
-	return false;
 }
+
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};

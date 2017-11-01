@@ -37,8 +37,7 @@
 
 .addProduct
 {
-	margin-top: 1%;
-	margin-left: 2%;
+	margin: 3%;
 }
 
 .table
@@ -51,6 +50,10 @@
 	width: 90%;
 
 	margin: 2% auto 0 auto;
+}
+.productItem
+{
+	font-size: 1rem;
 }
 
 #error

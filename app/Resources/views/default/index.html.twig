@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
-    <div class="container-fluid">
+    <div class="container">
         <header>
             <span class="hello">Witaj {{ userName }}</span>
             <a href="{{ path('logout') }}" class="logout">Wyloguj się!</a>
@@ -33,7 +33,18 @@
                     </a>
                     <ul class="productList list-group">
                         {% for product in breakfast %}
-                            <li class="productItem list-group-item"><a href="">{{ product.name }}</a></li>
+                            <li class="productItem list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="">{{ product.name }}</a>
+                                        <div class="text-muted small">{{ product.quantity }} g</div>
+                                        <div class="text-muted small">{{ product.calories }} kcal</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -43,10 +54,22 @@
                     </a>
                     <ul class="productList list-group">
                         {% for product in lunch %}
-                            <li class="productItem list-group-item"><a href="">{{ product.name }}</a></li>
+                            <li class="productItem list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="">{{ product.name }}</a>
+                                        <div class="text-muted small">{{ product.quantity }} g</div>
+                                        <div class="text-muted small">{{ product.calories }} kcal</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
+
                 <div class="meal col-md-2">
                     Obiad<br>
                     <a href="{{ path('product_categories') }}/obiad">
@@ -54,7 +77,18 @@
                     </a>
                     <ul class="productList list-group">
                         {% for product in dinner %}
-                            <li class="productItem list-group-item"><a href="">{{ product.name }}</a></li>
+                            <li class="productItem list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="">{{ product.name }}</a>
+                                        <div class="text-muted small">{{ product.quantity }} g</div>
+                                        <div class="text-muted small">{{ product.calories }} kcal</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -65,7 +99,18 @@
                     </a>
                     <ul class="productList list-group">
                         {% for product in supper %}
-                            <li class="productItem list-group-item"><a href="">{{ product.name }}</a></li>
+                            <li class="productItem list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="">{{ product.name }}</a>
+                                        <div class="text-muted small">{{ product.quantity }} g</div>
+                                        <div class="text-muted small">{{ product.calories }} kcal</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -76,7 +121,18 @@
                     </a>
                     <ul class="productList list-group">
                         {% for product in snacks %}
-                            <li class="productItem list-group-item"><a href="">{{ product.name }}</a></li>
+                            <li class="productItem list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="">{{ product.name }}</a>
+                                        <div class="text-muted small">{{ product.quantity }} g</div>
+                                        <div class="text-muted small">{{ product.calories }} kcal</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -87,11 +143,27 @@
                     </a>
                     <ul class="productList list-group">
                         {% for product in other %}
-                            <li class="productItem list-group-item"><a href="">{{ product.name }}</a></li>
+                            <li class="productItem list-group-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="">{{ product.name }}</a>
+                                        <div class="text-muted small">{{ product.quantity }} g</div>
+                                        <div class="text-muted small">{{ product.calories }} kcal</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
+            {% for message in app.flashes('notice') %}
+                <div class="flash-notice">
+                    <div class="alert alert-success">{{ message }}</div>
+                </div>
+            {% endfor %}
         </main>
     </div>
     {% block scripts %}

@@ -11,7 +11,6 @@ use AppBundle\Form\UserFoodForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
@@ -19,7 +18,7 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request, SessionInterface $session)
+    public function indexAction(Request $request)
     {
         $user = $this->getUser();
         $userName = $user->getUsername();
@@ -95,6 +94,10 @@ class DefaultController extends Controller
 
     public function calculatePercentShare($value, $totalValue, $factor = 1)
     {
+        if($totalValue == 0)
+        {
+            $totalValue = 1;
+        }
         $percentShare = round((($value*$factor)/$totalValue)*100);
         return $percentShare;
     }
@@ -103,17 +106,35 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $mealFoodQuery = $em->createQuery(
-			'SELECT a.name
+			'SELECT a.name, s.quantity, s.id, s.calories
 			FROM AppBundle:UserFood s
             JOIN s.productId a
             WITH s.productId = a.id
             AND  s.meal = :meal
-            AND  s.userId =:id '
+            AND  s.userId =:userId '
 		)->setParameters(array(
-            'id' => $userId,
+            'userId' => $userId,
             'meal' => $meal,
         ));
 		$mealFood = $mealFoodQuery->getResult();
         return $mealFood;
+    }
+
+    /**
+     * @Route("/deleteProduct/{id}", name="deleteProduct")
+     */
+    public function deleteAction($id = 1)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $product = $em->getRepository(UserFood::class)->find($id);
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash(
+           'notice',
+           'Produkt usunięty!'
+       );
+
+        return $this->redirectToRoute('homepage');
     }
 }

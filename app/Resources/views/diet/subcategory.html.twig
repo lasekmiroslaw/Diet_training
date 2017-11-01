@@ -10,7 +10,7 @@
             <div class="col-md-6">
                 <ul class="productList list-group">
                     {% for product in products %}
-                        <li id="{{ loop.index0 }}" class="productItem list-group-item">
+                        <li id="{{ loop.index0 }}" class="productItems list-group-item">
                 		    <a href="#">{{ product.name }}</a>
                             <div class="productMacros">
                                 Białko: {{ product.totalProtein }}g
@@ -30,7 +30,7 @@
                         <div class="productInfo"></div>
                         {{ form_start(form) }}
                             {{ form_row(form.productId) }}
-                            {{ form_row(form.quantity) }}
+                            {{ form_row(form.quantity, { 'attr': { 'maxlength': '6' }}) }}
                             <div id="error"></div>
                             <table class="table table-striped">
                                 <tr>
