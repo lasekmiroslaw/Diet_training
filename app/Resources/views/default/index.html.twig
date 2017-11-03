@@ -5,167 +5,166 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
-    <div class="container">
-        <header>
-            <span class="hello">Witaj {{ userName }}</span>
-            <a href="{{ path('logout') }}" class="logout">Wyloguj się!</a>
-        </header>
-        <main class="">
-            <div class="row">
-                <div class="chart col-6 col-md-8" id="graph" data-percent="{{ percentCalories }}">
-                    <span class="centerText">{{ percentCalories }}%</span>
-                </div>
-
-                <div class="normalText col-6 col-md-4">
-                    Zapotrzebowanie {{ dailyCalories }}<br>
-                    Białko {{ protein }} g <span class="pProtein">{{ percentProtein }}%</span><br>
-                    Węglowodany {{ carbohydrates }} g <span class="pCarbohydrates">{{ percentCarbohydrates }}%</span><br>
-                    Tłuszcze {{ fat }} g <span class="pFat">{{ percentFat }}%</span><br>
-                    Pozostało {{ caloriesLeft }} kcal
-                </div>
+    <header>
+        <span class="hello">Witaj {{ userName }}</span>
+        <a href="{{ path('logout') }}" class="logout">Wyloguj się!</a>
+    </header>
+    <main class="">
+        <div class="row">
+            <div class="chart col-6 col-md-8" id="graph" data-percent="{{ percentCalories }}">
+                <span class="centerText">{{ percentCalories }}%</span>
             </div>
 
-            <div class="meals row">
-                <div class="meal col-md-2">
-                    Śniadanie<br>
-                    <a href="{{ path('product_categories') }}/sniadanie">
-                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
-                    </a>
-                    <ul class="productList list-group">
-                        {% for product in breakfast %}
-                            <li class="productItem list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="">{{ product.name }}</a>
-                                        <div class="text-muted small">{{ product.quantity }} g</div>
-                                        <div class="text-muted small">{{ product.calories }} kcal</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="meal col-md-2">
-                    Lunch<br>
-                    <a href="{{ path('product_categories') }}/lunch"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
-                    </a>
-                    <ul class="productList list-group">
-                        {% for product in lunch %}
-                            <li class="productItem list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="">{{ product.name }}</a>
-                                        <div class="text-muted small">{{ product.quantity }} g</div>
-                                        <div class="text-muted small">{{ product.calories }} kcal</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                <div class="meal col-md-2">
-                    Obiad<br>
-                    <a href="{{ path('product_categories') }}/obiad">
-                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
-                    </a>
-                    <ul class="productList list-group">
-                        {% for product in dinner %}
-                            <li class="productItem list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="">{{ product.name }}</a>
-                                        <div class="text-muted small">{{ product.quantity }} g</div>
-                                        <div class="text-muted small">{{ product.calories }} kcal</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="meal col-md-2">
-                    Kolacja<br>
-                    <a href="{{ path('product_categories') }}/kolacja">
-                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
-                    </a>
-                    <ul class="productList list-group">
-                        {% for product in supper %}
-                            <li class="productItem list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="">{{ product.name }}</a>
-                                        <div class="text-muted small">{{ product.quantity }} g</div>
-                                        <div class="text-muted small">{{ product.calories }} kcal</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="meal col-md-2">
-                    Przekąski<br>
-                    <a href="{{ path('product_categories') }}/przekaski">
-                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
-                    </a>
-                    <ul class="productList list-group">
-                        {% for product in snacks %}
-                            <li class="productItem list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="">{{ product.name }}</a>
-                                        <div class="text-muted small">{{ product.quantity }} g</div>
-                                        <div class="text-muted small">{{ product.calories }} kcal</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="meal col-md-2">
-                    Inne<br>
-                    <a href="{{ path('product_categories') }}/inne">
-                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
-                    </a>
-                    <ul class="productList list-group">
-                        {% for product in other %}
-                            <li class="productItem list-group-item">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="">{{ product.name }}</a>
-                                        <div class="text-muted small">{{ product.quantity }} g</div>
-                                        <div class="text-muted small">{{ product.calories }} kcal</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
-                                    </div>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+            <div class="normalText col-6 col-md-4">
+                Zapotrzebowanie {{ dailyCalories }}<br>
+                Białko {{ protein }} g <span class="pProtein">{{ percentProtein }}%</span><br>
+                Węglowodany {{ carbohydrates }} g <span class="pCarbohydrates">{{ percentCarbohydrates }}%</span><br>
+                Tłuszcze {{ fat }} g <span class="pFat">{{ percentFat }}%</span><br>
+                Pozostało {{ caloriesLeft }} kcal
             </div>
-            {% for message in app.flashes('notice') %}
-                <div class="flash-notice">
-                    <div class="alert alert-success">{{ message }}</div>
-                </div>
-            {% endfor %}
-        </main>
-    </div>
+        </div>
+
+        <div class="meals row">
+            <div class="meal col-md-2">
+                Śniadanie<br>
+                <a href="{{ path('product_categories') }}/sniadanie">
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                </a>
+                <ul class="productList list-group">
+                    {% for product in breakfast %}
+                        <li class="productItem list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="">{{ product.name }}</a>
+                                    <div class="text-muted small">{{ product.quantity }} g</div>
+                                    <div class="text-muted small">{{ product.calories }} kcal</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="meal col-md-2">
+                Lunch<br>
+                <a href="{{ path('product_categories') }}/lunch"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                </a>
+                <ul class="productList list-group">
+                    {% for product in lunch %}
+                        <li class="productItem list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="">{{ product.name }}</a>
+                                    <div class="text-muted small">{{ product.quantity }} g</div>
+                                    <div class="text-muted small">{{ product.calories }} kcal</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="meal col-md-2">
+                Obiad<br>
+                <a href="{{ path('product_categories') }}/obiad">
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                </a>
+                <ul class="productList list-group">
+                    {% for product in dinner %}
+                        <li class="productItem list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="">{{ product.name }}</a>
+                                    <div class="text-muted small">{{ product.quantity }} g</div>
+                                    <div class="text-muted small">{{ product.calories }} kcal</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="meal col-md-2">
+                Kolacja<br>
+                <a href="{{ path('product_categories') }}/kolacja">
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                </a>
+                <ul class="productList list-group">
+                    {% for product in supper %}
+                        <li class="productItem list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="">{{ product.name }}</a>
+                                    <div class="text-muted small">{{ product.quantity }} g</div>
+                                    <div class="text-muted small">{{ product.calories }} kcal</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="meal col-md-2">
+                Przekąski<br>
+                <a href="{{ path('product_categories') }}/przekaski">
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                </a>
+                <ul class="productList list-group">
+                    {% for product in snacks %}
+                        <li class="productItem list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="">{{ product.name }}</a>
+                                    <div class="text-muted small">{{ product.quantity }} g</div>
+                                    <div class="text-muted small">{{ product.calories }} kcal</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="meal col-md-2">
+                Inne<br>
+                <a href="{{ path('product_categories') }}/inne">
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                </a>
+                <ul class="productList list-group">
+                    {% for product in other %}
+                        <li class="productItem list-group-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="">{{ product.name }}</a>
+                                    <div class="text-muted small">{{ product.quantity }} g</div>
+                                    <div class="text-muted small">{{ product.calories }} kcal</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                <div class="alert alert-success">{{ message }}</div>
+            </div>
+        {% endfor %}
+    </main>
+
     {% block scripts %}
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
           <script src="{{ asset('javascript/radial-progress-bar.js') }}"></script>

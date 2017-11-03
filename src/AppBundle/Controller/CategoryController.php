@@ -10,7 +10,6 @@ use AppBundle\Entity\UserData;
 use AppBundle\Form\SearchForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Food;
-use AppBundle\Repository\FoodRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +48,7 @@ class CategoryController extends Controller
         $requestString = $request->get('q');
         $entities =$this->getDoctrine()
             ->getRepository(Food::class)
-            ->findEntitiesByString($requestString);
+            ->findProducts($requestString);
         if(!$entities) {
             $result['entities']['error'] = "Nie znaleziono";
         } else {

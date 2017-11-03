@@ -12,14 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class FoodRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findEntitiesByString($str){
+	public function findProducts($name){
 	return $this->getEntityManager()
 		->createQuery(
 			'SELECT e
 			FROM AppBundle:Food e
 			WHERE e.name LIKE :str'
 		)
-		->setParameter('str', '%'.$str.'%')
+		->setParameter('str', '%'.$name.'%')
 		->getResult();
 	}
 }

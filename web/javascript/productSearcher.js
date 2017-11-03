@@ -1,5 +1,5 @@
 var searchRequest = null;
-$("#search").keyup(function(e) {
+$("#search_form_name").keyup(function(e) {
 	e.stopImmediatePropagation();
 	var minlength = 3;
 	var that = this;
@@ -25,8 +25,10 @@ $("#search").keyup(function(e) {
 							if (key == 'entities') {
 								if (id != 'error') {
 									entitySelector.append('<li><a href="/daten/'+id+'">'+value+'</a></li>');
+									$('#foodCategory').addClass('hide');
 								} else {
 									entitySelector.append('<li class="errorLi">'+value+'</li>');
+									$('#foodCategory').removeClass('hide');
 								}
 							}
 						});
@@ -34,5 +36,8 @@ $("#search").keyup(function(e) {
 				}
 			 }
 		});
+	}
+	if(value.length < minlength) {
+		$('#foodCategory').removeClass('hide');
 	}
 });

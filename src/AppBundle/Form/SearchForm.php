@@ -15,8 +15,8 @@ class SearchForm extends AbstractType
     {
         $builder
             ->add('name', SearchType::class, array('label' => false,
-		))
-			->add('search', SubmitType::class, array('label' => 'Wyszukaj produkt'));
+		));
+	// 		->add('search', SubmitType::class, array('label' => 'Wyszukaj produkt'));
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -7,19 +7,18 @@
 {% block body %}
     <a href="{{ path('homepage') }}">Poprzednia strona</a>
     <div class="sidebar-search" data-path="{{ path('ajax_search') }}">
-        <div class="input-group custom-search-form">
-            <input type="text" id="search" class="form-control" placeholder="Wyszukaj produkt">
-        </div>
-        <!-- /input-group -->
+            {{ form_start(form) }}
+                  {{ form_row(form.name) }}
+            {{ form_end(form) }}
     </div>
     <ul class="nav" id="side-menu">
         <li>
             <ul class="nav nav-second-level" id="entitiesNav">
             </ul>
         </li>
-  </ul>
+    </ul>
 
-	<ul class="list-group">
+	<ul class="list-group" id="foodCategory">
 		{% for category in categories %}
     		<li class="list-group-item">
                 <a href="{{ path('product_category') }}/{{category.name}}">{{category.name}}</a>
