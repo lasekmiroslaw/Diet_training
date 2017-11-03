@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * FoodCategory
+ * Subcategory
  * @ORM\Table(name="subcategory")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SubcategoryRepository")
  */
@@ -58,7 +58,7 @@ class Subcategory
      *
      * @param string $name
      *
-     * @return FoodCategory
+     * @return Subcategory
      */
     public function setName($name)
     {
@@ -82,7 +82,7 @@ class Subcategory
      *
      * @param string $product
      *
-     * @return FoodCategory
+     * @return Subcategory
      */
     public function setProduct($product)
     {
@@ -106,7 +106,7 @@ class Subcategory
      *
      * @param string $categoryId
      *
-     * @return FoodCategory
+     * @return Subcategory
      */
     public function setCategoryId($categoryId)
     {
@@ -124,4 +124,5 @@ class Subcategory
     {
         return $this->categoryId;
     }
+
 }

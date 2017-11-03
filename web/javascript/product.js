@@ -1,15 +1,24 @@
 var Product = {};
 var $hiddenMeal = $('.hiddenMeal').html();
+// var submit = 0;
+// // $.when(getNutrientsOnKeyup).done(function(a1){
+// //  //a1 includes ajax1 response
+// //    submit=true;
+// // });
+// // $(document).ajaxStart(function(){
+// // 	sumbit = false;
+// // })
+Product.activeAjaxConnections = 0;
 
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
-$('#user_food_form_quantity').keyup(debounce(getNutrientsOnKeyup , 500));
-$(document).ajaxStop( function() {
-$('#user_food_form_add').click(
+$('#user_food_form_quantity').keyup(getNutrientsOnKeyup);
+
+$('form[name="user_food_form"]').submit(
 	function(e) {
 		let quantity = $('#user_food_form_quantity').val();
-		if(quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
-				return true;
+		if((quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) && (Product.activeAjaxConnections == 0)) {
+			return true;
 		}
 		else {
 			$('#error').html('Podaj prawidłową ilość');
@@ -17,8 +26,6 @@ $('#user_food_form_add').click(
 			e.stopImmediatePropagation();
 		}
 	});
-});
-
 
 function getNutrientsOnClick(e) {
 	$('#user_food_form_quantity').val(100);
@@ -46,15 +53,17 @@ function getNutrientsOnKeyup(e) {
 		productId: $product_id,
 		productQuantity: $product_quantity
 	};
-
 	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
-	addNutrients();
+		addNutrients();
 	}
 }
 
 function addNutrients() {
 	const url = $(location).attr('href');
 	return $.ajax({
+		beforeSend: function(xhr) {
+			Product.activeAjaxConnections++;
+			},
 		url:  url,
 		type: "POST",
 		dataType: "json",
@@ -68,9 +77,11 @@ function addNutrients() {
 		  	$('#user_food_form_carbohydrates').val(data.carbohydrates);
 		  	$('#user_food_form_fat').val(data.fat);
 			$('#user_food_form_productId').val(data.foodId);
+			Product.activeAjaxConnections--;
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
-			$('form').submit(function(e) {
+			Product.activeAjaxConnections--;
+			$('form[name="user_food_form"]').submit(function(e) {
 				e.preventDefault();
 				e.stopImmediatePropagation();
 			});

@@ -3,12 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Food
- *
  * @ORM\Table(name="food")
- * @ORM\Entity(repositoryClass="Subcategory")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FoodRepository")
  */
 class Food
 {
@@ -37,6 +37,11 @@ class Food
      * @var string
      *
      * @ORM\Column(name="nazwa_produktu", type="string", length=55)
+     * @Assert\NotNull()
+     * @Assert\Type(
+     *     type="string",
+     *     message="Proszę wprowadzić nazwę produktu"
+     * )
      */
     private $name;
 

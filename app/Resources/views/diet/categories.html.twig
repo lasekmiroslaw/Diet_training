@@ -6,6 +6,19 @@
 {% endblock %}
 {% block body %}
     <a href="{{ path('homepage') }}">Poprzednia strona</a>
+    <div class="sidebar-search" data-path="{{ path('ajax_search') }}">
+        <div class="input-group custom-search-form">
+            <input type="text" id="search" class="form-control" placeholder="Wyszukaj produkt">
+        </div>
+        <!-- /input-group -->
+    </div>
+    <ul class="nav" id="side-menu">
+        <li>
+            <ul class="nav nav-second-level" id="entitiesNav">
+            </ul>
+        </li>
+  </ul>
+
 	<ul class="list-group">
 		{% for category in categories %}
     		<li class="list-group-item">
@@ -13,4 +26,11 @@
             </li>
 		{% endfor %}
 	</ul>
+
+
+    {% block scripts %}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="{{ asset('javascript/productSearcher.js') }}"></script>
+
+    {% endblock %}
 {% endblock %}

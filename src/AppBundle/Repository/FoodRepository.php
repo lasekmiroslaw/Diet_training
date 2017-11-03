@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+
 /**
  * FoodRepository
  *
@@ -10,4 +12,14 @@ namespace AppBundle\Repository;
  */
 class FoodRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findEntitiesByString($str){
+	return $this->getEntityManager()
+		->createQuery(
+			'SELECT e
+			FROM AppBundle:Food e
+			WHERE e.name LIKE :str'
+		)
+		->setParameter('str', '%'.$str.'%')
+		->getResult();
+	}
 }

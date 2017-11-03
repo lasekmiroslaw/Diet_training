@@ -3,16 +3,17 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\UserData;
-use AppBundle\Entity\UserFood;
-use AppBundle\Form\UserFoodForm;
+use AppBundle\Form\SearchForm;
 use AppBundle\Entity\Category;
-use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
+use AppBundle\Repository\FoodRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -29,10 +30,41 @@ class CategoryController extends Controller
         $categories = $categoriesQuery->getResult();
         $session->set('meal', $meal);
 
+        $food = new Food();
+		$form = $this->createForm(SearchForm::class, $food);
+		$form->handleRequest($request);
+
         return $this->render('diet/categories.html.twig', [
             'categories' => $categories,
+            'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/search", name="ajax_search")
+     * @Method("GET")
+     */
+    public function searchAction(Request $request)
+    {
+        $requestString = $request->get('q');
+        $entities =$this->getDoctrine()
+            ->getRepository(Food::class)
+            ->findEntitiesByString($requestString);
+        if(!$entities) {
+            $result['entities']['error'] = "Nie znaleziono";
+        } else {
+            $result['entities'] = $this->getRealEntities($entities);
+        }
+        return new Response(json_encode($result));
+    }
+
+    public function getRealEntities($entities){
+        foreach ($entities as $entity){
+            $realEntities[$entity->getId()] = $entity->getName();
+        }
+        return $realEntities;
+    }
+
 
 	/**
 	* @Route(
@@ -53,5 +85,12 @@ class CategoryController extends Controller
 			'subcategories' => $subcategories,
 		]);
 	}
+
+    // public function searchAction()
+    // {
+    //     $form = $this->createFormBuiler()
+    //         ->add('search', TextType::class)
+    //         ->getForm();
+    // }
 
 }
