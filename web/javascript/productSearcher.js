@@ -13,7 +13,7 @@ $("#search_form_name").keyup(function(e) {
 			type: "GET",
 			url: $url,
 			data: {
-				'q' : value
+				'foundProducts' : value
 			},
 			dataType: "text",
 			success: function(msg){
@@ -24,7 +24,7 @@ $("#search_form_name").keyup(function(e) {
 						$.each(arr, function(id, value) {
 							if (key == 'entities') {
 								if (id != 'error') {
-									entitySelector.append('<li><a href="/daten/'+id+'">'+value+'</a></li>');
+									entitySelector.append(`<li><a href=${$url}/${id}>${value}</a></li>`);
 									$('#foodCategory').addClass('hide');
 								} else {
 									entitySelector.append('<li class="errorLi">'+value+'</li>');

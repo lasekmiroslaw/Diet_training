@@ -13,13 +13,15 @@ use AppBundle\Entity\Food;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Entity\UserFood;
+use AppBundle\Form\UserFoodForm;
 
 class CategoryController extends Controller
 {
 	/**
     * @Route("/dodaj/{meal}", name="product_categories", requirements={"meal": "sniadanie|lunch|obiad|kolacja|przekaski|inne"})
     */
-    public function showCategoriesAction(Request $request, $meal = 'meal', SessionInterface $session)
+    public function showCategoriesAction(Request $request, SessionInterface $session, $meal = 'meal')
     {
         $categoriesRepository = $this->getDoctrine()
             ->getRepository(Category::class);
@@ -40,12 +42,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * @Route("/search", name="ajax_search")
+     * @Route("/produkt", name="ajax_search")
      * @Method("GET")
      */
     public function searchAction(Request $request)
     {
-        $requestString = $request->get('q');
+        $requestString = $request->get('foundProducts');
         $entities =$this->getDoctrine()
             ->getRepository(Food::class)
             ->findProducts($requestString);
@@ -64,6 +66,88 @@ class CategoryController extends Controller
         return $realEntities;
     }
 
+    /**
+    * @Route("/produkt/{id}", name="product_add")
+    */
+    public function addProductAction(Food $product, Request $request, SessionInterface $session)
+    {
+        $sessionMeal = $session->get('meal');
+        $userFood = new UserFood();
+        $form = $this->createForm(UserFoodForm::class, $userFood);
+        $form->handleRequest($request);
+
+        if($request->isXmlHttpRequest())
+        {
+            $productArray = $this->getNutrients($product);
+            return new JsonResponse($productArray);
+        }
+
+        return $this->render('diet/product.html.twig', array(
+            'product' => $product,
+            'form' => $form->createView(),
+			'meal' => $sessionMeal,
+        ));
+    }
+
+    public function getNutrients($product)
+	{
+		$request = Request::createFromGlobals();
+		$foodId = $product->getId();
+		$name = $product->getName();
+        $productQuantity = $request->get('productQuantity');
+
+		$caloriesPer100 = $product->getCalories();
+		$calories = $this->calculateNutrients($caloriesPer100, $productQuantity);
+
+		$proteinPer100 = $product->getTotalProtein();
+		$protein = $this->calculateNutrients($proteinPer100, $productQuantity);
+
+		$carbohydratesPer100 = $product->getCarbohydrates();
+		$carbohydrates = $this->calculateNutrients($carbohydratesPer100, $productQuantity);
+
+		$fatPer100 = $product->getFat();
+		$fat = $this->calculateNutrients($fatPer100, $productQuantity);
+
+		return $productArray = [
+			'name' => $name,
+			'calories' => $calories,
+			'protein' => $protein,
+			'carbohydrates' => $carbohydrates,
+			'fat' => $fat,
+			'foodId' => $foodId,
+		];
+	}
+
+	public function calculateNutrients($productPer100, $productQuantity)
+	{
+		$productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
+		return $productPerQuantity;
+	}
+
+	public function flushUserFood($form, UserFood $userFood)
+	{
+		$productId = $form["productId"]->getData();
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery(
+			'SELECT f
+			FROM AppBundle:Food f
+			WHERE f.id = :id'
+		)->setParameter('id', $productId);
+		$product = $query->getResult();
+		$userFood->setProductId($product[0]);
+
+		$user = $this->getUser();
+		$userFood->setUserId($user);
+
+		$today = new \DateTime();
+		$userFood->setDate($today);
+
+		$dbUserFood = $this->getDoctrine()->getManager();
+		$dbUserFood->persist($userFood);
+		$dbUserFood->flush();
+	}
+
+
 
 	/**
 	* @Route(
@@ -73,23 +157,19 @@ class CategoryController extends Controller
 	*    }
 	*)
 	*/
-	public function showSubcategoriesAction(Request $request, $category ='category')
+	public function showSubcategoriesAction(Request $request, $category = 'kategoria')
 	{
 		$categoriesRepository = $this->getDoctrine()
 			->getRepository(Category::class)
-			->findOneByName($category);
+			->findOneBy(array('name' => $category));
+        if (!$category) {
+            throw $this->createNotFoundException();
+        }
 		$subcategories = $categoriesRepository->getSubcategory();
 
 		return $this->render('diet/subcategories.html.twig', [
 			'subcategories' => $subcategories,
 		]);
 	}
-
-    // public function searchAction()
-    // {
-    //     $form = $this->createFormBuiler()
-    //         ->add('search', TextType::class)
-    //         ->getForm();
-    // }
 
 }

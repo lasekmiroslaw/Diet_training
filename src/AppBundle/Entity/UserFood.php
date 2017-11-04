@@ -320,4 +320,5 @@ class UserFood
         {
             return $this->carbohydrates;
         }
+        
 }

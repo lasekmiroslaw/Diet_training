@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+
 /**
  * UserFoodRepository
  *
@@ -10,4 +11,5 @@ namespace AppBundle\Repository;
  */
 class UserFoodRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

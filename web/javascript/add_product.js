@@ -3,7 +3,7 @@ var $hiddenMeal = $('.hiddenMeal').html();
 Product.activeAjaxConnections = 0;
 
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
-$('.productList').on('click', 'li', getNutrientsOnClick);
+//$('.productList').on('click', 'li', getNutrientsOnClick);
 $('#user_food_form_quantity').keyup(getNutrientsOnKeyup);
 
 $('form[name="user_food_form"]').submit(
@@ -39,10 +39,8 @@ function getNutrientsOnClick(e) {
 
 function getNutrientsOnKeyup(e) {
 	e.stopImmediatePropagation();
-	$product_id = Product.$product_id;
 	$product_quantity = $('#user_food_form_quantity').val();
 	product_data = {
-		productId: $product_id,
 		productQuantity: $product_quantity
 	};
 	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {

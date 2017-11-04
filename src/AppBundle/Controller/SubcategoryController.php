@@ -44,6 +44,7 @@ class SubcategoryController extends Controller
 		}
 
 		$sessionMeal = $session->get('meal');
+		$user = $this->getUser();
 
 		if($form->isSubmitted() && $form->isValid())
 		{
@@ -59,7 +60,7 @@ class SubcategoryController extends Controller
 		]);
 	}
 
-	private function getNutrients($products)
+	public function getNutrients($products)
 	{
 		$request = Request::createFromGlobals();
 		$productId = $request->get('productId');
@@ -97,7 +98,7 @@ class SubcategoryController extends Controller
 		return $productPerQuantity;
 	}
 
-	private function flushUserFood($form, UserFood $userFood)
+	public function flushUserFood($form, UserFood $userFood)
 	{
 		$productId = $form["productId"]->getData();
 		$em = $this->getDoctrine()->getManager();
