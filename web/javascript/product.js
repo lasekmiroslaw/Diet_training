@@ -5,19 +5,7 @@ Product.activeAjaxConnections = 0;
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
 $('#user_food_form_quantity').keyup(getNutrientsOnKeyup);
-
-$('form[name="user_food_form"]').submit(
-	function(e) {
-		let quantity = $('#user_food_form_quantity').val();
-		if((quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) && (Product.activeAjaxConnections == 0)) {
-			return true;
-		}
-		else {
-			$('#error').html('Podaj prawidłową ilość');
-			e.preventDefault();
-			e.stopImmediatePropagation();
-		}
-	});
+$('form[name="user_food_form"]').submit(checkData);
 
 function getNutrientsOnClick(e) {
 	$('#user_food_form_quantity').val(100);
@@ -79,6 +67,24 @@ function addNutrients() {
 			});
 		}
 	});
+}
+
+function checkData(e) {
+	let quantity = $('#user_food_form_quantity').val();
+	if(Product.activeAjaxConnections != 0)
+	{
+		$('#error').html('Powolutu... przetwarzam');
+		e.preventDefault();
+		e.stopImmediatePropagation();
+	}
+	if(quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
+		return true;
+	}
+	else {
+		$('#error').html('Podaj prawidłową ilość');
+		e.preventDefault();
+		e.stopImmediatePropagation();
+	}
 }
 
 function debounce(func, wait, immediate) {

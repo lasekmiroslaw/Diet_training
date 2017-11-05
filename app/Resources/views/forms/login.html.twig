@@ -7,7 +7,7 @@
       {{ form_start(form) }}
             {{ form_row(form.username) }}
             {{ form_row(form.password) }}
-            <button type="submit">Zaloguj się</button>
+            <button type="submit" class="btn btn-success">Zaloguj się</button>
             <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
       {{ form_end(form) }}
       <a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a><br>

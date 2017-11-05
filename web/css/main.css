@@ -94,3 +94,8 @@ form[name="login_form"]
 	transform: translate(-50%, -50%);
 	width: 70vw;
 }
+
+.deleteButton:visited
+{
+	pointer-events: none;
+}

@@ -67,25 +67,3 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     host: '%mailer_host%'
-
-fos_elastica:
-    clients:
-        default: { host: %elastic_host%, port: %elastic_port% }
-    indexes:
-        dieta_trening:
-            client: default
-            types:
-                food:
-                    mappings:
-                        id:
-                            type: integer
-                        name :
-                            type : string
-                        calories :
-                            type : integer
-                    persistence:
-                        driver: orm
-                        model: AppBundle\Entity\Food
-                        finder: ~
-                        provider: ~
-                        listener: ~

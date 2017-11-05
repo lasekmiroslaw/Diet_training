@@ -7,15 +7,62 @@
     <div class="row productContainer">
         <div class="col-md-6">
             <ul class="productList list-group">
-                <table>
-                    <tr><th>{{ product.name }}/100g</th></tr>
-                    <tr>
-                        <td>wartosc energetyczna kcal</td>
-                        <td>{{ product.calories }}</td>
-                        <td>woda g</td>
-                        <td>{{ product.water }}</td>
-                    </tr>
-
+                <table class="table table-hover table-bordered table-striped">
+                    <thead class="info">
+                        <tr>
+                            <th colspan="4">{{ product.name }} na 100g produktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>wartosc energetyczna</td>
+                            <td>{{ product.calories }} kcal</td>
+                            <td>woda</td>
+                            <td>{{ product.water }} g</td>
+                        </tr>
+                        <tr>
+                            <td>białko ogółem</td>
+                            <td>{{ product.totalProtein }} g</td>
+                            <td>białko zwierzęce</td>
+                            <td>{{ product.animalProtein }} g</td>
+                        </tr>
+                        <tr>
+                            <td>białko rośline</td>
+                            <td>{{ product.vegetableProtein }} g</td>
+                            <td>tłuszcz</td>
+                            <td>{{ product.fat }} g</td>
+                        </tr>
+                        <tr>
+                            <td>węglowodany</td>
+                            <td>{{ product.carbohydrates }} g</td>
+                            <td>sód</td>
+                            <td>{{ product.sodium }} g</td>
+                        </tr>
+                        <tr>
+                            <td>potas</td>
+                            <td>{{ product.potassium }} mg</td>
+                            <td>wapń</td>
+                            <td>{{ product.calcium }} mg</td>
+                        </tr>
+                        <tr>
+                            <td>fosfor</td>
+                            <td>{{ product.phosphor }} mg</td>
+                            <td>magnez</td>
+                            <td>{{ product.magnesium }} mg</td>
+                        </tr>
+                        <tr>
+                            <td>żelazo</td>
+                            <td>{{ product.iron }} mg</td>
+                            <td>cynk</td>
+                            <td>{{ product.zinc }} mg</td>
+                        </tr>
+                        <tr>
+                            <td>miedź</td>
+                            <td>{{ product.copper }} mg</td>
+                            <td>mangan</td>
+                            <td>{{ product.manganese }} mg</td>
+                        </tr>
+                    </tbody>
                 </table>
 
             </ul>
@@ -23,7 +70,7 @@
         <div class="col-md-3">
             <div class="nutrients">
                 <div class="productForm">
-                    <div class="productInfo"></div>
+                    <div class="productInfo">{{ product.name }}</div>
                     {{ form_start(form) }}
                         {{ form_row(form.productId) }}
                         {{ form_row(form.quantity, { 'attr': { 'maxlength': '6', 'value': 100 }}) }}

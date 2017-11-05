@@ -12,13 +12,14 @@ use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, SessionInterface $session)
     {
         $user = $this->getUser();
         $userName = $user->getUsername();
@@ -71,6 +72,9 @@ class DefaultController extends Controller
         $snacks = $this->getMealProducts($userId, $meal['snacks']);
         $other = $this->getMealProducts($userId, $meal['other']);
 
+        $alert = $session->get('alert');
+        $session->remove('alert');
+
         return $this->render('default/index.html.twig', [
              'userName' => $userName,
              'dailyCalories' => $dailyCalories,
@@ -89,6 +93,7 @@ class DefaultController extends Controller
              'supper' => $supper,
              'snacks' => $snacks,
              'other' => $other,
+             'alert' => $alert,
         ]);
     }
 
@@ -123,13 +128,14 @@ class DefaultController extends Controller
     /**
      * @Route("/deleteProduct/{id}", name="deleteProduct")
      */
-    public function deleteAction($id = 1)
+    public function deleteAction($id = 1, SessionInterface $session)
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(UserFood::class)->find($id);
         $em->remove($product);
         $em->flush();
 
+        $session->set('alert', 'alert-danger');
         $this->addFlash(
            'notice',
            'Produkt usunięty!'

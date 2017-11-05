@@ -82,6 +82,18 @@ class CategoryController extends Controller
             return new JsonResponse($productArray);
         }
 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->flushUserFood($userFood, $product);
+            $session->set('alert', 'alert-success');
+            $session->remove('meal');
+            $this->addFlash(
+               'notice',
+               'Produkt dodany!'
+            );
+            return $this->redirectToRoute('homepage');
+        }
+
         return $this->render('diet/product.html.twig', array(
             'product' => $product,
             'form' => $form->createView(),
@@ -89,7 +101,7 @@ class CategoryController extends Controller
         ));
     }
 
-    public function getNutrients($product)
+    private function getNutrients($product)
 	{
 		$request = Request::createFromGlobals();
 		$foodId = $product->getId();
@@ -118,23 +130,15 @@ class CategoryController extends Controller
 		];
 	}
 
-	public function calculateNutrients($productPer100, $productQuantity)
+	private function calculateNutrients($productPer100, $productQuantity)
 	{
 		$productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
 		return $productPerQuantity;
 	}
 
-	public function flushUserFood($form, UserFood $userFood)
+	private function flushUserFood(UserFood $userFood, Food $product)
 	{
-		$productId = $form["productId"]->getData();
-		$em = $this->getDoctrine()->getManager();
-		$query = $em->createQuery(
-			'SELECT f
-			FROM AppBundle:Food f
-			WHERE f.id = :id'
-		)->setParameter('id', $productId);
-		$product = $query->getResult();
-		$userFood->setProductId($product[0]);
+		$userFood->setProductId($product);
 
 		$user = $this->getUser();
 		$userFood->setUserId($user);
@@ -166,9 +170,11 @@ class CategoryController extends Controller
             throw $this->createNotFoundException();
         }
 		$subcategories = $categoriesRepository->getSubcategory();
+        $previousPage = $request->headers->get('referer');
 
 		return $this->render('diet/subcategories.html.twig', [
 			'subcategories' => $subcategories,
+            'previousPage' => $previousPage,
 		]);
 	}
 

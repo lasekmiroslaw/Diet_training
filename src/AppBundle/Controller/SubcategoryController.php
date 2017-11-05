@@ -49,6 +49,12 @@ class SubcategoryController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserFood($form, $userFood);
+			$session->set('alert', 'alert-success');
+			$session->remove('meal');
+			$this->addFlash(
+			   'notice',
+			   'Produkt dodany!'
+		   	);
 			return $this->redirectToRoute('homepage');
 		}
 
@@ -60,7 +66,7 @@ class SubcategoryController extends Controller
 		]);
 	}
 
-	public function getNutrients($products)
+	private function getNutrients($products)
 	{
 		$request = Request::createFromGlobals();
 		$productId = $request->get('productId');
@@ -92,13 +98,13 @@ class SubcategoryController extends Controller
 		];
 	}
 
-	public function calculateNutrients($productPer100, $productQuantity)
+	private function calculateNutrients($productPer100, $productQuantity)
 	{
 		$productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
 		return $productPerQuantity;
 	}
 
-	public function flushUserFood($form, UserFood $userFood)
+	private function flushUserFood($form, UserFood $userFood)
 	{
 		$productId = $form["productId"]->getData();
 		$em = $this->getDoctrine()->getManager();

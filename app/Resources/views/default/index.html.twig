@@ -2,6 +2,7 @@
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 {% endblock %}
 {% block body %}
@@ -11,16 +12,20 @@
     </header>
     <main class="">
         <div class="row">
-            <div class="chart col-6 col-md-8" id="graph" data-percent="{{ percentCalories }}">
+            <div class="chart col-3 col-md-3" id="graph" data-percent="{{ percentCalories }}">
                 <span class="centerText">{{ percentCalories }}%</span>
             </div>
 
-            <div class="normalText col-6 col-md-4">
+            <div class="normalText col-3 col-md-3">
                 Zapotrzebowanie {{ dailyCalories }}<br>
                 Białko {{ protein }} g <span class="pProtein">{{ percentProtein }}%</span><br>
                 Węglowodany {{ carbohydrates }} g <span class="pCarbohydrates">{{ percentCarbohydrates }}%</span><br>
                 Tłuszcze {{ fat }} g <span class="pFat">{{ percentFat }}%</span><br>
                 Pozostało {{ caloriesLeft }} kcal
+            </div>
+            <div class="calendar col-6 col-md-6">
+                    <div id="calendar1-wrapper2"></div>
+                    <span class="calendar2-msg"></span>
             </div>
         </div>
 
@@ -40,7 +45,7 @@
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
                                 </div>
                             </div>
                         </li>
@@ -61,7 +66,7 @@
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
                                 </div>
                             </div>
                         </li>
@@ -84,7 +89,7 @@
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
                                 </div>
                             </div>
                         </li>
@@ -106,7 +111,7 @@
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
                                 </div>
                             </div>
                         </li>
@@ -128,7 +133,7 @@
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
                                 </div>
                             </div>
                         </li>
@@ -150,7 +155,7 @@
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs">Usuń</a>
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
                                 </div>
                             </div>
                         </li>
@@ -160,7 +165,7 @@
         </div>
         {% for message in app.flashes('notice') %}
             <div class="flash-notice">
-                <div class="alert alert-success">{{ message }}</div>
+                <div class="alert {% if alert is defined %}{{ alert }}{% endif %}">{{ message }}</div>
             </div>
         {% endfor %}
     </main>
@@ -168,5 +173,7 @@
     {% block scripts %}
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
           <script src="{{ asset('javascript/radial-progress-bar.js') }}"></script>
+          <script src="{{ asset('javascript/calendar.js') }}"></script>
     {% endblock %}
+
 {% endblock %}
