@@ -90,7 +90,8 @@ class UserFood
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="date")
+     * @Assert\Date()
      */
     private $date;
 
@@ -320,5 +321,5 @@ class UserFood
         {
             return $this->carbohydrates;
         }
-        
+
 }

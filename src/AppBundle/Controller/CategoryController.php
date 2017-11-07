@@ -84,7 +84,7 @@ class CategoryController extends Controller
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $this->flushUserFood($userFood, $product);
+            $this->flushUserFood($userFood, $product, $session);
             $session->set('alert', 'alert-success');
             $session->remove('meal');
             $this->addFlash(
@@ -136,15 +136,16 @@ class CategoryController extends Controller
 		return $productPerQuantity;
 	}
 
-	private function flushUserFood(UserFood $userFood, Food $product)
+	private function flushUserFood(UserFood $userFood, Food $product, SessionInterface $session)
 	{
 		$userFood->setProductId($product);
 
 		$user = $this->getUser();
 		$userFood->setUserId($user);
 
-		$today = new \DateTime();
-		$userFood->setDate($today);
+        $date = $session->get('pickedDate');
+		$pickedDate = new \DateTime($date);
+		$userFood->setDate($pickedDate);
 
 		$dbUserFood = $this->getDoctrine()->getManager();
 		$dbUserFood->persist($userFood);

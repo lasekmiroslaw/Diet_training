@@ -48,7 +48,7 @@ class SubcategoryController extends Controller
 
 		if($form->isSubmitted() && $form->isValid())
 		{
-			$this->flushUserFood($form, $userFood);
+			$this->flushUserFood($form, $userFood, $session);
 			$session->set('alert', 'alert-success');
 			$session->remove('meal');
 			$this->addFlash(
@@ -104,7 +104,7 @@ class SubcategoryController extends Controller
 		return $productPerQuantity;
 	}
 
-	private function flushUserFood($form, UserFood $userFood)
+	private function flushUserFood($form, UserFood $userFood, SessionInterface $session)
 	{
 		$productId = $form["productId"]->getData();
 		$em = $this->getDoctrine()->getManager();
@@ -119,8 +119,9 @@ class SubcategoryController extends Controller
 		$user = $this->getUser();
 		$userFood->setUserId($user);
 
-		$today = new \DateTime();
-		$userFood->setDate($today);
+		$date = $session->get('pickedDate');
+		$pickedDate = new \DateTime($date);
+		$userFood->setDate($pickedDate);
 
 		$dbUserFood = $this->getDoctrine()->getManager();
 		$dbUserFood->persist($userFood);

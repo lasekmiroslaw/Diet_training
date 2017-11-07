@@ -2,25 +2,28 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Food;
+use AppBundle\Entity\PickedDate;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\FormInterface;
 
-class SearchForm extends AbstractType
+class DateForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', SearchType::class, array('label' => false,
+		$builder->add('pickedDate', DateType::class, array(
+		    'widget' => 'single_text',
+		    'html5' => false,
+             'label' => false,
 		));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Food::class,
+            'data_class' => PickedDate::class,
         ));
-    }
+	}
 }

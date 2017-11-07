@@ -7,7 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\UserData;
 use AppBundle\Entity\UserFood;
-use AppBundle\Form\UserFoodForm;
+use AppBundle\Entity\PickedDate;
+use AppBundle\Form\DateForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
@@ -34,6 +35,26 @@ class DefaultController extends Controller
             ->getQuery();
         $dailyCalories = $caloriesQuery->getSingleScalarResult();
 
+        $pickedDate = new PickedDate();
+        $form = $this->createForm(DateForm::class, $pickedDate);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $date = $form["pickedDate"]->getData()->format('Y-m-d');
+        }
+        elseif($session->has('pickedDate'))
+        {
+            $date = $session->get('pickedDate');
+        }
+        else
+        {
+            $date = strftime("%Y-%m-%d", time());
+        }
+
+        $session->set('pickedDate', $date);
+        $pickedDate = $session->get('pickedDate');
+
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery(
 			'SELECT SUM(s.calories) as calories,
@@ -41,8 +62,12 @@ class DefaultController extends Controller
                     SUM(s.totalProtein) as protein,
                     SUM(s.carbohydrates) as carbohydrates
 			FROM AppBundle:UserFood s
-			WHERE s.userId = :id'
-		)->setParameter('id', $userId);
+			WHERE s.userId = :id
+            AND s.date = :pickedDate'
+		)->setParameters(array(
+            'id' => $userId,
+            'pickedDate' => $date,
+        ));
 		$userMacroNutrients = $query->getResult();
 
         $currentCalories = $userMacroNutrients[0]['calories'];
@@ -65,12 +90,12 @@ class DefaultController extends Controller
             'snacks' => 'przekaski',
             'other' => 'inne',
         ];
-        $breakfast = $this->getMealProducts($userId, $meal['breakfast']);
-        $lunch = $this->getMealProducts($userId, $meal['lunch']);
-        $dinner = $this->getMealProducts($userId, $meal['dinner']);
-        $supper = $this->getMealProducts($userId, $meal['supper']);
-        $snacks = $this->getMealProducts($userId, $meal['snacks']);
-        $other = $this->getMealProducts($userId, $meal['other']);
+        $breakfast = $this->getMealProducts($userId, $meal['breakfast'], $date);
+        $lunch = $this->getMealProducts($userId, $meal['lunch'], $date);
+        $dinner = $this->getMealProducts($userId, $meal['dinner'], $date);
+        $supper = $this->getMealProducts($userId, $meal['supper'], $date);
+        $snacks = $this->getMealProducts($userId, $meal['snacks'], $date);
+        $other = $this->getMealProducts($userId, $meal['other'], $date);
 
         $alert = $session->get('alert');
         $session->remove('alert');
@@ -94,6 +119,8 @@ class DefaultController extends Controller
              'snacks' => $snacks,
              'other' => $other,
              'alert' => $alert,
+             'form' => $form->createView(),
+             'pickedDate' => $pickedDate,
         ]);
     }
 
@@ -107,19 +134,21 @@ class DefaultController extends Controller
         return $percentShare;
     }
 
-    private function getMealProducts(Int $userId, String $meal)
+    private function getMealProducts(Int $userId, String $meal, $date)
     {
         $em = $this->getDoctrine()->getManager();
         $mealFoodQuery = $em->createQuery(
-			'SELECT a.name, s.quantity, s.id, s.calories
+			'SELECT a.name, s.quantity, s.id, s.calories, s.date
 			FROM AppBundle:UserFood s
             JOIN s.productId a
             WITH s.productId = a.id
             AND  s.meal = :meal
-            AND  s.userId =:userId '
+            AND  s.userId =:userId
+            AND  s.date = :pickedDate'
 		)->setParameters(array(
             'userId' => $userId,
             'meal' => $meal,
+            'pickedDate' => $date,
         ));
 		$mealFood = $mealFoodQuery->getResult();
         return $mealFood;
