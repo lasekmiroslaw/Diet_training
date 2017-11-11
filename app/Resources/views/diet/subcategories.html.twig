@@ -1,16 +1,18 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 {% endblock %}
 {% block body %}
-    <a href="{{ previousPage }}">Poprzednia strona</a>
-    <ul class="list-group">
-        {% for subcategory in subcategories %}
-            <li class="list-group-item">
-    	        <a href="{{ path('product_subcategory') }}/{{subcategory.name}}">{{subcategory.name}}</a>
-            </li>
-    	{% endfor %}
-    </ul>
+	<a href="{{ path('product_categories') }}/{{ meal }}">Poprzednia strona</a>
+	<ul class="list-group">
+		{% for subcategory in subcategories %}
+			<a href="{{ path('product_subcategory') }}/{{subcategory.name}}">
+				<li class="list-group-item">
+					{{subcategory.name}}
+				</li>
+			</a>
+		{% endfor %}
+	</ul>
 {% endblock %}

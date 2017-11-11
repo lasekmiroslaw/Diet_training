@@ -162,7 +162,7 @@ class CategoryController extends Controller
 	*    }
 	*)
 	*/
-	public function showSubcategoriesAction(Request $request, $category = 'kategoria')
+	public function showSubcategoriesAction(Request $request, SessionInterface $session, $category = 'kategoria')
 	{
 		$categoriesRepository = $this->getDoctrine()
 			->getRepository(Category::class)
@@ -171,11 +171,11 @@ class CategoryController extends Controller
             throw $this->createNotFoundException();
         }
 		$subcategories = $categoriesRepository->getSubcategory();
-        $previousPage = $request->headers->get('referer');
+        $meal = $session->get('meal');
 
 		return $this->render('diet/subcategories.html.twig', [
 			'subcategories' => $subcategories,
-            'previousPage' => $previousPage,
+            'meal' => $meal,
 		]);
 	}
 

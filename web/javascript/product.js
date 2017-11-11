@@ -5,7 +5,8 @@ Product.activeAjaxConnections = 0;
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
 $('#user_food_form_quantity').keyup(getNutrientsOnKeyup);
-$('form[name="user_food_form"]').submit(checkData);
+$('#user_food_form_add').click(checkData);
+
 
 function getNutrientsOnClick(e) {
 	$('#user_food_form_quantity').val(100);
@@ -34,7 +35,7 @@ function getNutrientsOnKeyup(e) {
 		productQuantity: $product_quantity
 	};
 	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
-		addNutrients();
+		setTimeout(addNutrients, 800);
 	}
 }
 
@@ -61,10 +62,6 @@ function addNutrients() {
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
 			Product.activeAjaxConnections--;
-			$('form[name="user_food_form"]').submit(function(e) {
-				e.preventDefault();
-				e.stopImmediatePropagation();
-			});
 		}
 	});
 }
@@ -73,7 +70,7 @@ function checkData(e) {
 	let quantity = $('#user_food_form_quantity').val();
 	if(Product.activeAjaxConnections != 0)
 	{
-		$('#error').html('Powolutu... przetwarzam');
+		$('#error').html('Obliczam...');
 		e.preventDefault();
 		e.stopImmediatePropagation();
 	}
@@ -86,18 +83,3 @@ function checkData(e) {
 		e.stopImmediatePropagation();
 	}
 }
-
-function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};

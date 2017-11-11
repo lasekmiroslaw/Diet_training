@@ -4,7 +4,7 @@ Product.activeAjaxConnections = 0;
 
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('#user_food_form_quantity').keyup(getNutrientsOnKeyup);
-$('form[name="user_food_form"]').submit(checkData);
+$('#user_food_form_add').click(checkData);
 
 function getNutrientsOnKeyup(e) {
 	e.stopImmediatePropagation();
@@ -13,7 +13,7 @@ function getNutrientsOnKeyup(e) {
 		productQuantity: $product_quantity
 	};
 	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
-		addNutrients();
+		setTimeout(addNutrients, 800);
 	}
 }
 
@@ -64,18 +64,3 @@ function checkData(e) {
 		e.stopImmediatePropagation();
 	}
 }
-
-function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};

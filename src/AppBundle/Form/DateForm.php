@@ -16,7 +16,7 @@ class DateForm extends AbstractType
 		$builder->add('pickedDate', DateType::class, array(
 		    'widget' => 'single_text',
 		    'html5' => false,
-             'label' => false,
+            'label' => false,
 		));
     }
 

@@ -1,18 +1,73 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-            <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
-            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-        {% block resources %}{% endblock %}
-    </head>
-    <body>
-        <div class="container">
-            {% block body %}{% endblock %}
-        </div>
-        {% block scripts %}{% endblock %}
-    </body>
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>
+		{% block title %}Welcome!{% endblock %}
+	</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/main_menu.css') }}"/>
+	{% block resources %}{% endblock %}
+</head>
+<body>
+	<div class="container">
+		<div class="row mainMenu">
+			<div class="col-md-8">
+				<nav id="primary_nav_wrap">
+					<ul>
+						<li class="current-menu-item">
+							<a href="{{ path('homepage') }}">Strona główna</a>
+						</li>
+						<li>
+							<a href="{{ path('homepage') }}">Dieta</a>
+							<ul>
+								<li>
+									<a href="{{ path('product_categories') }}">Wyszukaj produkt</a>
+								</li>
+								<li>
+									<a href="">Moje produkty</a>
+								</li>
+								<li>
+									<a href="{{ path('add_my_products') }}">Dodaj produkt</a>
+								</li>
+								<li>
+									<a href="#">Tydzien</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">Trening</a>
+							<ul>
+								<li>
+									<a href="#">Moj trening</a>
+								</li>
+								<li>
+									<a href="#">Dodaj trening</a>
+								</li>
+								<li>
+									<a href="#">Tydzien</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">Konto</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-md-3 logout">
+            <div class="">
+                <a href="{{ path('logout') }}">Wyloguj się!</a>
+            </div>
+
+			</div>
+		</div>
+		{% block body %}{% endblock %}
+		<footer class="footer">Dieta i trening 2017</footer>
+	</div>
+	{% block scripts %}
+	{% endblock %}
+</body>
 </html>

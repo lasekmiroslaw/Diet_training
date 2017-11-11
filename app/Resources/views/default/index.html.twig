@@ -1,23 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.css') }}" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock %}
 {% block body %}
-    <header>
-        <span class="hello">Witaj {{ userName }}</span>
-        <a href="{{ path('logout') }}" class="logout">Wyloguj się!</a>
-    </header>
     <main class="">
         <div class="row">
-            <div class="chart col-3 col-md-3" id="graph" data-percent="{{ percentCalories }}">
+            <div class="chart col-md-4" id="graph" data-percent="{{ percentCalories }}">
                 <span class="centerText">{{ percentCalories }}%</span>
             </div>
 
-            <div class="normalText col-3 col-md-3">
+            <div class="normalText col-md-3">
                 Zapotrzebowanie {{ dailyCalories }}<br>
                 Białko {{ protein }} g <span class="pProtein">{{ percentProtein }}%</span><br>
                 Węglowodany {{ carbohydrates }} g <span class="pCarbohydrates">{{ percentCarbohydrates }}%</span><br>
@@ -25,15 +19,17 @@
                 Pozostało {{ caloriesLeft }} kcal
             </div>
 
-            <div class="calendar col-3 col-md-3">
-                <div class="input-group date"> <!-- Date input -->
-                    {{ form_start(form) }}
-                        {{ form_row(form.pickedDate, {'value': pickedDate })  }}
-                    {{ form_end(form) }}
+            <div class="calendar col-md-3">
+                {{ form_start(form) }}
+                <div class="input-group">
+                    {{ form_row(form.pickedDate, {'value': pickedDate })  }}
                     <div class="input-group-addon">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div>    
+                    </div>
                 </div>
+
+                {{ form_end(form) }}
+
             </div>
         </div>
 

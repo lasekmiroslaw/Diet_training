@@ -15,7 +15,7 @@ use AppBundle\Entity\Food;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class DefaultController extends Controller
+class HomeController extends Controller
 {
     /**
      * @Route("/", name="homepage")
@@ -159,17 +159,26 @@ class DefaultController extends Controller
      */
     public function deleteAction($id = 1, SessionInterface $session)
     {
-        $em = $this->getDoctrine()->getManager();
-        $product = $em->getRepository(UserFood::class)->find($id);
-        $em->remove($product);
-        $em->flush();
+        try
+        {
+            $em = $this->getDoctrine()->getManager();
+            $product = $em->getRepository(UserFood::class)->find($id);
+            $em->remove($product);
+            $em->flush();
 
-        $session->set('alert', 'alert-danger');
-        $this->addFlash(
-           'notice',
-           'Produkt usunięty!'
-       );
-
-        return $this->redirectToRoute('homepage');
+            $session->set('alert', 'alert-danger');
+            $this->addFlash(
+               'notice',
+               'Produkt usunięty!'
+            );
+            return $this->redirectToRoute('homepage');
+        }
+        catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
+        {
+        }
+        finally
+        {
+            return $this->redirectToRoute('homepage');
+        }
     }
 }

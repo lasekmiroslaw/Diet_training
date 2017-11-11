@@ -1,33 +1,33 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 {% endblock %}
 {% block body %}
-    <a href="{{ path('homepage') }}">Poprzednia strona</a>
-    <div class="sidebar-search" data-path="{{ path('ajax_search') }}">
-            {{ form_start(form) }}
-                  {{ form_row(form.name, { 'attr': { 'placeholder': 'Wyszukaj produkt' }}) }}
-            {{ form_end(form) }}
-    </div>
-    <ul class="nav" id="side-menu">
-        <li>
-            <ul class="nav nav-second-level" id="entitiesNav">
-            </ul>
-        </li>
-    </ul>
+	<a href="{{ path('homepage') }}">Poprzednia strona</a>
+	<div class="sidebar-search" data-path="{{ path('ajax_search') }}">
+		{{ form_start(form) }}
+		{{ form_row(form.name, { 'attr': { 'placeholder': 'Wyszukaj produkt' }}) }}
+		{{ form_end(form) }}
+	</div>
+	<ul class="nav" id="side-menu">
+		<li>
+			<ul class="nav nav-second-level" id="entitiesNav"></ul>
+		</li>
+	</ul>
 
 	<ul class="list-group" id="foodCategory">
 		{% for category in categories %}
-    		<li class="list-group-item">
-                <a href="{{ path('product_category') }}/{{category.name}}">{{category.name}}</a>
-            </li>
+			<a href="{{ path('product_category') }}/{{category.name}}">
+				<li class="list-group-item">
+					{{category.name}}
+				</li>
+			</a>
 		{% endfor %}
 	</ul>
 
-
-    {% block scripts %}
-        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ asset('javascript/productSearcher.js') }}"></script>
-    {% endblock %}
+	{% block scripts %}
+		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('javascript/productSearcher.js') }}"></script>
+	{% endblock %}
 {% endblock %}

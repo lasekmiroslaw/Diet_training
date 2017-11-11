@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var date_input=$('#date_form_pickedDate'); //our date input has the name "date"
+    var date_input=$('#date_form_pickedDate');
     var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
     var options={
     format: 'yyyy-mm-dd',

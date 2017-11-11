@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_form.html.twig' %}
 {% block title %}Logowanie{% endblock %}
 {% block body %}
       {% if error %}
@@ -11,5 +11,4 @@
             <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
       {{ form_end(form) }}
       <a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a><br>
-      <a href="{{ path('logout') }}">Wyloguj się!</a>
 {% endblock %}
