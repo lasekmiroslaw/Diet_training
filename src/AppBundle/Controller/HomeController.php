@@ -26,14 +26,8 @@ class HomeController extends Controller
         $userName = $user->getUsername();
         $userId = $user->getId();
 
-        $userDataRepository = $this->getDoctrine()
-            ->getRepository(UserData::class);
-        $caloriesQuery = $userDataRepository->createQueryBuilder('d')
-            ->select('d.calories')
-            ->where('d.userId = :id')
-            ->setParameter('id', $userId)
-            ->getQuery();
-        $dailyCalories = $caloriesQuery->getSingleScalarResult();
+        $userDataRepository = $this->getDoctrine()->getRepository(UserData::class);
+        $dailyCalories = $userDataRepository->getDailyCalories($userId);
 
         $pickedDate = new PickedDate();
         $form = $this->createForm(DateForm::class, $pickedDate);
@@ -55,20 +49,9 @@ class HomeController extends Controller
         $session->set('pickedDate', $date);
         $pickedDate = $session->get('pickedDate');
 
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery(
-			'SELECT SUM(s.calories) as calories,
-                    SUM(s.fat) as fat,
-                    SUM(s.totalProtein) as protein,
-                    SUM(s.carbohydrates) as carbohydrates
-			FROM AppBundle:UserFood s
-			WHERE s.userId = :id
-            AND s.date = :pickedDate'
-		)->setParameters(array(
-            'id' => $userId,
-            'pickedDate' => $date,
-        ));
-		$userMacroNutrients = $query->getResult();
+        $userFoodRepository = $this->getDoctrine()->getRepository(UserFood::class);
+
+		$userMacroNutrients = $userFoodRepository->sumMacroNutrients($userId, $date);
 
         $currentCalories = $userMacroNutrients[0]['calories'];
         $caloriesLeft = $dailyCalories - $currentCalories;
@@ -90,12 +73,13 @@ class HomeController extends Controller
             'snacks' => 'przekaski',
             'other' => 'inne',
         ];
-        $breakfast = $this->getMealProducts($userId, $meal['breakfast'], $date);
-        $lunch = $this->getMealProducts($userId, $meal['lunch'], $date);
-        $dinner = $this->getMealProducts($userId, $meal['dinner'], $date);
-        $supper = $this->getMealProducts($userId, $meal['supper'], $date);
-        $snacks = $this->getMealProducts($userId, $meal['snacks'], $date);
-        $other = $this->getMealProducts($userId, $meal['other'], $date);
+
+        $breakfast = $userFoodRepository->findMeals($userId, $meal['breakfast'], $date);
+        $lunch = $userFoodRepository->findMeals($userId, $meal['lunch'], $date);
+        $dinner = $userFoodRepository->findMeals($userId, $meal['dinner'], $date);
+        $supper = $userFoodRepository->findMeals($userId, $meal['supper'], $date);
+        $snacks = $userFoodRepository->findMeals($userId, $meal['snacks'], $date);
+        $other = $userFoodRepository->findMeals($userId, $meal['other'], $date);
 
         $alert = $session->get('alert');
         $session->remove('alert');
@@ -132,26 +116,6 @@ class HomeController extends Controller
         }
         $percentShare = round((($value*$factor)/$totalValue)*100);
         return $percentShare;
-    }
-
-    private function getMealProducts(Int $userId, String $meal, $date)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $mealFoodQuery = $em->createQuery(
-			'SELECT a.name, s.quantity, s.id, s.calories, s.date
-			FROM AppBundle:UserFood s
-            JOIN s.productId a
-            WITH s.productId = a.id
-            AND  s.meal = :meal
-            AND  s.userId =:userId
-            AND  s.date = :pickedDate'
-		)->setParameters(array(
-            'userId' => $userId,
-            'meal' => $meal,
-            'pickedDate' => $date,
-        ));
-		$mealFood = $mealFoodQuery->getResult();
-        return $mealFood;
     }
 
     /**

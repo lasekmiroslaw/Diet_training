@@ -4,15 +4,15 @@ Product.activeAjaxConnections = 0;
 
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
-$('#user_food_form_quantity').keyup(getNutrientsOnKeyup);
-$('#user_food_form_add').click(checkData);
+$('.quantityField').keyup(getNutrientsOnKeyup);
+$('.submitField').click(checkData);
 
 
 function getNutrientsOnClick(e) {
-	$('#user_food_form_quantity').val(100);
+	$('.quantityField').val(100);
 	$product_id = $(e.currentTarget).attr('id');
 	Product.$product_id = $product_id;
-	$product_quantity = $('#user_food_form_quantity').val();
+	$product_quantity = $('.quantityField').val();
 	product_data = {
 		productId: $product_id,
 		productQuantity: $product_quantity
@@ -29,7 +29,7 @@ function getNutrientsOnClick(e) {
 function getNutrientsOnKeyup(e) {
 	e.stopImmediatePropagation();
 	$product_id = Product.$product_id;
-	$product_quantity = $('#user_food_form_quantity').val();
+	$product_quantity = $('.quantityField').val();
 	product_data = {
 		productId: $product_id,
 		productQuantity: $product_quantity
@@ -53,11 +53,11 @@ function addNutrients() {
 		success: function(data)
 		{
 		  	$('.productInfo').html(data.name);
-		  	$('#user_food_form_calories').val(data.calories);
-		  	$('#user_food_form_totalProtein').val(data.protein);
-		  	$('#user_food_form_carbohydrates').val(data.carbohydrates);
-		  	$('#user_food_form_fat').val(data.fat);
-			$('#user_food_form_productId').val(data.foodId);
+		  	$('.caloriesField').val(data.calories);
+		  	$('.proteinField').val(data.protein);
+		  	$('.carbohydratesField').val(data.carbohydrates);
+		  	$('.fatField').val(data.fat);
+			$('.hiddenType').val(data.foodId);
 			Product.activeAjaxConnections--;
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
@@ -67,7 +67,7 @@ function addNutrients() {
 }
 
 function checkData(e) {
-	let quantity = $('#user_food_form_quantity').val();
+	let quantity = $('.quantityField').val();
 	if(Product.activeAjaxConnections != 0)
 	{
 		$('#error').html('Obliczam...');

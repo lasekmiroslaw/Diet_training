@@ -81,6 +81,14 @@ class UserFood
     /**
      * @var int
      *
+     * @ORM\ManyToOne(targetEntity="MyFood")
+     * @ORM\JoinColumn(name="$myProductId", referencedColumnName="id")
+     */
+    private $myProductId;
+
+    /**
+     * @var int
+     *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
      */
@@ -176,6 +184,30 @@ class UserFood
     public function getProductId()
     {
         return $this->productId;
+    }
+
+    /**
+     * Set productId
+     *
+     * @param integer $productId
+     *
+     * @return UserFood
+     */
+    public function setMyProductId($myProductId)
+    {
+        $this->myProductId = $myProductId;
+
+        return $this;
+    }
+
+    /**
+     * Get productId
+     *
+     * @return int
+     */
+    public function getMyProductId()
+    {
+        return $this->myProductId;
     }
 
     /**

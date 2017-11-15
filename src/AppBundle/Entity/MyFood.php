@@ -13,13 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class MyFood extends BaseFood
 {
     /**
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
-     */
-     private $userId;
-
-
-    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -27,6 +20,13 @@ class MyFood extends BaseFood
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
+     */
+     private $userId;
 
     /**
      * Get id

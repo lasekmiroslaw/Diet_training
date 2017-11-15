@@ -15,11 +15,12 @@ class BaseFood
      *
      * @ORM\Column(name="nazwa_produktu", type="string", length=55)
      * @Assert\NotNull()
-     * @Assert\Type(
-     *     type="alpha",
-     *     message="Proszę wprowadzić nazwę produktu"
-     * )
-     */
+      * @Assert\Regex(
+      *     pattern     = "/^[a-zA-Z ]+$/i",
+      *     htmlPattern = "^[a-zA-Z ]+$",
+      *     message="Proszę wprowadzić nazwę produktu"
+      * )
+      */
     private $name;
 
     /**

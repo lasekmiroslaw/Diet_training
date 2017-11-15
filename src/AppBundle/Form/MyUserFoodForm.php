@@ -13,12 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-class UserFoodForm extends AbstractType
+class MyUserFoodForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('productId', HiddenType::class, array('attr' => array('class' => 'hiddenType')))
+            ->add('myProductId', HiddenType::class, array('attr' => array('class' => 'hiddenType')))
             ->add('quantity', NumberType::class, array('label' => 'Ilość', 'attr' => array('class' => 'quantityField')))
             ->add('meal', ChoiceType::class, array('label' => 'Posiłek', 'choices'  => array(
                 'Śniadanie' => 'sniadanie',

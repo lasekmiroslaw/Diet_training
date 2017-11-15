@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class UserDataRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getDailyCalories(Int $userId)
+	{
+		return $this->createQueryBuilder('d')
+			->select('d.calories')
+			->where('d.userId = :id')
+			->setParameter('id', $userId)
+			->getQuery()
+			->getSingleScalarResult();
+	}
 }
