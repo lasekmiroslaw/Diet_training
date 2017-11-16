@@ -72,16 +72,12 @@ class RegistrationController extends Controller
             ->setTo($decodedEmail)
             ->setBody(
                 $this->renderView(
-                    // app/Resources/views/Emails/registration.html.twig
                     'emails/registration.html.twig', array('activeLink' => $activateUrl)
                 ),
                 'text/html'
             );
 
         $mailer->send($message);
-
-        // or, you can also fetch the mailer service this way
-        // $this->get('mailer')->send($message);
 
         return $this->render('default/confirm.html.twig');
     }

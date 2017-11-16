@@ -28,10 +28,8 @@ class FormsController extends Controller
 
          $user = new User();
          $form = $this->createForm(LoginForm::class, $user);
-         // get the login error if there is one
          $error = $authUtils->getLastAuthenticationError();
 
-         // last username entered by the user
          $lastUsername = $authUtils->getLastUsername();
 
          return $this->render('forms/login.html.twig', array(
