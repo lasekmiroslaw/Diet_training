@@ -1,0 +1,35 @@
+.profilePicture
+{
+	width: 164px;
+	height: 164px;
+}
+.boldText
+{
+	font-weight: 700;
+}
+.form-control.narrowFields
+{
+	width: 25%;
+	display: inline;
+	border: none;
+	background-color: #fff;
+}
+.form-group
+{;
+	display: inline-block;
+}
+.kgUnit
+{
+	position: relative;
+	margin-left: -140px;
+}
+.cmUnit
+{
+	position: relative;
+	margin-left: -130px;
+}
+.kcalUnit
+{
+	position: relative;
+	margin-left: -110px;
+}

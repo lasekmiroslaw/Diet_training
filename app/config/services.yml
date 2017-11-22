@@ -33,3 +33,12 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    AppBundle\EventListener\ImageUploadListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postLoad }
+
+    AppBundle\Service\FileUploader:
+        arguments:
+            $targetDir: '%images_directory%'

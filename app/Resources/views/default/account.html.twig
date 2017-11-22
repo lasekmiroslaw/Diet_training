@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twój trening{% endblock %}
+{% block resources %}
+	<link rel="stylesheet" href="{{ asset('css/account.css') }}" />
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="col-md-2">
+			<img class="profilePicture" src="{{ asset(''~profileImage.profileImage) }}" />
+			{{ form_start(imageForm) }}
+			{{ form_row(imageForm.profileImage) }}
+			{{ form_end(imageForm) }}
+		</div>
+		<div class="col-md-4">
+			<div class="boldText">Moj profil:</div><a href="" id="editData">edytuj</a></br>
+				<div>
+					{{ form_start(dataForm) }}
+					{{ form_row(dataForm.weight, { 'attr': { 'readonly': 'true' }}) }} <span class="kgUnit">kg</span>
+				</div>
+				<div>
+					{{ form_row(dataForm.height, { 'attr': { 'readonly': 'true' }}) }} <span class="cmUnit">cm</span>
+				</div>
+				<div>
+					{{ form_row(dataForm.calories, { 'attr': { 'readonly': 'true' }}) }} <span class="kcalUnit">kcal</span>
+				</div>
+					<button type="button" class="btn btn-success" name="button">Zapisz zmiany</button>
+					{{ form_end(dataForm) }}
+		</div>
+		<div class="col-md-4">
+			<div class="boldText">Moje konto:</div>
+			<div class="">
+				email: <span class="boldText">{{ email }} </span><a href="">edytuj</a></br>
+			</div>
+			<div class="">
+				hasło: </span><a href="">zmień hasło</a></br>
+			</div>
+		</div>
+
+	</div>
+	{% block scripts %}
+		<script type="text/javascript" src="{{ asset('javascript/account.js') }}"></script>
+	{% endblock %}
+{% endblock %}

@@ -80,6 +80,14 @@ class UserData
     private $calories;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date")
+     * @Assert\Date()
+     */
+    private $date;
+
+    /**
      * Get id
      *
      * @return int
@@ -233,15 +241,33 @@ class UserData
         return $this->calories;
     }
 
-    public function setUserId($userId)
+	public function setId($id) {
+		$this->id = $id;
+
+		return $this;
+	}
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return UserFood
+     */
+    public function setDate($date)
     {
-        $this->userId = $userId;
+        $this->date = $date;
+
         return $this;
     }
 
-    public function getUserId()
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
     {
-        return $this->userId;
+        return $this->date;
     }
-
 }

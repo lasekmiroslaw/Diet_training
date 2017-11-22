@@ -10,8 +10,6 @@ use AppBundle\Form\SearchForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Food;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\UserFood;
 use AppBundle\Form\UserFoodForm;
 

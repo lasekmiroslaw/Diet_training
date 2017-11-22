@@ -65,6 +65,7 @@ class FormsController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 $user->setUserData(true);
                 $userData->setUserId($user);
+                $userData->setProfileImage('blank.png');
                 $userDatabaseData = $this->getDoctrine()->getManager();
                 $userDatabaseData->persist($userData);
                 $userDatabaseData->persist($user);

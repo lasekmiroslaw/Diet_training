@@ -88,6 +88,7 @@ class HomeController extends Controller
              'userName' => $userName,
              'dailyCalories' => $dailyCalories,
              'caloriesLeft' => $caloriesLeft,
+             'currentCalories' => $currentCalories,
              'percentCalories' => $percentCalories,
              'protein' => $protein,
              'percentProtein' => $percentProtein,
