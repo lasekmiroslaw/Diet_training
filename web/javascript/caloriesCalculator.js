@@ -1,5 +1,5 @@
 $('#calculateCaloriesButton').on('click', function(e) {
-    let $age = $('#user_data_form_age').val();
+    let $age = $('#user_data_form_age_year').val() + '-' + $('#user_data_form_age_month').val() + '-' + $('#user_data_form_age_day').val();
     let $weight = $('#user_data_form_weight').val();
     let $height = $('#user_data_form_height').val();
     let $activity = $('#user_data_form_activity').val();
@@ -22,7 +22,6 @@ $('#calculateCaloriesButton').on('click', function(e) {
     		user_data,
     	success: function(data)
     	{
-            console.log(data.user_calories);
     		$('#user_data_form_calories').val(data.user_calories);
     	}
     });

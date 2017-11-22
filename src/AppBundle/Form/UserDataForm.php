@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -16,9 +17,13 @@ class UserDataForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('age', NumberType::class, array('label' => 'Wiek', 'invalid_message' => 'Proszę wprowadzić liczbę'))
-            ->add('weight', NumberType::class ,array('label' => 'Waga', 'invalid_message' => 'Proszę wprowadzić liczbę'))
-            ->add('height', NumberType::class, array('label' => 'Wzrost', 'invalid_message' => 'Proszę wprowadzić liczbę'))
+            ->add('age', BirthdayType::class, array(
+                'label' => 'Data urodzenia',
+                'choice_translation_domain' => true,
+                'format' => 'dd-MM-yyy',
+            ))
+            ->add('weight', NumberType::class ,array('label' => 'Waga', ))
+            ->add('height', NumberType::class, array('label' => 'Wzrost',))
             ->add('activity', ChoiceType::class, array('label' => 'Aktywność', 'choices'  => array(
                 'leżący lub siedzący tryb życia/brak aktywności fizycznej' => 1,
                 'praca siedząca/aktywność fizyczna na niskim poziomie' => 1.2,
@@ -29,7 +34,7 @@ class UserDataForm extends AbstractType
             ->add('gender', ChoiceType::class, array('label' => 'Płeć', 'choices'  => array(
                 'mężczyzna' => 'mezczyzna',
                 'kobieta' => 'kobieta',)))
-            ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne', 'invalid_message' =>'Proszę wprowadzić liczbę'));
+            ->add('calories', NumberType::class, array('label' => 'Zapotrzebowanie kaloryczne',));
     }
 
     public function configureOptions(OptionsResolver $resolver)

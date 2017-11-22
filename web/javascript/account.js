@@ -14,5 +14,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
 			document.querySelector('.btn.btn-success').setAttribute('type', 'submit');
 		}
 	});
-
+	document.querySelector('.editEmail').addEventListener("click", function(e)
+	{
+		e.preventDefault();
+		document.querySelector('#email_form_email').removeAttribute("readonly");
+		document.querySelector('.emailBtn').setAttribute('type', 'submit');
+	});
+	document.querySelector('.showForm').addEventListener('click', function(e){
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		document.querySelector('.hiddenForm').classList.toggle('hide');
+	});
 }, false);

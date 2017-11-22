@@ -13,8 +13,11 @@
 		</div>
 		<div class="col-md-4">
 			<div class="boldText">Moj profil:</div><a href="" id="editData">edytuj</a></br>
+				{{ form_start(dataForm) }}
 				<div>
-					{{ form_start(dataForm) }}
+					{{ form_row(dataForm.age, { 'attr': { 'readonly': 'true' }}) }}
+				</div>
+				<div>
 					{{ form_row(dataForm.weight, { 'attr': { 'readonly': 'true', 'value': userData.weight }}) }} <span class="kgUnit">kg</span>
 				</div>
 				<div>
@@ -23,16 +26,29 @@
 				<div>
 					{{ form_row(dataForm.calories, { 'attr': { 'readonly': 'true', 'value': userData.calories }}) }} <span class="kcalUnit">kcal</span>
 				</div>
-					<button type="button" class="btn btn-success" name="button">Zapisz zmiany</button>
-					{{ form_end(dataForm) }}
+				<button type="button" class="btn btn-success" name="button">Zapisz zmiany</button>
+				{{ form_end(dataForm) }}
 		</div>
 		<div class="col-md-4">
 			<div class="boldText">Moje konto:</div>
 			<div class="">
-				email: <span class="boldText">{{ email }} </span><a href="">edytuj</a></br>
+				{{ form_start(emailForm) }}
+			</span><a href="" class="editEmail">edytuj</a></br>
+					{{ form_row(emailForm.email, { 'attr': { 'readonly': 'true', 'value': email}}) }}
+					<button type="button" class="btn btn-success emailBtn" name="button">Zapisz zmiany</button>
+				{{ form_end(emailForm) }}
 			</div>
 			<div class="">
-				hasło: </span><a href="">zmień hasło</a></br>
+				hasło: </span><a class="showForm" href="">zmień hasło</a></br>
+			</div>
+			<div class="hide hiddenForm">
+				{{ form_start(changePasswordForm) }}
+				<div class="">
+					{{ form_row(changePasswordForm.oldPassword) }}
+					{{ form_row(changePasswordForm.newPassword) }}
+				</div>
+					<button type="submit" class="btn btn-success" name="button">Zapisz zmiany</button>
+				{{ form_end(changePasswordForm) }}
 			</div>
 		</div>
 

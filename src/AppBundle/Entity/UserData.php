@@ -17,7 +17,7 @@ class UserData
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
      */
     private $userId;
 
@@ -28,14 +28,21 @@ class UserData
      */
     private $id;
 
+    // /**
+    //  * @ORM\Column(name="age", type="integer")
+    //  * @Assert\NotBlank(message = "Proszę podać swój wiek")
+    //  * @Assert\Regex(
+    //  *      pattern="/^[0-9]{1,3}$/",
+    //  *      htmlPattern ="/^[0-9]{1,3}$/",
+    //  *      message="Proszę wprowadzić odpowiednią liczbę"
+    //  *)
+    //  */
+    // private $age;
+
     /**
-     * @ORM\Column(name="age", type="integer")
-     * @Assert\NotBlank(message = "Proszę podać swój wiek")
-     * @Assert\Regex(
-     *      pattern="/^[0-9]{1,3}$/",
-     *      htmlPattern ="/^[0-9]{1,3}$/",
-     *      message="Proszę wprowadzić odpowiednią liczbę"
-     *)
+     * @var \DateTime
+     *
+     * @ORM\Column(name="age", type="date")
      */
     private $age;
 

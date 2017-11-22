@@ -15,10 +15,20 @@ class ChangePassword
     protected $oldPassword;
 
     /**
+     * @Assert\NotBlank(message = "Proszę wprowadzić hasło")
+     * @Assert\Length(max=4096)
      * @Assert\Length(
-     *     min = 6,
-     *     minMessage = "Password should by at least 6 chars long"
+     *      min = 6,
+     *      max = 64,
+     *      minMessage = "Twoje hasło musi zawierać conajmniej 6 znaków",
+     *      maxMessage = "Twoje hasło może zawierać maksymalnie 64 znaki"
      * )
+     *
+     * @Assert\Regex(
+     *      pattern="/^[a-zA-Z0-9_-]{6,64}$/",
+     *      htmlPattern = "/^[a-zA-Z0-9_-]{6,64}$/",
+     *      message="Hasło może zawierać tylko litery i cyfry oraz oraz znaki - , _"
+     *)
      */
     protected $newPassword;
 

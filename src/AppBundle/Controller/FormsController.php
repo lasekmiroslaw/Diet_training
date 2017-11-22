@@ -79,7 +79,10 @@ class FormsController extends Controller
 
         public function calculateCalories() {
             $request = Request::createFromGlobals();
-            $age = $request->get('age');
+            $from = new \DateTime($request->get('age'));
+            $to = new \DateTime('today');
+            $age = $from->diff($to)->y;
+            $weight = $request->get('age');
             $weight = $request->get('weight');
             $height = $request->get('height');
             $activity = $request->get('activity');
