@@ -26,7 +26,7 @@ class AccountController extends Controller
 		$userDataRepository = $this->getDoctrine()->getRepository(UserData::class);
 		$userImageRepository = $this->getDoctrine()->getRepository(ProfileImage::class);
 
-		$userData = $userDataRepository->findOneByUserId($userId);
+		$userData = $userDataRepository->getUserData($userId);
 
 		try {
 			$profileImage = $userImageRepository->findOneByUserId($user->getId());
@@ -40,8 +40,12 @@ class AccountController extends Controller
         	$profileImage = new ProfileImage();
 			$profileImage->setProfileImage(new File('img/profileImage/blank.png'));
 		}
+		$newUserData = new UserData();
+		$newUserData->setGender($userData->getGender());
+		$newUserData->setAge($userData->getAge());
+		$newUserData->setUserId($user);
 
-		$dataForm = $this->createForm(ChangeUserData::class, $userData);
+		$dataForm = $this->createForm(ChangeUserData::class, $newUserData);
 		$imageForm = $this->createForm(ImageForm::class, $profileImage);
 
 		$dataForm->handleRequest($request);
@@ -58,12 +62,9 @@ class AccountController extends Controller
 
 		if ($dataForm->isSubmitted() && $dataForm->isValid())
 		{
-			if($userData->getCalories() != $request->get('calories'))
-			{
-				$userData = new UserData();
-				$em->persist($userData);
-			}
-			$em->flush($userData);
+			$em->persist($newUserData);
+			$em->flush($newUserData);
+			return $this->redirectToRoute('account');			
 		}
 
 		return $this->render('default/account.html.twig', array(

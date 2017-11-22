@@ -27,7 +27,6 @@ class HomeController extends Controller
         $userId = $user->getId();
 
         $userDataRepository = $this->getDoctrine()->getRepository(UserData::class);
-        $dailyCalories = $userDataRepository->getDailyCalories($userId);
 
         $pickedDate = new PickedDate();
         $form = $this->createForm(DateForm::class, $pickedDate);
@@ -48,6 +47,8 @@ class HomeController extends Controller
 
         $session->set('pickedDate', $date);
         $pickedDate = $session->get('pickedDate');
+
+        $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
 
         $userFoodRepository = $this->getDoctrine()->getRepository(UserFood::class);
 

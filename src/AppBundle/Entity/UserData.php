@@ -14,10 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserData
 {
     /**
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
      */
-     private $userId;
+    private $userId;
 
     /**
      * @ORM\Column(name="id", type="integer")
@@ -82,10 +84,15 @@ class UserData
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="datetime")
      * @Assert\Date()
      */
     private $date;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get id
@@ -241,8 +248,13 @@ class UserData
         return $this->calories;
     }
 
-	public function setId($id) {
-		$this->id = $id;
+    public function getUserId()
+    {
+        return $this->calories;
+    }
+
+	public function setUserId($userId) {
+		$this->userId = $userId;
 
 		return $this;
 	}

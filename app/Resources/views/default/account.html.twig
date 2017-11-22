@@ -15,13 +15,13 @@
 			<div class="boldText">Moj profil:</div><a href="" id="editData">edytuj</a></br>
 				<div>
 					{{ form_start(dataForm) }}
-					{{ form_row(dataForm.weight, { 'attr': { 'readonly': 'true' }}) }} <span class="kgUnit">kg</span>
+					{{ form_row(dataForm.weight, { 'attr': { 'readonly': 'true', 'value': userData.weight }}) }} <span class="kgUnit">kg</span>
 				</div>
 				<div>
-					{{ form_row(dataForm.height, { 'attr': { 'readonly': 'true' }}) }} <span class="cmUnit">cm</span>
+					{{ form_row(dataForm.height, { 'attr': { 'readonly': 'true', 'value': userData.height }}) }} <span class="cmUnit">cm</span>
 				</div>
 				<div>
-					{{ form_row(dataForm.calories, { 'attr': { 'readonly': 'true' }}) }} <span class="kcalUnit">kcal</span>
+					{{ form_row(dataForm.calories, { 'attr': { 'readonly': 'true', 'value': userData.calories }}) }} <span class="kcalUnit">kcal</span>
 				</div>
 					<button type="button" class="btn btn-success" name="button">Zapisz zmiany</button>
 					{{ form_end(dataForm) }}

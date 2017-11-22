@@ -16,18 +16,18 @@ class UserFoodRepository extends \Doctrine\ORM\EntityRepository
 	{
 		$mealFood = $this->getEntityManager()
 			->createQuery(
-			'SELECT a.name, s.quantity, s.id, s.calories, s.date
-			FROM AppBundle:UserFood s
-			JOIN s.productId a
-			WITH s.productId = a.id
-			AND  s.meal = :meal
-			AND  s.userId =:userId
-			AND  s.date = :pickedDate'
-		)->setParameters(array(
-			'userId' => $userId,
-			'meal' => $meal,
-			'pickedDate' => $date,
-		))->getResult();
+				'SELECT a.name, s.quantity, s.id, s.calories, s.date
+				FROM AppBundle:UserFood s
+				JOIN s.productId a
+				WITH s.productId = a.id
+				AND  s.meal = :meal
+				AND  s.userId =:userId
+				AND  s.date = :pickedDate'
+			)->setParameters(array(
+				'userId' => $userId,
+				'meal' => $meal,
+				'pickedDate' => $date,
+			))->getResult();
 
 		$myMealFood = $this->getEntityManager()
 			->createQuery(
@@ -38,11 +38,11 @@ class UserFoodRepository extends \Doctrine\ORM\EntityRepository
 				AND  s.meal = :meal
 				AND  s.userId =:userId
 				AND  s.date = :pickedDate'
-		)->setParameters(array(
-			'userId' => $userId,
-			'meal' => $meal,
-			'pickedDate' => $date,
-		))->getResult();
+			)->setParameters(array(
+				'userId' => $userId,
+				'meal' => $meal,
+				'pickedDate' => $date,
+			))->getResult();
 		$allFood = array_merge($mealFood, $myMealFood);
 
 		return $allFood;
