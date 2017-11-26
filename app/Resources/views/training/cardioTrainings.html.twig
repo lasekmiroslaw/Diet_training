@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twoja dieta i trening{% endblock %}
+{% block resources %}
+{% endblock %}
+{% block body %}
+	<a href="{{ path('add_training') }}">Poprzednia strona</a>
+	<div class="row">
+		<div class="col-md-6">
+			<ul class="list-group trainingList">
+				{% for cardioTraining in cardioTrainings %}
+						<li id="{{ loop.index0 }}" class="list-group-item">
+							<a href="#">{{cardioTraining.name}}</a>
+							<div class="productCalories">
+								{{ cardioTraining.burnedCalories }}kcal/h
+							</div>
+						</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-3">
+			<div class="trainingForm hide">
+				<table class="table table-striped">
+					{{ form_start(form) }}
+					<th>
+						<td class="trainingName">Nazwa</td>
+					</th>
+					<tr>
+						<td>Czas</td>
+						<td>{{ form_row(form.time) }}</td>
+					</tr>
+					<tr>
+						<td>Spalone kalorie</td>
+						<td>{{ form_row(form.burnedCalories, { 'attr': { 'readonly': 'true' }}) }}</td>
+					</tr>
+					{{ form_end(form) }}
+				</table>
+			</div>
+		</div>
+	</div>
+	{% block scripts %}
+        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('javascript/calculateBurnedCalories.js') }}"></script>
+	{% endblock %}
+{% endblock %}

@@ -14,17 +14,24 @@
 		<div class="col-md-4">
 			<div class="boldText">Moj profil:</div><a href="" id="editData">edytuj</a></br>
 				{{ form_start(dataForm) }}
-				<div>
 					{{ form_row(dataForm.age, { 'attr': { 'readonly': 'true' }}) }}
+				<div class="row">
+					<div class="col-md-4"><label for="change_user_data_weight" class="label control-label required"></label>Waga</div>
+					<div class="input-group col-md-6">
+						{{ form_row(dataForm.weight, { 'attr': { 'readonly': 'true', 'value': userData.weight }}) }} <div class="input-group-addon">kg</div>
+					</div>
 				</div>
-				<div>
-					{{ form_row(dataForm.weight, { 'attr': { 'readonly': 'true', 'value': userData.weight }}) }} <span class="kgUnit">kg</span>
+				<div class="row">
+					<div class="col-md-4"><label for="change_user_data_height" class="label control-label required"></label>Wzrost</div>
+					<div class="input-group col-md-6">
+						{{ form_row(dataForm.height, { 'attr': { 'readonly': 'true', 'value': userData.height }}) }} <div class="input-group-addon">cm</div>
+					</div>
 				</div>
-				<div>
-					{{ form_row(dataForm.height, { 'attr': { 'readonly': 'true', 'value': userData.height }}) }} <span class="cmUnit">cm</span>
-				</div>
-				<div>
-					{{ form_row(dataForm.calories, { 'attr': { 'readonly': 'true', 'value': userData.calories }}) }} <span class="kcalUnit">kcal</span>
+				<div class="row">
+					<div class="col-md-4"><label for="change_user_data_calories" class="label control-label required"></label>Zapotrzebowanie kaloryczne</div>
+					<div class="input-group col-md-6">
+						{{ form_row(dataForm.calories, { 'attr': { 'readonly': 'true', 'value': userData.calories }}) }} <div class="input-group-addon">kcal</div>
+					</div>
 				</div>
 				<button type="button" class="btn btn-success" name="button">Zapisz zmiany</button>
 				{{ form_end(dataForm) }}

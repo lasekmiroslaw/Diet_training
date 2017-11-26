@@ -43,6 +43,7 @@ class AccountController extends Controller
         	$profileImage = new ProfileImage();
 			$profileImage->setProfileImage(new File('img/profileImage/blank.png'));
 		}
+		
 		$newUserData = new UserData();
 		$newUserData->setGender($userData->getGender());
 		$newUserData->setAge($userData->getAge());

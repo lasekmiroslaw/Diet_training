@@ -37,6 +37,7 @@ function getNutrientsOnKeyup(e) {
 	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
 		setTimeout(addNutrients, 800);
 	}
+	return false;
 }
 
 function addNutrients() {

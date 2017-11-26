@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twoja dieta i trening{% endblock %}
+{% block resources %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+{% endblock %}
+{% block body %}
+		<ul class="list-group">
+			<li class="list-group-item " id="cardio"><i class="fa fa-search-plus fa-2x"></i> Cardio</li>
+				<ul class="list-group hide" id="cardioCategory">
+					{% for category in categories %}
+						<a href="{{ path('cardio_category') }}/{{category.name}}">
+							<li class="list-group-item">
+								{{category.name}}
+							</li>
+						</a>
+					{% endfor %}
+				</ul>
+			<li class="list-group-item"><i class="fa fa-search-plus fa-2x"></i> Siłowy</li>
+		</ul>
+	{% block scripts %}
+		<script type="text/javascript" src="{{ asset('javascript/training_category.js') }}"></script>
+	{% endblock %}
+{% endblock %}

@@ -20,8 +20,7 @@ class CategoryController extends Controller
     */
     public function showCategoriesAction(Request $request, SessionInterface $session, $meal = 'meal')
     {
-        $categoriesRepository = $this->getDoctrine()->getRepository(Category::class);
-        $categories = $categoriesRepository->selectNames();
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $session->set('meal', $meal);
 
         $food = new Food();
@@ -44,13 +43,14 @@ class CategoryController extends Controller
 	*/
 	public function showSubcategoriesAction(Request $request, SessionInterface $session, $category = 'kategoria')
 	{
-		$categoriesRepository = $this->getDoctrine()
+		$subcategories = $this->getDoctrine()
 			->getRepository(Category::class)
-			->findOneBy(array('name' => $category));
+			->findOneBy(array('name' => $category))
+            ->getSubcategory();
         if (!$category) {
             throw $this->createNotFoundException();
         }
-		$subcategories = $categoriesRepository->getSubcategory();
+
         $meal = $session->get('meal');
 
 		return $this->render('diet/subcategories.html.twig', [

@@ -44,7 +44,7 @@
 									<a href="#">Moj trening</a>
 								</li>
 								<li>
-									<a href="#">Dodaj trening</a>
+									<a href="{{ path('add_training') }}">Dodaj trening</a>
 								</li>
 								<li>
 									<a href="#">Tydzien</a>
@@ -58,10 +58,9 @@
 				</nav>
 			</div>
 			<div class="col-md-3 logout">
-            <div class="">
-                <a href="{{ path('logout') }}">Wyloguj się!</a>
-            </div>
-
+	            <div class="">
+	                <a href="{{ path('logout') }}">Wyloguj się!</a>
+	            </div>
 			</div>
 		</div>
 		{% block body %}{% endblock %}
