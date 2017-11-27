@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -16,7 +17,8 @@ class UserCardioForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('time', TimeType::class ,array('label' => false,))
+            ->add('trainingId', HiddenType::class, array('attr' => array('class' => 'hiddenType')))
+            ->add('time', TimeType::class ,array('label' => false, 'input' => 'array'))
             ->add('burnedCalories', NumberType::class, array('label' => false,));
     }
 

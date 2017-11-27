@@ -19,8 +19,9 @@
 		</div>
 		<div class="col-md-3">
 			<div class="trainingForm hide">
+				{{ form_start(form) }}
+				{{ form_row(form.trainingId) }}
 				<table class="table table-striped">
-					{{ form_start(form) }}
 					<th>
 						<td class="trainingName">Nazwa</td>
 					</th>
@@ -32,8 +33,10 @@
 						<td>Spalone kalorie</td>
 						<td>{{ form_row(form.burnedCalories, { 'attr': { 'readonly': 'true' }}) }}</td>
 					</tr>
-					{{ form_end(form) }}
 				</table>
+				<div id="error"></div>
+				<button type="submit" class="btn btn-success" name="button">Dodaj trening</button>
+				{{ form_end(form) }}
 			</div>
 		</div>
 	</div>

@@ -127,14 +127,9 @@ class MyFoodController extends Controller
 	private function flushUserFood($form, UserFood $userFood, SessionInterface $session)
 	{
 		$productId = $form["myProductId"]->getData();
-		$em = $this->getDoctrine()->getManager();
-		$query = $em->createQuery(
-			'SELECT f
-			FROM AppBundle:MyFood f
-			WHERE f.id = :id'
-		)->setParameter('id', $productId);
-		$product = $query->getResult();
-		$userFood->setMyProductId($product[0]);
+
+		$product = $this->getDoctrine()->getRepository(MyFood::class)->find($productId);
+		$userFood->setMyProductId($product);
 
 		$user = $this->getUser();
 		$userFood->setUserId($user);

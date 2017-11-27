@@ -7,7 +7,7 @@
 		<ul class="list-group">
 			<li class="list-group-item " id="cardio"><i class="fa fa-search-plus fa-2x"></i> Cardio</li>
 				<ul class="list-group hide" id="cardioCategory">
-					{% for category in categories %}
+					{% for category in cardioCategories %}
 						<a href="{{ path('cardio_category') }}/{{category.name}}">
 							<li class="list-group-item">
 								{{category.name}}
@@ -15,7 +15,16 @@
 						</a>
 					{% endfor %}
 				</ul>
-			<li class="list-group-item"><i class="fa fa-search-plus fa-2x"></i> Siłowy</li>
+			<li class="list-group-item" id="strength"><i class="fa fa-search-plus fa-2x"></i> Siłowy</li>
+				<ul class="list-group hide" id="strengthCategory">
+					{% for category in strengthCategories %}
+						<a href="">
+							<li class="list-group-item">
+								{{category.name}}
+							</li>
+						</a>
+					{% endfor %}
+				</ul>
 		</ul>
 	{% block scripts %}
 		<script type="text/javascript" src="{{ asset('javascript/training_category.js') }}"></script>

@@ -24,9 +24,9 @@ class UserCardio
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="CardioTraining")
-     * @ORM\JoinColumn(name="traingId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="trainingId", referencedColumnName="id")
      */
-    private $traingId;
+    private $trainingId;
 
     /**
      * @var int
@@ -69,27 +69,27 @@ class UserCardio
     }
 
     /**
-     * Set traingId
+     * Set trainingId
      *
-     * @param integer $traingId
+     * @param integer $trainingId
      *
      * @return UserCardio
      */
-    public function setTraingId($traingId)
+    public function setTrainingId($trainingId)
     {
-        $this->traingId = $traingId;
+        $this->trainingId = $trainingId;
 
         return $this;
     }
 
     /**
-     * Get traingId
+     * Get trainingId
      *
      * @return int
      */
-    public function getTraingId()
+    public function getTrainingId()
     {
-        return $this->traingId;
+        return $this->trainingId;
     }
 
     /**

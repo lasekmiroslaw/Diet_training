@@ -7,7 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use AppBundle\Entity\CardioCategory;
+use AppBundle\Entity\StrengthTrainingCategory;
 use AppBundle\Entity\UserCardio;
+use AppBundle\Entity\CardioTraining;
 use AppBundle\Form\UserCardioForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -18,15 +20,16 @@ class TrainingController extends Controller
 	*/
 	public function addTrainingAction()
 	{
-		$categories = $this->getDoctrine()->getRepository(CardioCategory::class)->findAll();
+		$cardioCategories = $this->getDoctrine()->getRepository(CardioCategory::class)->findAll();
+		$strengthCategories = $this->getDoctrine()->getRepository(StrengthTrainingCategory::class)->findAll();
 		return $this->render('training/categories.html.twig', [
-			'categories' => $categories,
+			'cardioCategories' => $cardioCategories,
+			'strengthCategories' => $strengthCategories,
 		]);
 	}
 
 	/**
-	* @Route(
-		*"/dodaj_trening_cardio/{category}", name="cardio_category",
+	* @Route(*"/dodaj_trening_cardio/{category}", name="cardio_category",
 	*    requirements={
 	*        "category": "|biegi i spacery|rower|fitness i siłownia|czynności codzienne|gry sportowe|wspinaczka|wodne|inne"
 	*    }
@@ -52,6 +55,11 @@ class TrainingController extends Controller
 			return new JsonResponse($trainingArray);
 		}
 
+		if($form->isSubmitted() && $form->isValid())
+		{
+			$this->flushUserCardio($form, $userCardio, $session);
+		}
+
 		return $this->render('training/cardioTrainings.html.twig', [
 			'cardioTrainings' => $cardioTrainings,
 			'form' => $form->createView(),
@@ -65,6 +73,7 @@ class TrainingController extends Controller
 		$trainingTime = $request->get('trainingTime');
 		$training = $cardioTrainings->get($trainingId);
 		$name = $training->getName();
+		$trainnigRealId = $training->getId();
 
 		$caloriesper60 = $training->getBurnedCalories();
 		$burnedCalories = $this->calculatePerTime($caloriesper60, $trainingTime);
@@ -72,6 +81,7 @@ class TrainingController extends Controller
 		return $trainingArray = [
 			'name' => $name,
 			'burnedCalories' => $burnedCalories,
+			'trainingId' => $trainnigRealId,
 		];
 	}
 
@@ -79,5 +89,30 @@ class TrainingController extends Controller
 	{
 		$caloriesPerTime = round(($caloriesper60/60) * $time);
 		return $caloriesPerTime;
+	}
+
+	private function convertToMinutes(array $time)
+	{
+		$minute = $time['hour']*60 + $time['minute'];
+		return $minute;
+	}
+
+	private function flushUserCardio($form, UserCardio $userCardio, SessionInterface $session)
+	{
+		$time = $this->convertToMinutes($form->get('time')->getData());
+		$userCardio->setTime($time);
+
+		$pickedDate = $session->get('pickedDate');
+		$userCardio->setDate(new \DateTime($pickedDate));
+
+		$userCardio->setUserId($this->getUser());
+
+		$trainingId = $form->get('trainingId')->getData();
+		$training = $this->getDoctrine()->getRepository(CardioTraining::class)->find($trainingId);
+		$userCardio->setTrainingId($training);
+
+		$dbuserCardio = $this->getDoctrine()->getManager();
+		$dbuserCardio->persist($userCardio);
+		$dbuserCardio->flush();
 	}
 }

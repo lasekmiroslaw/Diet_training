@@ -4,10 +4,7 @@ Training.activeAjaxConnections = 0;
 $('.trainingList').on('click', 'li', getCaloriesOnClick);
 $('#user_cardio_form_time_hour').change(getCaloriesOnChange);
 $('#user_cardio_form_time_minute').change(getCaloriesOnChange);
-// $('.submitField').click(checkData);
-// $('#user_cardio_form_time_minute').change(function(){
-// 		console.log($('#user_cardio_form_time_minute').val());
-// });
+$('button').click(checkData);
 
 function getCaloriesOnClick(e) {
 	e.stopImmediatePropagation();
@@ -55,10 +52,21 @@ function addCalories() {
 		{
 		  	$('.trainingName').html(data.name);
 		  	$('#user_cardio_form_burnedCalories').val(data.burnedCalories);
+		  	$('#user_cardio_form_trainingId').val(data.trainingId);
 			Training.activeAjaxConnections--;
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
 			Training.activeAjaxConnections--;
 		}
 	});
+}
+
+function checkData(e) {
+	let quantity = $('.quantityField').val();
+	if(Training.activeAjaxConnections != 0)
+	{
+		$('#error').html('Obliczam...');
+		e.preventDefault();
+		e.stopImmediatePropagation();
+	}
 }
