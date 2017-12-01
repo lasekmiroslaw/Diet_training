@@ -72,4 +72,15 @@ class StrengthTrainingCategory
     {
         return $this->name;
     }
+
+    /**
+     * Get training
+     *
+     * @return string
+     */
+    public function getTraining()
+    {
+        return $this->training;
+    }
+    
 }

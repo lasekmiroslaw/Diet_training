@@ -9,7 +9,7 @@
 			<ul class="list-group trainingList">
 				{% for cardioTraining in cardioTrainings %}
 						<li id="{{ loop.index0 }}" class="list-group-item">
-							<a href="#">{{cardioTraining.name}}</a>
+							<a href="#">{{ cardioTraining.name }}</a>
 							<div class="productCalories">
 								{{ cardioTraining.burnedCalories }}kcal/h
 							</div>

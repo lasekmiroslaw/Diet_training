@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class StrengthTrainingCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findOrderedCategories()
+	{
+		return $this->getEntityManager()
+		->createQuery(
+		    'SELECT s.name
+		    FROM AppBundle:StrengthTrainingCategory s
+		    ORDER BY s.id')
+		->getResult();
+	}
 }

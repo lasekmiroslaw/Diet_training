@@ -19,9 +19,9 @@ class StrengthTraining
     private $categoryId;
 
     /**
-     * @ORM\OneToMany(targetEntity="StrengthTrainingExercise", mappedBy="trainingId")
+     * @ORM\OneToMany(targetEntity="StrengthTrainingExercise", mappedBy="trainingId", cascade={"persist"})
      */
-    private $exercises;
+    protected $exercises;
 
     public function __construct()
     {
@@ -101,5 +101,25 @@ class StrengthTraining
     public function getCategoryId()
     {
         return $this->categoryId;
+    }
+
+    /**
+     * Get exercises
+     *
+     * @return string
+     */
+    public function getExercises()
+    {
+        return $this->exercises;
+    }
+
+    public function addExercise(StrengthTrainingExercise $exercise)
+    {
+        $this->exercises->add($exercise);
+    }
+
+    public function removeExercise(StrengthTrainingExercise $exercise)
+    {
+        $this->exercises->removeElement($exercise);
     }
 }

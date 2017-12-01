@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class CardioCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findOrderedCategories()
+	{
+		return $this->getEntityManager()
+		->createQuery(
+			'SELECT c.name
+			FROM AppBundle:CardioCategory c
+			ORDER BY c.id')
+		->getResult();
+	}
 }

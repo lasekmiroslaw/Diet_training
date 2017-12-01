@@ -8,10 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use AppBundle\Entity\CardioCategory;
 use AppBundle\Entity\StrengthTrainingCategory;
+use AppBundle\Entity\StrengthTraining;
+use AppBundle\Entity\StrengthTrainingExercise;
 use AppBundle\Entity\UserCardio;
 use AppBundle\Entity\CardioTraining;
 use AppBundle\Form\UserCardioForm;
+use AppBundle\Form\ExerciseForm;
+use AppBundle\Form\TrainingForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class TrainingController extends Controller
 {
@@ -20,8 +25,9 @@ class TrainingController extends Controller
 	*/
 	public function addTrainingAction()
 	{
-		$cardioCategories = $this->getDoctrine()->getRepository(CardioCategory::class)->findAll();
-		$strengthCategories = $this->getDoctrine()->getRepository(StrengthTrainingCategory::class)->findAll();
+		$cardioCategories = $this->getDoctrine()->getRepository(CardioCategory::class)->findOrderedCategories();
+		$strengthCategories = $this->getDoctrine()->getRepository(StrengthTrainingCategory::class)->findOrderedCategories();
+
 		return $this->render('training/categories.html.twig', [
 			'cardioCategories' => $cardioCategories,
 			'strengthCategories' => $strengthCategories,
@@ -35,7 +41,7 @@ class TrainingController extends Controller
 	*    }
 	*)
 	*/
-	public function showCategoriesAction(Request $request, SessionInterface $session, $category = 'kategoria')
+	public function showCardioAction(Request $request, SessionInterface $session, $category = 'kategoria')
 	{
 		$cardioTrainings = $this->getDoctrine()
 			->getRepository(CardioCategory::class)
@@ -115,4 +121,79 @@ class TrainingController extends Controller
 		$dbuserCardio->persist($userCardio);
 		$dbuserCardio->flush();
 	}
+
+	/**
+	* @Route(*"/dodaj_trening_siłowy/{category}", name="strength_category",
+	*    requirements={
+	*        "category": "|fbw|split|push-pull|push-pull-legs|góra-dół|kalistenika|własny"
+	*    }
+	*)
+	*/
+	public function showStrengthAction(Request $request, SessionInterface $session, $category = 'kategoria')
+	{
+		$strengthTrainings = $this->getDoctrine()
+			->getRepository(StrengthTrainingCategory::class)
+			->findOneBy(array('name' => $category))
+			->getTraining();
+		if (!$category) {
+			throw $this->createNotFoundException();
+		}
+
+		return $this->render('training/strengthTrainings.html.twig', [
+			'strengthTrainings' => $strengthTrainings,
+			'category' => $category,
+		]);
+	}
+
+	/**
+	* @Route(*"/dodaj_trening_siłowy_cwiczenia/{category}/{training}", name="strength_training_exercise",
+	*)
+	*/
+	public function showExerciseAction(Request $request, SessionInterface $session, $category = 'kategoria', $training = 'training')
+	{
+		$strengtTraining = $this->getDoctrine()
+			->getRepository(StrengthTraining::class)
+			->find($training);
+		if (!$training) {
+			throw $this->createNotFoundException();
+		}
+		$trainingName = $strengtTraining->getName();
+
+		$category = $this->getDoctrine()
+			->getRepository(StrengthTrainingCategory::class)
+			->find($strengtTraining->getCategoryId())
+			->getName();
+
+		$originalExersies = new ArrayCollection();
+		foreach($strengtTraining->getExercises() as $exersise) {
+			$originalExersies->add($exersise);
+		}
+
+		$form = $this->createForm(TrainingForm::class, $strengtTraining);
+		$form->handleRequest($request);
+		$em = $this->getDoctrine()->getManager();
+
+		if($form->isValid())
+		{
+	        foreach($originalExersies as $exersise) {
+	            if ($strengtTraining->getExercises()->contains($exersise) === false) {
+				$em->remove($exersise);
+			};
+		}
+			foreach($strengtTraining->getExercises() as $exersise) {
+				$exersise->setTrainingId($strengtTraining);
+			}
+
+			$em->persist($strengtTraining);
+			$em->flush();
+		}
+
+		return $this->render('training/strengthExercise.html.twig', [
+			'category' => $category,
+			'form' => $form->createView(),
+			'training' => $trainingName,
+		]);
+
+	}
+
 }

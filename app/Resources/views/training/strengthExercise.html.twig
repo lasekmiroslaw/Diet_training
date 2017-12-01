@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twój trening siłowy{% endblock %}
+{% block resources %}
+{% endblock %}
+{% block body %}
+	<a href="{{ path('strength_category') }}/{{ category }}">Poprzednia strona</a>
+	<p class="text-center">{{ training }}</p>
+	{{ form_start(form) }}
+	<ul class="exersises" data-prototype="{{ form_widget(form.exercises.vars.prototype)|e('html_attr') }}">
+		{% for exercise in form.exercises %}
+			<li>{{ form_row(exercise.name) }}</li>
+		{% endfor %}
+	</ul>
+	<button type="submit" name="button">Zapisz</button>
+	{{ form_end(form) }}
+
+	{% block scripts %}
+        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script>
+		var $collectionHolder;
+
+		// setup an "add a exersise" link
+		var $addExersiseLink = $('<a href="#" class="add_exersise_link">Add exersise</a>');
+		var $newLinkLi = $('<span></span>').append($addExersiseLink);
+
+		jQuery(document).ready(function() {
+
+			// Get the ul that holds the collection of exersises
+		    $collectionHolder = $('ul.exersises');
+
+		    // add a delete link to all of the existing exersise form li elements
+		    $collectionHolder.find('li').each(function() {
+		        addExersiseFormDeleteLink($(this));
+		    });
+
+		    // add the "add a exersise" anchor and li to the exersises ul
+		    $collectionHolder.append($newLinkLi);
+
+		    // count the current form inputs we have (e.g. 2), use that as the new
+		    // index when inserting a new item (e.g. 2)
+		    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+		    $addExersiseLink.on('click', function(e) {
+		        // prevent the link from creating a "#" on the URL
+		        e.preventDefault();
+		        e.stopImmediatePropagation();
+
+		        // add a new exersise form (see next code block)
+		        addExersiseForm($collectionHolder, $newLinkLi);
+		    });
+		});
+
+		function addExersiseForm($collectionHolder, $newLinkLi) {
+		    // Get the data-prototype explained earlier
+		    var prototype = $collectionHolder.data('prototype');
+
+		    // get the new index
+		    var index = $collectionHolder.data('index');
+
+		    var newForm = prototype;
+		    // You need this only if you didn't set 'label' => false in your exersises field in TaskType
+		    // Replace '__name__label__' in the prototype's HTML to
+		    // instead be a number based on how many items we have
+		    // newForm = newForm.replace(/__name__label__/g, index);
+
+		    // Replace '__name__' in the prototype's HTML to
+		    // instead be a number based on how many items we have
+		    newForm = newForm.replace(/__name__/g, index);
+
+		    // increase the index with one for the next item
+		    $collectionHolder.data('index', index + 1);
+
+		    // Display the form in the page in an li, before the "Add a exersise" link li
+		    var $newFormLi = $('<li></li>').append(newForm);
+		    $newLinkLi.before($newFormLi);
+
+			addExersiseFormDeleteLink($newFormLi);
+		}
+
+		function addExersiseFormDeleteLink($exersiseFormLi) {
+		    var $removeFormA = $('<a href="#">usuń</a>');
+		    $exersiseFormLi.append($removeFormA);
+
+		    $removeFormA.on('click', function(e) {
+		        // prevent the link from creating a "#" on the URL
+		        e.preventDefault();
+		        e.stopImmediatePropagation();
+
+		        // remove the li for the exersise form
+		        $exersiseFormLi.remove();
+		    });
+		}
+
+
+
+		</script>
+	{% endblock %}
+{% endblock %}

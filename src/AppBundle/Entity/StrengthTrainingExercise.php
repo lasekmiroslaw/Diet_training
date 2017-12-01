@@ -24,7 +24,7 @@ class StrengthTrainingExercise
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=60)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
@@ -92,4 +92,5 @@ class StrengthTrainingExercise
     {
         return $this->trainingId;
     }
+
 }
