@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * UserStrengthTraining
@@ -52,9 +53,12 @@ class UserStrengthTraining
     private $reps;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="kgLoad", type="integer")
+     * @ORM\Column(name="kgLoad", type="float")
+     * @Assert\Regex(
+     *      pattern="/^\d{1,3}([\.,]\d{1,2})?$/",
+     *      htmlPattern ="/^\d{1,3}([\.,]\d{1,2})?$/",
+     *      message="Proszę wprowadzić odpowiednią liczbę"
+     *)
      */
     private $kgLoad;
 
@@ -250,5 +254,25 @@ class UserStrengthTraining
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Get seriesTraining(
+     *
+     * @return int
+     */
+    public function getSeriesTraining()
+    {
+        return $this->seriesTraining;
+    }
+
+    public function addSeriesTraining(UserStrengthTraining $seriesTraining)
+    {
+        $this->seriesTraining->add($seriesTraining);
+    }
+
+    public function removeSeriesTraining($seriesTraining)
+    {
+        $this->seriesTraining->removeElement($seriesTraining);
     }
 }

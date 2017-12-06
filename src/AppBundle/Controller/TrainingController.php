@@ -12,9 +12,15 @@ use AppBundle\Entity\StrengthTraining;
 use AppBundle\Entity\StrengthTrainingExercise;
 use AppBundle\Entity\UserCardio;
 use AppBundle\Entity\CardioTraining;
+use AppBundle\Entity\MyStrengthTraining;
+use AppBundle\Entity\UserStrengthTraining;
+use AppBundle\Entity\UserStrengthTrainingCollection;
 use AppBundle\Form\UserCardioForm;
 use AppBundle\Form\ExerciseForm;
 use AppBundle\Form\TrainingForm;
+use AppBundle\Form\MyTrainingForm;
+use AppBundle\Form\UserTrainingForm;
+use AppBundle\Form\CollectionForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -66,7 +72,7 @@ class TrainingController extends Controller
 			$this->flushUserCardio($form, $userCardio, $session);
 		}
 
-		return $this->render('training/cardioTrainings.html.twig', [
+		return $this->render('training/cardio_trainings.html.twig', [
 			'cardioTrainings' => $cardioTrainings,
 			'form' => $form->createView(),
 		]);
@@ -139,7 +145,7 @@ class TrainingController extends Controller
 			throw $this->createNotFoundException();
 		}
 
-		return $this->render('training/strengthTrainings.html.twig', [
+		return $this->render('training/strength_trainings.html.twig', [
 			'strengthTrainings' => $strengthTrainings,
 			'category' => $category,
 		]);
@@ -151,49 +157,146 @@ class TrainingController extends Controller
 	*/
 	public function showExerciseAction(Request $request, SessionInterface $session, $category = 'kategoria', $training = 'training')
 	{
-		$strengtTraining = $this->getDoctrine()
+		$myStrengtTraining = $this->getDoctrine()
 			->getRepository(StrengthTraining::class)
 			->find($training);
 		if (!$training) {
 			throw $this->createNotFoundException();
 		}
-		$trainingName = $strengtTraining->getName();
+		$trainingName = $myStrengtTraining->getName();
 
 		$category = $this->getDoctrine()
 			->getRepository(StrengthTrainingCategory::class)
-			->find($strengtTraining->getCategoryId())
+			->find($myStrengtTraining->getCategoryId())
 			->getName();
 
-		$originalExersies = new ArrayCollection();
-		foreach($strengtTraining->getExercises() as $exersise) {
-			$originalExersies->add($exersise);
-		}
+		$exercises = $myStrengtTraining->getExercises();
+		$user = $this->getUser();
+		$pickedDate = $session->get('pickedDate');
 
-		$form = $this->createForm(TrainingForm::class, $strengtTraining);
+		$userStrengthTraining = new UserStrengthTrainingCollection();
+		$form = $this->createForm(CollectionForm::class, $userStrengthTraining);
 		$form->handleRequest($request);
-		$em = $this->getDoctrine()->getManager();
 
-		if($form->isValid())
+
+		if($form->isSubmitted() && $form->isValid())
 		{
-	        foreach($originalExersies as $exersise) {
-	            if ($strengtTraining->getExercises()->contains($exersise) === false) {
-				$em->remove($exersise);
-			};
-		}
-			foreach($strengtTraining->getExercises() as $exersise) {
-				$exersise->setTrainingId($strengtTraining);
+			$em = $this->getDoctrine()->getManager();
+			foreach($userStrengthTraining->getSeriesTraining() as $userStrengthTrainin)
+			{
+				$userStrengthTrainin->setTrainingId($myStrengtTraining);
+				$userStrengthTrainin->setExerciseId($em->getReference('AppBundle\Entity\StrengthTrainingExercise', $userStrengthTrainin->getExerciseId()));
+				$userStrengthTrainin->setUserId($user);
+				$userStrengthTrainin->setDate(new \DateTime($pickedDate));
 			}
 
-			$em->persist($strengtTraining);
+			$em->persist($userStrengthTraining);
 			$em->flush();
 		}
 
-		return $this->render('training/strengthExercise.html.twig', [
+		return $this->render('training/strength_exercise.html.twig', [
 			'category' => $category,
+			'training' => $trainingName,
+			'exercises' => $exercises,
+			'form' => $form->createView(),
+		]);
+	}
+
+	/**
+	* @Route(*"/dodaj_moj_trening", name="my_strength_training",
+	*)
+	*/
+	public function showMyTrainingAction(Request $request, SessionInterface $session, $category = 'kategoria', $training = 'training')
+	{
+		$userId = $this->getUser()->getId();
+		$myTrainings = $this->getDoctrine()->getRepository(MyStrengthTraining::class)->findMyTrainings($userId);
+
+		$myStrengthTraining = new MyStrengthTraining();
+		$form = $this->createForm(MyTrainingForm::class, $myStrengthTraining);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid())
+		{
+			$myStrengthTraining->setUserId($this->getUser());
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($myStrengthTraining);
+			$em->flush();
+
+			return $this->redirectToRoute('my_strength_training');
+		}
+
+		return $this->render('training/my_strength_trainings.html.twig', [
+			'myTrainings' => $myTrainings,
+			'form' => $form->createView(),
+		]);
+	}
+
+	/**
+	 * @Route("/usuntrening/{id}", name="deleteMyTraining")
+	 */
+	public function deleteAction($id = 1, SessionInterface $session)
+	{
+		try
+		{
+		$em = $this->getDoctrine()->getManager();
+		$myTraining = $em->getRepository(MyStrengthTraining::class)->find($id);
+		$em->remove($myTraining);
+		$em->flush();
+		}
+		catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
+		{
+		}
+		finally
+		{
+			return $this->redirectToRoute('my_strength_training');
+		}
+	}
+
+	/**
+	* @Route(*"/dodaj_moje_cwiczenia/{training}", name="my_strength_training_exercise",
+	*)
+	*/
+	public function showMyExerciseAction(Request $request, $training = 'training')
+	{
+		$myStrengtTraining = $this->getDoctrine()
+			->getRepository(MyStrengthTraining::class)
+			->find($training);
+
+		if (!$training) {
+			throw $this->createNotFoundException();
+		}
+		$trainingName = $myStrengtTraining->getName();
+
+		$originalExersies = new ArrayCollection();
+		foreach($myStrengtTraining->getMyExercises() as $exersise) {
+			$originalExersies->add($exersise);
+		}
+
+		$form = $this->createForm(TrainingForm::class, $myStrengtTraining);
+		$form->handleRequest($request);
+		$em = $this->getDoctrine()->getManager();
+
+		if($form->isSubmitted() && $form->isValid())
+		{
+	        foreach($originalExersies as $exersise) {
+	            if ($myStrengtTraining->getMyExercises()->contains($exersise) === false) {
+				$em->remove($exersise);
+			};
+		}
+
+			foreach($myStrengtTraining->getMyExercises() as $exersise) {
+				$exersise->setMyTrainingId($myStrengtTraining);
+			}
+
+			$em->persist($myStrengtTraining);
+			$em->flush();
+		}
+
+		return $this->render('training/my_strength_exercise.html.twig', [
 			'form' => $form->createView(),
 			'training' => $trainingName,
 		]);
-
 	}
+
 
 }

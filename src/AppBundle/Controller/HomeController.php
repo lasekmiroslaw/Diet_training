@@ -137,7 +137,6 @@ class HomeController extends Controller
                'notice',
                'Produkt usunięty!'
             );
-            return $this->redirectToRoute('homepage');
         }
         catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
         {
