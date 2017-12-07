@@ -12,8 +12,9 @@
 			</a>
 		{% endfor %}
 	</ul>
+	{% for key, form  in formsView %}
 	<!-- Modal -->
-	<div class="modal fade" id="myModal" role="dialog" class="myModal">
+	<div class="modal fade" id="myModal{{ key }}" role="dialog" class="myModal">
 	  <div class="modal-dialog">
 
 		<!-- Modal content-->
@@ -23,27 +24,32 @@
 			<h4 class="exerciseName text-center"></h4>
 		  </div>
 		  <div class="modal-body" style="padding:40px 50px;">
+
 			  {{ form_start(form) }}
-			  <ul class="series" data-prototype="{{ form_widget(form.seriesTraining.vars.prototype)|e('html_attr') }}">
+			  <ul class="series {{ key }}" data-prototype="{{ form_widget(form.seriesTraining.vars.prototype)|e('html_attr') }}">
 				  {% for seriesTrainin in form.seriesTraining %}
 					  <li>
 						  {{ form_row(seriesTrainin.reps) }}
 						  {{ form_row(seriesTrainin.kgLoad) }}
 						  {{ form_row(seriesTrainin.series) }}
-						  {{ form_row(seriesTrainin.exerciseId) }}
 					  </li>
 				  {% endfor %}
+				  <div class="hide hidenExerciseId"></div>
 			  </ul>
+
 				<button class="nextButton" type="button" name="button">Następna seria</button>
 		  </div>
 		  <div class="modal-footer">
-					<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
+					<button type="submit" class="btn btn-success btn-default" name="button{{ key }}">Zapisz</button>
 				{{ form_end(form) }}
+
+
 		  </div>
 		</div>
-
 	  </div>
-	</div>
+	  </div>
+	  {% endfor %}
+
 	{% block scripts %}
         <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

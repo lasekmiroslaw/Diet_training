@@ -6,10 +6,10 @@ $(document).ready(function(){
 	$(".exercise").click(function(e){
 		$id = $(e.currentTarget).attr('id');
 		e.stopImmediatePropagation();
-		$('.add_exersise_link').click();
-		$('#myModal').modal();
-		$('.hidenExerciseId').val($id);
+		$('.hidenExerciseId').html($id);
+		$(`#myModal${$id}`).modal();
 		$('.exerciseName').html($(this).html());
+		persistCollection($id);
 	});
 
 	$collectionHolder = $('ul.series');
@@ -26,8 +26,8 @@ $(document).ready(function(){
 	$addExersiseLink.on('click', function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
-
 		addExersiseForm($collectionHolder, $newLinkLi);
+		$('.hidenExerciseId').val($id);
 	});
 });
 
@@ -71,3 +71,22 @@ function addExersiseForm($collectionHolder, $newLinkLi) {
 	// 		}
 	// 	});
 	// });
+
+function persistCollection($id) {
+	product_data = {
+		exerciseId: $id,
+	};
+	const url = $(location).attr('href');
+	return $.ajax({
+		url:  url,
+		type: "POST",
+		dataType: "json",
+		data:
+		  product_data,
+		success: function(data)
+		{
+
+		},
+
+	});
+}

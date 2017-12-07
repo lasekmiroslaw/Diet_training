@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UserStrengthTraining
 {
+
     /**
      * @var int
      *
@@ -25,18 +26,10 @@ class UserStrengthTraining
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="StrengthTraining")
-     * @ORM\JoinColumn(name="trainingId", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="UserStrengthExerciseCollection", inversedBy="seriesTraining")
+     * @ORM\JoinColumn(name="collection_id", referencedColumnName="id")
      */
-    private $trainingId;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="StrengthTrainingExercise")
-     * @ORM\JoinColumn(name="exerciseId", referencedColumnName="id")
-     */
-    private $exerciseId;
+    private $collectionId;
 
     /**
      * @var int
@@ -63,22 +56,6 @@ class UserStrengthTraining
     private $kgLoad;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
-     */
-    private $date;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="userId", referencedColumnName="id")
-     */
-    private $userId;
-
-
-    /**
      * Get id
      *
      * @return int
@@ -86,54 +63,6 @@ class UserStrengthTraining
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set trainingId
-     *
-     * @param integer $trainingId
-     *
-     * @return UserStrengthTraining
-     */
-    public function setTrainingId($trainingId)
-    {
-        $this->trainingId = $trainingId;
-
-        return $this;
-    }
-
-    /**
-     * Get trainingId
-     *
-     * @return int
-     */
-    public function getTrainingId()
-    {
-        return $this->trainingId;
-    }
-
-    /**
-     * Set exerciseId
-     *
-     * @param integer $exerciseId
-     *
-     * @return UserStrengthTraining
-     */
-    public function setExerciseId($exerciseId)
-    {
-        $this->exerciseId = $exerciseId;
-
-        return $this;
-    }
-
-    /**
-     * Get exerciseId
-     *
-     * @return int
-     */
-    public function getExerciseId()
-    {
-        return $this->exerciseId;
     }
 
     /**
@@ -209,70 +138,27 @@ class UserStrengthTraining
     }
 
     /**
-     * Set date
+     * Set collectionId
      *
-     * @param \DateTime $date
+     * @param integer $CollectionId
      *
      * @return UserStrengthTraining
      */
-    public function setDate($date)
+    public function setUserExerciseId($CollectionId)
     {
-        $this->date = $date;
+        $this->collectionId = $CollectionId;
 
         return $this;
     }
 
     /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return UserStrengthTraining
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    /**
-     * Get userId
+     * Get collectionId
      *
      * @return int
      */
-    public function getUserId()
+    public function geCollectionId()
     {
-        return $this->userId;
+        return $this->collectionId;
     }
 
-    /**
-     * Get seriesTraining(
-     *
-     * @return int
-     */
-    public function getSeriesTraining()
-    {
-        return $this->seriesTraining;
-    }
-
-    public function addSeriesTraining(UserStrengthTraining $seriesTraining)
-    {
-        $this->seriesTraining->add($seriesTraining);
-    }
-
-    public function removeSeriesTraining($seriesTraining)
-    {
-        $this->seriesTraining->removeElement($seriesTraining);
-    }
 }

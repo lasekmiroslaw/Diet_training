@@ -6,21 +6,21 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * UserStrengthTrainingCollection
+ * UserStrengthExerciseCollection
  *
  * @ORM\Table(name="user_strength_exercise_collection")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserStrengthExerciseCollectionRepository")
  */
-class UserStrengthTrainingCollection
+class UserStrengthExerciseCollection
 {
     /**
-     * @ORM\OneToMany(targetEntity="UserStrengthExerciseCollection", mappedBy="collectionId", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="UserStrengthTraining", mappedBy="collectionId", cascade={"persist"})
      */
-    private $trainingExercises;
+    private $seriesTraining;
 
     public function __construct()
     {
-        $this->trainingExercises = new ArrayCollection();
+        $this->seriesTraining = new ArrayCollection();
     }
 
     /**
@@ -54,6 +54,47 @@ class UserStrengthTrainingCollection
      * @ORM\JoinColumn(name="trainingId", referencedColumnName="id")
      */
     private $trainingId;
+
+    /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="StrengthTrainingExercise")
+     * @ORM\JoinColumn(name="exerciseId", referencedColumnName="id")
+     */
+    private $exerciseId;
+
+    /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="UserStrengthTrainingCollection")
+     * @ORM\JoinColumn(name=$collectionId", referencedColumnName="id")
+     */
+    private $collectionId;
+
+    /**
+     * Set exerciseId
+     *
+     * @param integer $exerciseId
+     *
+     * @return UserStrengthTraining
+     */
+    public function setExerciseId($exerciseId)
+    {
+        $this->exerciseId = $exerciseId;
+
+        return $this;
+    }
+
+    /**
+     * Get exerciseId
+     *
+     * @return int
+     */
+    public function getExerciseId()
+    {
+        return $this->exerciseId;
+    }
+
 
     /**
      * Set trainingId
@@ -147,13 +188,13 @@ class UserStrengthTrainingCollection
         return $this->seriesTraining;
     }
 
-    public function addSeriesTraining(UserStrengthExerciseCollection $trainingExercise)
+    public function addSeriesTraining(UserStrengthTraining $training)
     {
-        $this->trainingExercises->add($trainingExercise);
+        $this->seriesTraining->add($training);
     }
 
-    public function removeSeriesTraining(UserStrengthExerciseCollection $trainingExercise)
+    public function removeSeriesTraining(UserStrengthTraining $training)
     {
-        $this->trainingExercises->removeElement($trainingExercise);
+        $this->seriesTraining->removeElement($training);
     }
 }

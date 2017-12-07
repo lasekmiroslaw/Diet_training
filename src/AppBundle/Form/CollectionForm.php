@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use AppBundle\Form\UserTrainingForm;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class CollectionForm extends AbstractType
 {
