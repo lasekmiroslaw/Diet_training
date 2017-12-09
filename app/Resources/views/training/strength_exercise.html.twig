@@ -7,14 +7,14 @@
 	<p class="text-center">{{ training }}</p>
 	<ul class="list-group">
 		{% for exercise in exercises %}
-			<a href="#" class="exercise" id="{{ exercise.id }}">
+			<a href="#" class="exercise link" id="{{ loop.index0 }}">
 				<li class="list-group-item">{{ exercise.name }}</li>
 			</a>
 		{% endfor %}
 	</ul>
-	{% for key, form  in formsView %}
+
 	<!-- Modal -->
-	<div class="modal fade" id="myModal{{ key }}" role="dialog" class="myModal">
+	<div class="modal fade" id="myModal" role="dialog" class="myModal">
 	  <div class="modal-dialog">
 
 		<!-- Modal content-->
@@ -26,21 +26,24 @@
 		  <div class="modal-body" style="padding:40px 50px;">
 
 			  {{ form_start(form) }}
-			  <ul class="series {{ key }}" data-prototype="{{ form_widget(form.seriesTraining.vars.prototype)|e('html_attr') }}">
-				  {% for seriesTrainin in form.seriesTraining %}
-					  <li>
-						  {{ form_row(seriesTrainin.reps) }}
-						  {{ form_row(seriesTrainin.kgLoad) }}
-						  {{ form_row(seriesTrainin.series) }}
-					  </li>
-				  {% endfor %}
+
+						<ul class="series" data-prototype="{{ form_widget(form.trainingExercises.vars.prototype)|e('html_attr') }}">
+
+						  {% for trainingExercise in form.trainingExercises %}
+						  	{{ form_widget(trainingExercise.seriesTraining, { 'attr': { 'class': "series#{loop.index0} hide" }}) }}
+
+
+						  </ul>
+			              {% endfor %}
+
+
 				  <div class="hide hidenExerciseId"></div>
 			  </ul>
 
 				<button class="nextButton" type="button" name="button">Następna seria</button>
 		  </div>
 		  <div class="modal-footer">
-					<button type="submit" class="btn btn-success btn-default" name="button{{ key }}">Zapisz</button>
+					<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
 				{{ form_end(form) }}
 
 
@@ -48,7 +51,7 @@
 		</div>
 	  </div>
 	  </div>
-	  {% endfor %}
+
 
 	{% block scripts %}
         <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>

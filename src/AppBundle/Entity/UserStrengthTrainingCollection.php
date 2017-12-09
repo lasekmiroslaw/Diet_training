@@ -8,13 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * UserStrengthTrainingCollection
  *
- * @ORM\Table(name="user_strength_exercise_collection")
+ * @ORM\Table(name="user_strength_training_collection")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserStrengthExerciseCollectionRepository")
  */
 class UserStrengthTrainingCollection
 {
     /**
-     * @ORM\OneToMany(targetEntity="UserStrengthExerciseCollection", mappedBy="collectionId", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="UserStrengthExerciseCollection", mappedBy="trainingCollectionId", cascade={"persist"})
      */
     private $trainingExercises;
 
@@ -137,22 +137,27 @@ class UserStrengthTrainingCollection
         return $this->date;
     }
 
+    public function setTrainingExercises($trainingExercise)
+    {
+        $this->trainingExercises = $trainingExercise;
+    }
+
     /**
      * Get seriesTraining(
      *
      * @return int
      */
-    public function getSeriesTraining()
+    public function getTrainingExercises()
     {
-        return $this->seriesTraining;
+        return $this->trainingExercises;
     }
 
-    public function addSeriesTraining(UserStrengthExerciseCollection $trainingExercise)
+    public function addTrainingExercises($trainingExercise)
     {
         $this->trainingExercises->add($trainingExercise);
     }
 
-    public function removeSeriesTraining(UserStrengthExerciseCollection $trainingExercise)
+    public function removeTrainingExercises($trainingExercise)
     {
         $this->trainingExercises->removeElement($trainingExercise);
     }

@@ -27,31 +27,26 @@ class UserStrengthTraining
      * @var int
      *
      * @ORM\ManyToOne(targetEntity="UserStrengthExerciseCollection", inversedBy="seriesTraining")
-     * @ORM\JoinColumn(name="collection_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="collectionId", referencedColumnName="id")
      */
     private $collectionId;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="series", type="integer")
+     * @ORM\Column(name="series", type="integer", nullable=true)
      */
     private $series;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="reps", type="integer")
+     * @ORM\Column(name="reps", type="integer", nullable=true)
      */
     private $reps;
 
     /**
-     * @ORM\Column(name="kgLoad", type="float")
-     * @Assert\Regex(
-     *      pattern="/^\d{1,3}([\.,]\d{1,2})?$/",
-     *      htmlPattern ="/^\d{1,3}([\.,]\d{1,2})?$/",
-     *      message="Proszę wprowadzić odpowiednią liczbę"
-     *)
+     * @ORM\Column(name="kgLoad", type="float", nullable=true)
      */
     private $kgLoad;
 
@@ -144,7 +139,7 @@ class UserStrengthTraining
      *
      * @return UserStrengthTraining
      */
-    public function setUserExerciseId($CollectionId)
+    public function setCollectionId($CollectionId)
     {
         $this->collectionId = $CollectionId;
 

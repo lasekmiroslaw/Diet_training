@@ -2,23 +2,19 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\UserStrengthExerciseCollection;
+use AppBundle\Entity\UserStrengthTrainingCollection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use AppBundle\Form\UserTrainingForm;
+use AppBundle\Form\CollectionForm;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
-class CollectionForm extends AbstractType
+class TrainingCollectionForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // $builder
-        // ->add('exerciseId', HiddenType::class, array(
-        //     'attr' => array('class' => 'hidenExerciseId')));
-        $builder->add('seriesTraining', CollectionType::class, array(
-            'entry_type' => UserTrainingForm::class,
+        $builder->add('trainingExercises', CollectionType::class, array(
+            'entry_type' => CollectionForm::class,
             'entry_options' => array('label' => false),
         	'allow_add' => true,
             'by_reference' => false,
@@ -28,7 +24,7 @@ class CollectionForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => UserStrengthExerciseCollection::class,
+            'data_class' => UserStrengthTrainingCollection::class,
         ));
     }
 }

@@ -15,12 +15,14 @@ use AppBundle\Entity\CardioTraining;
 use AppBundle\Entity\MyStrengthTraining;
 use AppBundle\Entity\UserStrengthTraining;
 use AppBundle\Entity\UserStrengthTrainingCollection;
+use AppBundle\Entity\UserStrengthExerciseCollection;
 use AppBundle\Form\UserCardioForm;
 use AppBundle\Form\ExerciseForm;
 use AppBundle\Form\TrainingForm;
 use AppBundle\Form\MyTrainingForm;
 use AppBundle\Form\UserTrainingForm;
 use AppBundle\Form\CollectionForm;
+use AppBundle\Form\TrainingCollectionForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -270,81 +272,63 @@ class TrainingController extends Controller
 
 		$exercises = $myStrengtTraining->getExercises();
 		foreach ($exercises as $exercise) {
-			$exerciseIds[] = $exercise->getId();
-		}
 
+		}
 		$user = $this->getUser();
 		$pickedDate = $session->get('pickedDate');
 
 		$em = $this->getDoctrine()->getManager();
-		$userStrengthTraining = $this->getDoctrine()->getRepository(UserStrengthTrainingCollection::class)->createQueryBuilder('u')
-			->where('u.trainingId = :tId AND u.date = :dateD AND u.userId = :uId')
-			->setParameter('tId', $myStrengtTraining->getId())
-			->setParameter('dateD', $pickedDate)
-			->setParameter('uId', $user->getId())
-			->getQuery()
-			->getOneOrNullResult();
+		// $userStrengthTraining = $this->getDoctrine()->getRepository(UserStrengthTrainingCollection::class)->createQueryBuilder('u')
+		// 	->where('u.trainingId = :tId AND u.date = :dateD AND u.userId = :uId')
+		// 	->setParameter('tId', $myStrengtTraining->getId())
+		// 	->setParameter('dateD', $pickedDate)
+		// 	->setParameter('uId', $user->getId())
+		// 	->getQuery()
+		// 	->getOneOrNullResult();
+		// 	if($userStrengthTraining != null) {
+		// 		$userStrengthTraining = $userStrengthTraining;
+		// 	} else {
+				$userStrengthTraining = new UserStrengthTrainingCollection();
+				foreach ($exercises as $exercise) {
+					$UserStrengthExerciseCollection = new UserStrengthExerciseCollection();
+					$UserStrengthExerciseCollection->setExerciseId($exercise->getId());
+					$userStrengthTraining->addTrainingExercises($UserStrengthExerciseCollection);
+				}
+			// }
 
-		if($userStrengthTraining != null) {
-			$userStrengthTraining = $userStrengthTraining;
-		} else {
-			$userStrengthTraining = new UserStrengthTrainingCollection();
-		}
+		$form = $this->createForm(TrainingCollectionForm::class, $userStrengthTraining);
+		$form->handleRequest($request);
 
-
-		foreach($exerciseIds as $exerciseId) {
-			$forms[$exerciseId] = $this->createForm(CollectionForm::class, new UserStrengthTrainingCollection());
-			$formsView[$exerciseId] = $forms[$exerciseId]->createView();
-		}
-
-
-		// $form = $this->createForm(CollectionForm::class, $userStrengthTraining);
-		// $form->handleRequest($request);
-
-foreach ($forms as $form) {
-	if($form->isSubmitted() && $form->isValid())
-	{
-		var_dump($userStrengthTraining);die;
-		$userStrengthTraining->setTrainingId($myStrengtTraining);
-		$userStrengthTraining->setUserId($user);
-		$userStrengthTraining->setDate(new \DateTime($pickedDate));
-		$exercise = $this->getDoctrine()
-			->getRepository(StrengthTrainingExercise::class)
-			->find($userStrengthTraining->getExerciseId());
-		$userStrengthTraining->setExerciseId($exercise);
-
-		foreach($userStrengthTraining->getSeriesTraining() as $userStrengthTrainin)
+		if($form->isSubmitted() && $form->isValid())
 		{
-			$userStrengthTrainin->setUserExerciseId($userStrengthTraining);
+			$userStrengthTraining->setTrainingId($myStrengtTraining);
+			$userStrengthTraining->setUserId($user);
+			$userStrengthTraining->setDate(new \DateTime($pickedDate));
+
+			foreach ($userStrengthTraining->getTrainingExercises() as $userStrength) {
+				$exercise = $this->getDoctrine()
+					->getRepository(StrengthTrainingExercise::class)
+					->find($userStrength->getExerciseId());
+				$userStrength->setExerciseId($exercise);
+				$userStrength->setTrainingCollectionId($userStrengthTraining);
+
+				foreach($userStrength->getSeriesTraining() as $u) {
+					$u->setCollectionId($userStrength);
+				}
+			}
+
+
+			$em->persist($userStrengthTraining);
+			$em->flush();
 		}
-		$em->persist($userStrengthTraining);
-		$em->flush();
-	}
-}
-		// if($forms->isSubmitted() && $forms->isValid())
-		// {
-		// 	$userStrengthTraining->setTrainingId($myStrengtTraining);
-		// 	$userStrengthTraining->setUserId($user);
-		// 	$userStrengthTraining->setDate(new \DateTime($pickedDate));
-		// 	$exercise = $this->getDoctrine()
-		// 		->getRepository(StrengthTrainingExercise::class)
-		// 		->find($userStrengthTraining->getExerciseId());
-		// 	$userStrengthTraining->setExerciseId($exercise);
-        //
-		// 	foreach($userStrengthTraining->getSeriesTraining() as $userStrengthTrainin)
-		// 	{
-		// 		$userStrengthTrainin->setUserExerciseId($userStrengthTraining);
-		// 	}
-		// 	$em->persist($userStrengthTraining);
-		// 	$em->flush();
-		// }
 
 		return $this->render('training/strength_exercise.html.twig', [
 			'category' => $category,
 			'training' => $trainingName,
 			'exercises' => $exercises,
-			'forms' => $forms,
-			'formsView' => $formsView,
+			'form' => $form->createView()
+			// 'forms' => $forms,
+			// 'formsView' => $formsView,
 		]);
 	}
 
