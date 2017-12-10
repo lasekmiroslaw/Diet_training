@@ -1,10 +1,11 @@
 var $collectionHolder;
-var $addExersiseLink = $('<a href="#" class="add_exersise_link">Add exersise</a>');
+var $addExersiseLink = $('<a href="#" id="addLink" >Dodaj serie</a>');
 var $newLinkLi = $('<span></span>').append($addExersiseLink);
 var $id = $('.exercise').attr('id');
 var DisabledId = [];
 var Id = {};
 var $newFormLi = $(`<li class="series${$id}"></li>`);
+var counter = 0;
 
 $(document).ready(function(){
 	$collectionHolder = $('ul.series');
@@ -16,61 +17,74 @@ $(document).ready(function(){
 		e.stopImmediatePropagation();
 		$id = $(e.currentTarget).attr('id');
 		Id.id = $id;
-		$('.hidenExerciseId').html($id);
+
 		$(`#myModal`).modal();
 		$('.exerciseName').html($(this).html());
 		$(`.series${$id}`).removeClass('hide');
+
 		DisabledId.forEach(function(id) {
 			$(`.series${id}`).addClass('hide');
 			$(`.series${$id}`).removeClass('hide');
 		});
+
 		addExersiseForm($collectionHolder, $newLinkLi, $id)
-		console.log(Id.id)
+		$newFormLi = $(`<li class="series${$id}"></li>`);
 	});
 
-	// $('.removeLink').on('click', function(e) {
-	// 	e.preventDefault();
-	// 	e.stopImmediatePropagation();
-	// 	$(this).parent().remove();
-	// });
+	$('.removeLink').on('click', function(e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		$(this).parent().remove();
+	});
 
 	$addExersiseLink.on('click', function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
-		addExersiseSpecificForm($newFormLi, Id.id)
+		counter++;
+		
+		addExersiseSpecificForm($newFormLi, $id);
 	});
 });
+
 function addExersiseForm($collectionHolder, $newLinkLi, $id) {
-	// console.log($collectionHolder);
 	if(DisabledId.includes($id)) {
 		return false;
 	}
 	var prototype = $collectionHolder.data('prototype');
 	var newForm = prototype;
 
-	newForm = newForm.replace(/__name__/g, $id,);
 	var $newFormLi = $(`<li class="series${$id}"></li>`).append(newForm);
-
 
 	$newLinkLi.append($newFormLi);
 	DisabledId.push($id);
-	var $innerPrototype = $(`#training_collection_form_trainingExercises_${$id}_seriesTraining`).data('prototype');
-	var $newFormElement = $newFormLi.append($innerPrototype);
-	$newLinkLi.after($newFormElement);
-}
-
-function addExersiseSpecificForm($newFormLi, $id) {
 
 	var $innerCollectionHolder = $(`#training_collection_form_trainingExercises_${$id}_seriesTraining`);
 	var $innerPrototype = $innerCollectionHolder.data('prototype');
-	$innerCollectionHolder.data('index', $id);
+	$innerCollectionHolder.data('index', counter);
 	var index = $innerCollectionHolder.data('index');
 
 	$innerPrototype = $innerPrototype.replace(/__name__/g, index);
-	$innerCollectionHolder.data('index', parseInt($id) + 1);
+	$innerCollectionHolder.data('index');
 
 	var $newFormElement = $newFormLi.append($innerPrototype);
 	$newLinkLi.after($newFormElement);
+
+}
+
+function addExersiseSpecificForm($newFormLi, $id) {
+	$id = Id.id;
+	var $innerCollectionHolder = $(`#training_collection_form_trainingExercises_${$id}_seriesTraining`);
+	var $innerPrototype = $innerCollectionHolder.data('prototype');
+	$innerCollectionHolder.data('index', counter);
+	var index = $innerCollectionHolder.data('index');
+
+	$innerCollectionHolder.data('index', parseInt(counter) + 1);
+	$innerPrototype = $innerPrototype.replace(/__name__/g, counter);
+
+
+	var $newFormElement = $newFormLi.append($innerPrototype);
+	$newLinkLi.after($newFormElement);
+	addExersiseFormDeleteLink($newFormElement);
 }
 
 
@@ -82,25 +96,5 @@ function addExersiseFormDeleteLink($exersiseFormLi) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
 		$exersiseFormLi.remove();
-	});
-}
-
-
-function persistCollection($id) {
-	product_data = {
-		exerciseId: $id,
-	};
-	const url = $(location).attr('href');
-	return $.ajax({
-		url:  url,
-		type: "POST",
-		dataType: "json",
-		data:
-		  product_data,
-		success: function(data)
-		{
-
-		},
-
 	});
 }

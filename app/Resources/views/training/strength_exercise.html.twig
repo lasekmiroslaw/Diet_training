@@ -33,26 +33,21 @@
 						  	{{ form_widget(trainingExercise.seriesTraining, { 'attr': { 'class': "series#{loop.index0} hide" }}) }}
 
 
-						  </ul>
-			              {% endfor %}
-
-
-				  <div class="hide hidenExerciseId"></div>
-			  </ul>
+			        {% endfor %}
+			  	</ul>
 
 				<button class="nextButton" type="button" name="button">Następna seria</button>
 		  </div>
 		  <div class="modal-footer">
-					<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
-				{{ form_end(form) }}
+
 
 
 		  </div>
 		</div>
 	  </div>
 	  </div>
-
-
+		<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
+	{{ form_end(form) }}
 	{% block scripts %}
         <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
