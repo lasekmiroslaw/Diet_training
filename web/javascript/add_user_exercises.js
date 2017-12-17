@@ -1,12 +1,13 @@
 var $collectionHolder;
-var $newLinkLi = $('<span></span>');
+var $newLinkLi = $('<div></div>');
 var DisabledId = [];
 var Id = {};
 var counter = 1;
 var Indexes = [];
-var $addSeries = $(`<button type="button" class="addSeries">Dodaj serie</button>`);
-var $previousSeries = $('<button type="button" class="previousBtn">Poprzednia seria</button>');
-var $nextSeries = $('<button class="button nextSeries" type="button">Następna seria</button>');
+var $addSeries = $(`<button type="button" class="addSeries btn btn-success">Dodaj serie</button>`);
+var $previousSeries = $('<button type="button" class="previousBtn btn btn-info">Poprzednia seria</button>');
+var $nextSeries = $('<button type="button" class="btn btn-primary nextSeries">Następna seria</button>');
+var $removeSeries = $('<button type="button" class="btn btn-danger removeSeries">Usuń</button>');
 
 $(document).ready(function() {
 	$collectionHolder = $('ul.series');
@@ -19,8 +20,7 @@ $(document).ready(function() {
 		$id = $(e.currentTarget).attr('id');
 		Id.id = $id;
 		$newFormLi = $(`<li class="series${$id}"></li>`);
-		//Counting how many series has been added
-		console.log(Indexes[$id])
+		//Set counter to current number of series
 		var series = Indexes[$id];
 		if (Number.isInteger(series)) {
 			counter = series;
@@ -40,17 +40,10 @@ $(document).ready(function() {
 		});
 
 		//Function works only if user click link first time
-		if(!(DisabledId.includes($id))) {
+		if (!(DisabledId.includes($id))) {
 			addExersiseForm($collectionHolder, $newLinkLi, $id);
 		}
 	});
-
-	$('.removeLink').on('click', function(e) {
-		e.preventDefault();
-		e.stopImmediatePropagation();
-		$(this).parent().remove();
-	});
-
 	$($addSeries).on('click', function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
@@ -64,20 +57,42 @@ $(document).ready(function() {
 		e.stopImmediatePropagation();
 		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter-1}`).removeClass('hide');
 		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`).addClass('hide');
-		var $buttonToChange = $(`button.previous${$id}${counter-1}`).next('.addSeries');
 
+		var $buttonToChange = $(`button.previous${$id}${counter-1}`).next('button.addSeries');
+		var $buttonToHide = $(`button.previous${$id}${counter-1}`).siblings('button.removeSeries');
 		$buttonToChange.replaceWith($($nextSeries).clone(true));
+		$buttonToHide.addClass('hide');
+
 		--counter;
 		Indexes[$id] = counter;
 	});
 	$($nextSeries).on('click', function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
-
 		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter+1}`).removeClass('hide');
 		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`).addClass('hide');
+		
 		++counter;
 		Indexes[$id] = counter;
+	});
+	$($removeSeries).on('click', function(e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+
+		$(this).parent().parent().remove();
+		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter-1}`).removeClass('hide');
+		var $buttonToChange = $(`button.previous${$id}${counter-1}`).next('button.nextSeries');
+		var $removeButton = $(`button.previous${$id}${counter-1}`).siblings('button.removeSeries');
+
+		if(counter == 2) {
+			var $firstbuttonToChange = $(`input#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter-1}_series`).parent().next('button.nextSeries');
+			$firstbuttonToChange.replaceWith($($addSeries).clone(true));
+		}
+		$buttonToChange.replaceWith($($addSeries).clone(true));
+		$removeButton.removeClass('hide')
+		--counter;
+		Indexes[$id] = counter;
+
 	});
 });
 
@@ -89,50 +104,38 @@ function addExersiseForm($collectionHolder, $newLinkLi, $id) {
 	$newLinkLi.append($newFormLi);
 	DisabledId.push($id);
 
-	var $innerCollectionHolder = $(`#training_collection_form_trainingExercises_${$id}_seriesTraining`);
+	var $innerCollectionHolder = $(`div#training_collection_form_trainingExercises_${$id}_seriesTraining`);
 	var $innerPrototype = $innerCollectionHolder.data('prototype');
 	$innerCollectionHolder.data('index', 1);
 	var index = $innerCollectionHolder.data('index');
 
 	$innerPrototype = $innerPrototype.replace(/__name__/g, index);
-
 	$innerCollectionHolder.data('index');
 
 	var $newFormElement = $newFormLi.append($innerPrototype);
 	$($newFormElement).find(`input#training_collection_form_trainingExercises_${$id}_seriesTraining_1_series`).attr('value', 1);
-	$($addSeries).clone(true).appendTo(`#training_collection_form_trainingExercises_${$id}_seriesTraining_1`);
 	$newLinkLi.append($newFormElement);
+	$($addSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_1`);
 }
 
 function addExersiseSpecificForm($newFormLi) {
 	$id = Id.id;
-	var $innerCollectionHolder = $(`#training_collection_form_trainingExercises_${$id}_seriesTraining`);
+	var $innerCollectionHolder = $(`div#training_collection_form_trainingExercises_${$id}_seriesTraining`);
 	var $innerPrototype = $innerCollectionHolder.data('prototype');
 	$innerCollectionHolder.data('index', counter);
 	var index = $innerCollectionHolder.data('index');
-
 	Indexes[$id] = index;
 	$innerPrototype = $innerPrototype.replace(/__name__/g, counter);
 
 	var $newFormElement = $newFormLi.append($innerPrototype);
 	$($newFormElement).find(`input#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}_series`).attr('value', counter);
 	$newLinkLi.append($newFormElement);
-	$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter-1}`).addClass('hide');
-	$($previousSeries).clone(true).appendTo(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
-	$($addSeries).clone(true).appendTo(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
+	$(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter-1}`).addClass('hide');
+	addButtons();
 }
 
-function showPreviousSeries() {
-
-}
-
-function addExersiseFormDeleteLink($exersiseFormLi) {
-	var $removeFormA = $('<a href="#" class="removeLink">usuń</a>');
-	$exersiseFormLi.append($removeFormA);
-
-	$removeFormA.on('click', function(e) {
-		e.preventDefault();
-		e.stopImmediatePropagation();
-		$exersiseFormLi.remove();
-	});
+function addButtons() {
+	$($previousSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
+	$($addSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
+	$($removeSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
 }
