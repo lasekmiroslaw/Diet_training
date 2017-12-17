@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block title %}Twój trening siłowy{% endblock %}
+{% block resources %}
+{% endblock %}
+{% block body %}
+	<a href="{{ path('add_training') }}">Dodaj trening</a>
+	<ul class="list-group">
+		{% if userTrainings %}
+			{% for key, userTraining in userTrainings %}
+				<li class="list-group-item training-list"><a class="training-link">{{ key }}</a>
+					<ul class="list-group toggleHide hide">
+						{% for exercise, allseries in userTraining %}
+							<li class="list-group-item exercise">
+								<div class="row">
+									<div class="col-md-3">
+										<a href="#" class="exercise-link" id="{{ loop.index0 }}">
+											{{ exercise }}
+										</a>
+									</div>
+									<div class="col-md-2 seriesDiv">
+										<table class="table table-condensed">
+											{% for series in allseries %}
+											<tr>
+												<td class="active text-center">{{ series.series }}</td>
+												<td class="danger text-center">x</td>
+												<td class="success text-center">{{ series.kgLoad }} kg</td>
+												<td class="danger text-center">x</td>
+												<td class="active text-center">{{ series.reps }}</td>
+											</tr>
+											{% endfor %}
+										</table>
+									</div>
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				</li>
+			{% endfor %}
+		{% endif %}
+	</ul>
+
+	{% block scripts %}
+		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="{{ asset('javascript/edit_user_exercises.js') }}"></script>
+	{% endblock %}
+{% endblock %}

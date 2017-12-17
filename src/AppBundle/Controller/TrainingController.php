@@ -252,17 +252,14 @@ class TrainingController extends Controller
 	}
 
 	/**
-	* @Route(*"/dodaj_trening_siłowy_cwiczenia/{category}/{training}", name="strength_training_exercises",
+	* @Route(*"/dodaj_trening_siłowy_cwiczenia/{training}", name="strength_training_exercise",
 	*)
 	*/
-	public function showExercisesAction(Request $request, SessionInterface $session, $category = 'kategoria', $training = 'training')
+	public function showExercisesAction(Request $request, SessionInterface $session, $training = 'training')
 	{
 		$myStrengtTraining = $this->getDoctrine()
 			->getRepository(StrengthTraining::class)
-			->find($training);
-		if (!$training) {
-			throw $this->createNotFoundException();
-		}
+			->findTraining($training);
 		$trainingName = $myStrengtTraining->getName();
 
 		$category = $this->getDoctrine()
@@ -276,23 +273,13 @@ class TrainingController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 
-		$userStrengthTraining = $this->getDoctrine()->getRepository(UserStrengthTrainingCollection::class)->createQueryBuilder('u')
-			->where('u.trainingId = :tId AND u.date = :dateD AND u.userId = :uId')
-			->setParameter('tId', $myStrengtTraining->getId())
-			->setParameter('dateD', $pickedDate)
-			->setParameter('uId', $user->getId())
-			->getQuery()
-			->getOneOrNullResult();
-			if($userStrengthTraining != null) {
-				$userStrengthTraining = $userStrengthTraining;
-			} else {
-				$userStrengthTraining = new UserStrengthTrainingCollection();
-				foreach ($exercises as $exercise) {
-					$UserStrengthExerciseCollection = new UserStrengthExerciseCollection();
-					$UserStrengthExerciseCollection->setExerciseId($exercise);
-					$userStrengthTraining->addTrainingExercises($UserStrengthExerciseCollection);
-				}
-			}
+	   	$userStrengthTraining = new UserStrengthTrainingCollection();
+		foreach ($exercises as $exercise) {
+			$UserStrengthExerciseCollection = new UserStrengthExerciseCollection();
+			$UserStrengthExerciseCollection->setExerciseId($exercise);
+			$userStrengthTraining->addTrainingExercises($UserStrengthExerciseCollection);
+		}
+
 
 		$form = $this->createForm(TrainingCollectionForm::class, $userStrengthTraining);
 		$form->handleRequest($request);
@@ -305,11 +292,7 @@ class TrainingController extends Controller
 			$userStrengthTraining->setDate(new \DateTime($pickedDate));
 
 			foreach ($userStrengthTraining->getTrainingExercises() as $userExercise) {
-				// $exercise = $this->getDoctrine()
-				// 	->getRepository(StrengthTrainingExercise::class)
-				// 	->find($userStrength->getExerciseId());
-				// $userStrength->setExerciseId($exercise);
-				// $userStrength->setTrainingCollectionId($userStrengthTraining);
+				$userExercise->setTrainingCollectionId($userStrengthTraining);
 
 				foreach($userExercise->getSeriesTraining() as $series) {
 					$series->setCollectionId($userExercise);
@@ -318,6 +301,7 @@ class TrainingController extends Controller
 
 			$em->persist($userStrengthTraining);
 			$em->flush();
+			return $this->redirectToRoute('my_trainings');
 		}
 
 		return $this->render('training/strength_exercise.html.twig', [
@@ -329,17 +313,62 @@ class TrainingController extends Controller
 	}
 
 	/**
-	* @Route(*"/dodaj_trening_siłowy_cwiczenia/{category}/{training}/{exercise}", name="strength_training_exercise",
+	* @Route(*"/moj_trening", name="my_trainings",
 	*)
 	*/
-	public function showExerciseAction(Request $request, SessionInterface $session, $category = 'kategoria', $training = 'training', $exercise = 'exercise')
+	public function showTrainingsAction(Request $request, SessionInterface $session)
 	{
-		return $this->render('training/strength_exercise.html.twig', [
-			'category' => $category,
-			'training' => $trainingName,
-			'exercises' => $exercises,
-			'form' => $form->createView(),
+		$user = $this->getUser();
+		$pickedDate = $session->get('pickedDate');
+		$userStrengthTrainings = $this->getDoctrine()
+			->getRepository(UserStrengthTrainingCollection::class)
+			->loadUserStrengthTrainings($pickedDate, $user);
+
+		if(empty($userStrengthTrainings)) {
+			$userTrainings = [];
+		} else {
+			foreach($userStrengthTrainings as $userStrengthTraining) {
+				$exercises = $userStrengthTraining->getTrainingExercises();
+				$userTrainingId = $userStrengthTraining->getId();
+				$counter = $exercises->count();
+
+				for($i = 0; $i<$counter; $i++) {
+            		$seriesCounter = $exercises[$i]->getSeriesTraining()->count();
+					$exerciseName = $exercises[$i]->getExerciseId()->getName();
+					$series = $exercises[$i]->getSeriesTraining();
+					$userTrainings[$userTrainingId][$exerciseName] = [];
+
+					for($x = 0; $x<$seriesCounter; $x++) {
+						array_push($userTrainings[$userTrainingId][$exerciseName], $series[$x]);
+					}
+				}
+			}
+			$userTrainings = $this->changeArrayKeys($userTrainings);
+		}
+
+		return $this->render('training/my_trainings.html.twig', [
+			'userTrainings' => $userTrainings,
 		]);
+	}
+
+	private function changeArrayKeys(Array $userStrengthTrainings)
+	{
+		$keys = array_keys($userStrengthTrainings);
+		$count = count($userStrengthTrainings);
+		$i = 1;
+		foreach($userStrengthTrainings as $key => $value) {
+		$trainingName = $this->getDoctrine()->getRepository(UserStrengthTrainingCollection::class)
+				->find($key)->getTrainingId()->getName();
+		if(array_key_exists($trainingName, $userStrengthTrainings)) {
+			$userStrengthTrainings['-'.$i.'-'.$trainingName] = $userStrengthTrainings[$key];
+			$i++;
+		} else {
+			$userStrengthTrainings[$trainingName] = $userStrengthTrainings[$key];
+		}
+			unset($userStrengthTrainings[$key]);
+		}
+
+		return $userStrengthTrainings;
 	}
 
 }

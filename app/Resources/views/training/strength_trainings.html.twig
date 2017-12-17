@@ -7,7 +7,7 @@
 	<ul class="list-group trainingList">
 		{% for strengthTraining in strengthTrainings %}
 				<li id="{{ loop.index0 }}" class="list-group-item">
-					<a href="{{ path('strength_training_exercise') }}/{{ category }}/{{ strengthTraining.id }}">{{ strengthTraining.name }}</a>
+					<a href="{{ path('strength_training_exercise') }}/{{ strengthTraining.id }}">{{ strengthTraining.name }}</a>
 				</li>
 		{% endfor %}
 	</ul>

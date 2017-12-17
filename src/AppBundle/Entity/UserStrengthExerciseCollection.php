@@ -103,7 +103,7 @@ class UserStrengthExerciseCollection
      */
     public function getTrainingCollectionId()
     {
-        return $this->$trainingCollectionId;
+        return $this->trainingCollectionId;
     }
 
     /**

@@ -1,80 +1,68 @@
-.logout
-{
+li {
+	list-style-type: none;
+}
+.logout {
 	margin-top: 1%;
 }
-.mainMenu
-{
+.mainMenu {
 	padding-bottom: 9%;
 }
-.normalText
-{
+.normalText {
 	padding-left: 3%;
 	margin-top: 4%;
 }
-.calendar
-{
+.calendar {
 	padding-top: 2%;
 }
-.meals
-{
+.meals {
 		margin-top: 2%;
 }
 
-.meal
-{
+.meal {
 	margin: 1% 0;
 }
 
-.addProduct
-{
+.addProduct {
 	margin: 3%;
 }
 
-.table
-{
+.table {
 	width: 30vw;
 }
 
-.productContainer
-{
+.productContainer {
 	width: 90%;
 
 	margin: 2% auto 0 auto;
 }
-.productItem
-{
+.productItem {
 	font-size: 1rem;
 }
 
-#error
-{
+#error {
 	color: red;
 }
 
-.chart
-{
+.chart {
 	width: 164px;
 	height: 164px;
 	text-align: center;
 	margin-top: 4%;
 	line-height: 164px;
 }
-canvas
-{
+canvas {
     display: block;
     position:absolute;
     top:0;
     left:0;
 }
 
-.centerText
-{
+.centerText {
 	font-size: 2rem;
 	font-weight: 700;
 }
 
-form[name="login_form"]
-{
+form[name="login_form"] {
 	margin: 0;
 	position: absolute;
 	top: 30%;
@@ -82,8 +70,7 @@ form[name="login_form"]
 	transform: translate(-50%, -50%);
 	width: 70vw;
 }
-.footer
- {
+.footer {
 	margin-top: 100px;
     position: fixed;
     left: 0;

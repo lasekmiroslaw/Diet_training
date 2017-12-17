@@ -152,12 +152,12 @@ class UserStrengthTrainingCollection
         return $this->trainingExercises;
     }
 
-    public function addTrainingExercises($trainingExercise)
+    public function addTrainingExercises(UserStrengthExerciseCollection $trainingExercise)
     {
         $this->trainingExercises->add($trainingExercise);
     }
 
-    public function removeTrainingExercises($trainingExercise)
+    public function removeTrainingExercises(UserStrengthExerciseCollection $trainingExercise)
     {
         $this->trainingExercises->removeElement($trainingExercise);
     }

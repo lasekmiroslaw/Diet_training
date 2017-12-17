@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twój trening siłowy{% endblock %}
-{% block resources %}
-{% endblock %}
+{% block resources %}{% endblock %}
 {% block body %}
 	<a href="{{ path('strength_category') }}/{{ category }}">Poprzednia strona</a>
-	<p class="text-center">{{ training }}</p>
+	<h3 class="text-center">{{ training }}</h3>
 	<ul class="list-group">
 		{% for exercise in exercises %}
 			<a href="#" class="exercise link" id="{{ loop.index0 }}">
@@ -13,43 +12,30 @@
 		{% endfor %}
 	</ul>
 
-	<!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog" class="myModal">
-	  <div class="modal-dialog">
+		<div class="modal-dialog">
 
-		<!-- Modal content-->
-		<div class="modal-content">
-		  <div class="modal-header" style="padding:35px 50px;">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="exerciseName text-center"></h4>
-		  </div>
-		  <div class="modal-body" style="padding:40px 50px;">
-
-			  {{ form_start(form) }}
-
-						<ul class="series" data-prototype="{{ form_widget(form.trainingExercises.vars.prototype)|e('html_attr') }}">
-
-						  {% for trainingExercise in form.trainingExercises %}
-						  	{{ form_widget(trainingExercise.seriesTraining, { 'attr': { 'class': "series#{loop.index0} hide" }}) }}
-
-
-			        {% endfor %}
-			  	</ul>
-
-				<button class="nextButton" type="button" name="button">Następna seria</button>
-		  </div>
-		  <div class="modal-footer">
-
-
-
-		  </div>
+			<div class="modal-content">
+				<div class="modal-header" style="padding:35px 50px;">
+			  		<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="exerciseName text-center"></h4>
+				</div>
+				<div class="modal-body" style="padding:40px 50px;">
+					{{ form_start(form) }}
+					<ul class="series list-group" data-prototype="{{ form_widget(form.trainingExercises.vars.prototype)|e('html_attr') }}">
+						{% for trainingExercise in form.trainingExercises %}
+							{{ form_widget(trainingExercise.seriesTraining, { 'attr': { 'class': "series#{loop.index0} hide" }}) }}
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
 		</div>
-	  </div>
-	  </div>
-		<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
+	</div>
+	<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
 	{{ form_end(form) }}
 	{% block scripts %}
-        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="{{ asset('javascript/add_user_exercises.js') }}"></script>
 	{% endblock %}
