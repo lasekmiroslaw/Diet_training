@@ -8,18 +8,20 @@ var $addSeries = $(`<button type="button" class="addSeries btn btn-success">Doda
 var $previousSeries = $('<button type="button" class="previousBtn btn btn-info">Poprzednia seria</button>');
 var $nextSeries = $('<button type="button" class="btn btn-primary nextSeries">Następna seria</button>');
 var $removeSeries = $('<button type="button" class="btn btn-danger removeSeries">Usuń</button>');
+var $saveSeries = $('<button type="button" class="btn btn-success saveSeries">Zapisz</button>');
 
 $(document).ready(function() {
 	$collectionHolder = $('ul.series');
 	$collectionHolder.append($newLinkLi);
 	$collectionHolder.data('index', $collectionHolder.find(':input').length);
 
+
 	$(".exercise").click(function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
 		$id = $(e.currentTarget).attr('id');
 		Id.id = $id;
-		$newFormLi = $(`<li class="series${$id}"></li>`);
+		$newFormLi = $(`<li class="exercise${$id}"></li>`);
 		//Set counter to current number of series
 		var series = Indexes[$id];
 		if (Number.isInteger(series)) {
@@ -31,12 +33,12 @@ $(document).ready(function() {
 		$(`#myModal`).modal();
 		$('.exerciseName').html($(this).html());
 		//Make visible current exercise
-		$(`.series${$id}`).removeClass('hide');
+		$(`.exercise${$id}`).removeClass('hide');
 
 		//Make visible only current series and hide rest
 		DisabledId.forEach(function(id) {
-			$(`.series${id}`).addClass('hide');
-			$(`.series${$id}`).removeClass('hide');
+			$(`.exercise${id}`).addClass('hide');
+			$(`.exercise${$id}`).removeClass('hide');
 		});
 
 		//Function works only if user click link first time
@@ -71,7 +73,6 @@ $(document).ready(function() {
 		e.stopImmediatePropagation();
 		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter+1}`).removeClass('hide');
 		$(`#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`).addClass('hide');
-		
 		++counter;
 		Indexes[$id] = counter;
 	});
@@ -92,14 +93,32 @@ $(document).ready(function() {
 		$removeButton.removeClass('hide')
 		--counter;
 		Indexes[$id] = counter;
+	});
+	$('button.saveSeries').on('click', function(e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		var $exerciseLoadReps = $(`div.exerciseDiv${$id}`).children('table.kgLoadReps').find('tbody');
+		var $kgRepsHolder = $(`li.exercise${$id}`).find(`input.kgLoad, input.reps`);
+		$exerciseLoadReps.html('');
+		var i = 1;
+		$.each($kgRepsHolder, function(key, value) {
 
+			if(key % 2 == 0) {
+				$exerciseLoadReps = $exerciseLoadReps.append('<tr class="seriesData"></tr>');
+				$exerciseLoadReps.append(`<td>seria ${i}</td><td>${$(value).val()}kg</td>`);
+				i++;
+			} else {
+				$exerciseLoadReps.append(`<td>x</td><td>${$(value).val()}</td>`);
+			}
+			$('#myModal').modal('hide');
+		});
 	});
 });
 
 function addExersiseForm($collectionHolder, $newLinkLi, $id) {
 	var prototype = $collectionHolder.data('prototype');
 	var newForm = prototype;
-	var $newFormLi = $(`<li class="series${$id}"></li>`).append(newForm);
+	$newFormLi.append(newForm);
 
 	$newLinkLi.append($newFormLi);
 	DisabledId.push($id);
@@ -113,6 +132,7 @@ function addExersiseForm($collectionHolder, $newLinkLi, $id) {
 	$innerCollectionHolder.data('index');
 
 	var $newFormElement = $newFormLi.append($innerPrototype);
+	// $newFormLi.append($saveSeries);
 	$($newFormElement).find(`input#training_collection_form_trainingExercises_${$id}_seriesTraining_1_series`).attr('value', 1);
 	$newLinkLi.append($newFormElement);
 	$($addSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_1`);

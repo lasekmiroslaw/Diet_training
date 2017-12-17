@@ -14,9 +14,9 @@ class UserTrainingForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('kgLoad', NumberType::class, array('label' => 'ciężar[kg]', 'scale' => 2, 'required' => false))
-            ->add('reps', IntegerType::class, array('label' => 'powtórzenia', 'required' => false))
-            ->add('series', IntegerType::class, array('label' => 'seria', 'required' => false));
+            ->add('kgLoad', NumberType::class, array('label' => 'ciężar[kg]', 'scale' => 2, 'required' => false, 'attr' => array('class' => 'kgLoad')))
+            ->add('reps', IntegerType::class, array('label' => 'powtórzenia', 'required' => false, 'attr' => array('class' => 'reps')))
+            ->add('series', IntegerType::class, array('label' => 'seria', 'required' => false, 'attr' => array('class' => 'series')));
     }
     public function configureOptions(OptionsResolver $resolver)
     {
