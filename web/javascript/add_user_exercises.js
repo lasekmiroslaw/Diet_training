@@ -1,7 +1,7 @@
 var $collectionHolder;
 var $newLinkLi = $('<div></div>');
-var DisabledId = [];
 var Id = {};
+var DisabledId = [];
 var counter = 1;
 var Indexes = [];
 var $addSeries = $(`<button type="button" class="addSeries btn btn-success">Dodaj serie</button>`);
@@ -46,6 +46,7 @@ $(document).ready(function() {
 			addExersiseForm($collectionHolder, $newLinkLi, $id);
 		}
 	});
+	//Buttons handlers
 	$($addSeries).on('click', function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
@@ -64,7 +65,6 @@ $(document).ready(function() {
 		var $buttonToHide = $(`button.previous${$id}${counter-1}`).siblings('button.removeSeries');
 		$buttonToChange.replaceWith($($nextSeries).clone(true));
 		$buttonToHide.addClass('hide');
-
 		--counter;
 		Indexes[$id] = counter;
 	});
@@ -101,8 +101,8 @@ $(document).ready(function() {
 		var $kgRepsHolder = $(`li.exercise${$id}`).find(`input.kgLoad, input.reps`);
 		$exerciseLoadReps.html('');
 		var i = 1;
-		$.each($kgRepsHolder, function(key, value) {
 
+		$.each($kgRepsHolder, function(key, value) {
 			if(key % 2 == 0) {
 				$exerciseLoadReps = $exerciseLoadReps.append('<tr class="seriesData"></tr>');
 				$exerciseLoadReps.append(`<td>seria ${i}</td><td>${$(value).val()}kg</td>`);
@@ -114,12 +114,11 @@ $(document).ready(function() {
 		});
 	});
 });
-
+//Adding collection form
 function addExersiseForm($collectionHolder, $newLinkLi, $id) {
 	var prototype = $collectionHolder.data('prototype');
 	var newForm = prototype;
 	$newFormLi.append(newForm);
-
 	$newLinkLi.append($newFormLi);
 	DisabledId.push($id);
 
@@ -132,12 +131,11 @@ function addExersiseForm($collectionHolder, $newLinkLi, $id) {
 	$innerCollectionHolder.data('index');
 
 	var $newFormElement = $newFormLi.append($innerPrototype);
-	// $newFormLi.append($saveSeries);
 	$($newFormElement).find(`input#training_collection_form_trainingExercises_${$id}_seriesTraining_1_series`).attr('value', 1);
 	$newLinkLi.append($newFormElement);
 	$($addSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_1`);
 }
-
+//Adding nested collection form
 function addExersiseSpecificForm($newFormLi) {
 	$id = Id.id;
 	var $innerCollectionHolder = $(`div#training_collection_form_trainingExercises_${$id}_seriesTraining`);
@@ -145,8 +143,8 @@ function addExersiseSpecificForm($newFormLi) {
 	$innerCollectionHolder.data('index', counter);
 	var index = $innerCollectionHolder.data('index');
 	Indexes[$id] = index;
-	$innerPrototype = $innerPrototype.replace(/__name__/g, counter);
 
+	$innerPrototype = $innerPrototype.replace(/__name__/g, counter);
 	var $newFormElement = $newFormLi.append($innerPrototype);
 	$($newFormElement).find(`input#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}_series`).attr('value', counter);
 	$newLinkLi.append($newFormElement);

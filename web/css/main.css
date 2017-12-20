@@ -88,3 +88,18 @@ button.saveSeries {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
+button.saveTraining {
+	position: relative;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-bottom: 100px;
+	margin-top: 20px;
+	width: 15%;
+}
+
+input[aria-invalid="true"] {
+  border: 1px solid #f00;
+  box-shadow: 0 0 4px 0 #f00;
+}

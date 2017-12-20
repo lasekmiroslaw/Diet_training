@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twój trening siłowy{% endblock %}
-{% block resources %}
-{% endblock %}
+{% block resources %}{% endblock %}
 {% block body %}
 	<a href="{{ path('add_training') }}">Dodaj trening</a>
+	<h3>Siłowy</h3>
 	<ul class="list-group">
 		{% if userTrainings %}
 			{% for key, userTraining in userTrainings %}
-				<li class="list-group-item training-list"><a class="training-link">{{ key }}</a>
+				<li class="list-group-item training-list">
+					<a class="training-link">{{ key|onlyId }}</a>
+					<a href="{{ path('deleteTraining') }}/{{ key|replace('/[^0-9+]/', '') }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
 					<ul class="list-group toggleHide hide">
 						{% for exercise, allseries in userTraining %}
 							<li class="list-group-item exercise">
@@ -20,13 +22,13 @@
 									<div class="col-md-2 seriesDiv">
 										<table class="table table-condensed">
 											{% for series in allseries %}
-											<tr>
-												<td class="active text-center">{{ series.series }}</td>
-												<td class="danger text-center">x</td>
-												<td class="success text-center">{{ series.kgLoad }} kg</td>
-												<td class="danger text-center">x</td>
-												<td class="active text-center">{{ series.reps }}</td>
-											</tr>
+												<tr>
+													<td class="active text-center">{{ series.series }}</td>
+													<td class="danger text-center">x</td>
+													<td class="success text-center">{{ series.kgLoad }} kg</td>
+													<td class="danger text-center">x</td>
+													<td class="active text-center">{{ series.reps }}</td>
+												</tr>
 											{% endfor %}
 										</table>
 									</div>
@@ -34,6 +36,22 @@
 							</li>
 						{% endfor %}
 					</ul>
+				</li>
+			{% endfor %}
+		{% endif %}
+	</ul>
+	<h3>Cardio</h3>
+	<ul class="list-group">
+		{% if userCardios %}
+			{% for key, userCardio in userCardios %}
+				<li class="list-group-item training-list">
+					<table class="table-condensed">
+						<tr>
+							<th>{{ userCardio.trainingId.name }}</th>
+							<td>{{ userCardio.time }}min</td>
+							<td>{{ userCardio.burnedCalories }} kcal</td>
+						</tr>
+					</table>
 				</li>
 			{% endfor %}
 		{% endif %}

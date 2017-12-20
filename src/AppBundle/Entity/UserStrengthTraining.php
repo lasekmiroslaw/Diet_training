@@ -35,6 +35,7 @@ class UserStrengthTraining
      * @var int
      *
      * @ORM\Column(name="series", type="integer", nullable=true)
+     * @Assert\Type(type="integer")
      */
     private $series;
 
@@ -42,11 +43,21 @@ class UserStrengthTraining
      * @var int
      *
      * @ORM\Column(name="reps", type="integer", nullable=true)
+     * @Assert\Regex(
+     *      pattern="/^[0-9]{1,3}$/",
+     *      htmlPattern ="/^[0-9]{1,3}$/",
+     *      message="Proszę wprowadzić odpowiednią liczbę"
+     *)
      */
     private $reps;
 
     /**
      * @ORM\Column(name="kgLoad", type="float", nullable=true)
+     * @Assert\Regex(
+     *      pattern="/^\d{1,3}([\.,]\d{1,2})?$/",
+     *      htmlPattern ="/^\d{1,3}([\.,]\d{1,2})?$/",
+     *      message="Proszę wprowadzić odpowiednią liczbę"
+     *)
      */
     private $kgLoad;
 

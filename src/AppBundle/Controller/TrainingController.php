@@ -8,22 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use AppBundle\Entity\CardioCategory;
 use AppBundle\Entity\StrengthTrainingCategory;
-use AppBundle\Entity\StrengthTraining;
-use AppBundle\Entity\StrengthTrainingExercise;
-use AppBundle\Entity\UserCardio;
-use AppBundle\Entity\CardioTraining;
 use AppBundle\Entity\MyStrengthTraining;
-use AppBundle\Entity\UserStrengthTraining;
 use AppBundle\Entity\UserStrengthTrainingCollection;
-use AppBundle\Entity\UserStrengthExerciseCollection;
-use AppBundle\Form\UserCardioForm;
-use AppBundle\Form\ExerciseForm;
+use AppBundle\Entity\UserCardio;
 use AppBundle\Form\TrainingForm;
 use AppBundle\Form\MyTrainingForm;
-use AppBundle\Form\UserTrainingForm;
-use AppBundle\Form\CollectionForm;
-use AppBundle\Form\TrainingCollectionForm;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class TrainingController extends Controller
@@ -39,117 +28,6 @@ class TrainingController extends Controller
 		return $this->render('training/categories.html.twig', [
 			'cardioCategories' => $cardioCategories,
 			'strengthCategories' => $strengthCategories,
-		]);
-	}
-
-	/**
-	* @Route(*"/dodaj_trening_cardio/{category}", name="cardio_category",
-	*    requirements={
-	*        "category": "|biegi i spacery|rower|fitness i siłownia|czynności codzienne|gry sportowe|wspinaczka|wodne|inne"
-	*    }
-	*)
-	*/
-	public function showCardioAction(Request $request, SessionInterface $session, $category = 'kategoria')
-	{
-		$cardioTrainings = $this->getDoctrine()
-			->getRepository(CardioCategory::class)
-			->findOneBy(array('name' => $category))
-			->getTraining();
-		if (!$category) {
-			throw $this->createNotFoundException();
-		}
-
-		$userCardio = new UserCardio();
-		$form = $this->createForm(UserCardioForm::class, $userCardio);
-		$form->handleRequest($request);
-
-		if($request->isXmlHttpRequest())
-		{
-			$trainingArray = $this->getTrainingInfo($cardioTrainings);
-			return new JsonResponse($trainingArray);
-		}
-
-		if($form->isSubmitted() && $form->isValid())
-		{
-			$this->flushUserCardio($form, $userCardio, $session);
-		}
-
-		return $this->render('training/cardio_trainings.html.twig', [
-			'cardioTrainings' => $cardioTrainings,
-			'form' => $form->createView(),
-		]);
-	}
-
-	private function getTrainingInfo($cardioTrainings)
-	{
-		$request = Request::createFromGlobals();
-		$trainingId = $request->get('trainingId');
-		$trainingTime = $request->get('trainingTime');
-		$training = $cardioTrainings->get($trainingId);
-		$name = $training->getName();
-		$trainnigRealId = $training->getId();
-
-		$caloriesper60 = $training->getBurnedCalories();
-		$burnedCalories = $this->calculatePerTime($caloriesper60, $trainingTime);
-
-		return $trainingArray = [
-			'name' => $name,
-			'burnedCalories' => $burnedCalories,
-			'trainingId' => $trainnigRealId,
-		];
-	}
-
-	private function calculatePerTime($caloriesper60, $time)
-	{
-		$caloriesPerTime = round(($caloriesper60/60) * $time);
-		return $caloriesPerTime;
-	}
-
-	private function convertToMinutes(array $time)
-	{
-		$minute = $time['hour']*60 + $time['minute'];
-		return $minute;
-	}
-
-	private function flushUserCardio($form, UserCardio $userCardio, SessionInterface $session)
-	{
-		$time = $this->convertToMinutes($form->get('time')->getData());
-		$userCardio->setTime($time);
-
-		$pickedDate = $session->get('pickedDate');
-		$userCardio->setDate(new \DateTime($pickedDate));
-
-		$userCardio->setUserId($this->getUser());
-
-		$trainingId = $form->get('trainingId')->getData();
-		$training = $this->getDoctrine()->getRepository(CardioTraining::class)->find($trainingId);
-		$userCardio->setTrainingId($training);
-
-		$dbuserCardio = $this->getDoctrine()->getManager();
-		$dbuserCardio->persist($userCardio);
-		$dbuserCardio->flush();
-	}
-
-	/**
-	* @Route(*"/dodaj_trening_siłowy/{category}", name="strength_category",
-	*    requirements={
-	*        "category": "|fbw|split|push-pull|push-pull-legs|góra-dół|kalistenika|własny"
-	*    }
-	*)
-	*/
-	public function showStrengthAction(Request $request, SessionInterface $session, $category = 'kategoria')
-	{
-		$strengthTrainings = $this->getDoctrine()
-			->getRepository(StrengthTrainingCategory::class)
-			->findOneBy(array('name' => $category))
-			->getTraining();
-		if (!$category) {
-			throw $this->createNotFoundException();
-		}
-
-		return $this->render('training/strength_trainings.html.twig', [
-			'strengthTrainings' => $strengthTrainings,
-			'category' => $category,
 		]);
 	}
 
@@ -181,8 +59,6 @@ class TrainingController extends Controller
 			'form' => $form->createView(),
 		]);
 	}
-
-
 
 	/**
 	 * @Route("/usuntrening/{id}", name="deleteMyTraining")
@@ -231,16 +107,14 @@ class TrainingController extends Controller
 
 		if($form->isSubmitted() && $form->isValid())
 		{
-	        foreach($originalExersies as $exersise) {
-	            if ($myStrengtTraining->getMyExercises()->contains($exersise) === false) {
+	      foreach($originalExersies as $exersise) {
+	        if ($myStrengtTraining->getMyExercises()->contains($exersise) === false) {
 				$em->remove($exersise);
 			};
 		}
-
 			foreach($myStrengtTraining->getMyExercises() as $exersise) {
 				$exersise->setMyTrainingId($myStrengtTraining);
 			}
-
 			$em->persist($myStrengtTraining);
 			$em->flush();
 		}
@@ -252,68 +126,7 @@ class TrainingController extends Controller
 	}
 
 	/**
-	* @Route(*"/dodaj_trening_siłowy_cwiczenia/{training}", name="strength_training_exercise",
-	*)
-	*/
-	public function showExercisesAction(Request $request, SessionInterface $session, $training = 'training')
-	{
-		$myStrengtTraining = $this->getDoctrine()
-			->getRepository(StrengthTraining::class)
-			->findTraining($training);
-		$trainingName = $myStrengtTraining->getName();
-
-		$category = $this->getDoctrine()
-			->getRepository(StrengthTrainingCategory::class)
-			->find($myStrengtTraining->getCategoryId())
-			->getName();
-
-		$exercises = $myStrengtTraining->getExercises();
-		$user = $this->getUser();
-		$pickedDate = $session->get('pickedDate');
-		$em = $this->getDoctrine()->getManager();
-
-
-	   	$userStrengthTraining = new UserStrengthTrainingCollection();
-		foreach ($exercises as $exercise) {
-			$UserStrengthExerciseCollection = new UserStrengthExerciseCollection();
-			$UserStrengthExerciseCollection->setExerciseId($exercise);
-			$userStrengthTraining->addTrainingExercises($UserStrengthExerciseCollection);
-		}
-
-
-		$form = $this->createForm(TrainingCollectionForm::class, $userStrengthTraining);
-		$form->handleRequest($request);
-
-
-		if($form->isSubmitted() && $form->isValid())
-		{
-			$userStrengthTraining->setTrainingId($myStrengtTraining);
-			$userStrengthTraining->setUserId($user);
-			$userStrengthTraining->setDate(new \DateTime($pickedDate));
-
-			foreach ($userStrengthTraining->getTrainingExercises() as $userExercise) {
-				$userExercise->setTrainingCollectionId($userStrengthTraining);
-
-				foreach($userExercise->getSeriesTraining() as $series) {
-					$series->setCollectionId($userExercise);
-				}
-			}
-
-			$em->persist($userStrengthTraining);
-			$em->flush();
-			return $this->redirectToRoute('my_trainings');
-		}
-
-		return $this->render('training/strength_exercise.html.twig', [
-			'category' => $category,
-			'training' => $trainingName,
-			'exercises' => $exercises,
-			'form' => $form->createView(),
-		]);
-	}
-
-	/**
-	* @Route(*"/moj_trening", name="my_trainings",
+	* @Route(*"/moj_trening", name="user_trainings",
 	*)
 	*/
 	public function showTrainingsAction(Request $request, SessionInterface $session)
@@ -323,52 +136,61 @@ class TrainingController extends Controller
 		$userStrengthTrainings = $this->getDoctrine()
 			->getRepository(UserStrengthTrainingCollection::class)
 			->loadUserStrengthTrainings($pickedDate, $user);
+		$userCardios = $this->getDoctrine()
+			->getRepository(UserCardio::class)
+			->loadUserCardios($pickedDate, $user);
 
 		if(empty($userStrengthTrainings)) {
 			$userTrainings = [];
 		} else {
 			foreach($userStrengthTrainings as $userStrengthTraining) {
 				$exercises = $userStrengthTraining->getTrainingExercises();
-				$userTrainingId = $userStrengthTraining->getId();
+				$userTrainingName = '-'.$userStrengthTraining->getId().'-'.$userStrengthTraining->getTrainingId()->getName();
 				$counter = $exercises->count();
 
 				for($i = 0; $i<$counter; $i++) {
             		$seriesCounter = $exercises[$i]->getSeriesTraining()->count();
 					$exerciseName = $exercises[$i]->getExerciseId()->getName();
 					$series = $exercises[$i]->getSeriesTraining();
-					$userTrainings[$userTrainingId][$exerciseName] = [];
+					$userTrainings[$userTrainingName][$exerciseName] = [];
 
 					for($x = 0; $x<$seriesCounter; $x++) {
-						array_push($userTrainings[$userTrainingId][$exerciseName], $series[$x]);
+						array_push($userTrainings[$userTrainingName][$exerciseName], $series[$x]);
 					}
 				}
 			}
-			$userTrainings = $this->changeArrayKeys($userTrainings);
 		}
-
 		return $this->render('training/my_trainings.html.twig', [
 			'userTrainings' => $userTrainings,
+			'userCardios' => $userCardios,
 		]);
 	}
 
-	private function changeArrayKeys(Array $userStrengthTrainings)
+	/**
+	 * @Route("/deleteTraining/{id}", name="deleteTraining")
+	 */
+	public function deleteTrainingAction($id = 1, SessionInterface $session)
 	{
-		$keys = array_keys($userStrengthTrainings);
-		$count = count($userStrengthTrainings);
-		$i = 1;
-		foreach($userStrengthTrainings as $key => $value) {
-		$trainingName = $this->getDoctrine()->getRepository(UserStrengthTrainingCollection::class)
-				->find($key)->getTrainingId()->getName();
-		if(array_key_exists($trainingName, $userStrengthTrainings)) {
-			$userStrengthTrainings['-'.$i.'-'.$trainingName] = $userStrengthTrainings[$key];
-			$i++;
-		} else {
-			$userStrengthTrainings[$trainingName] = $userStrengthTrainings[$key];
-		}
-			unset($userStrengthTrainings[$key]);
-		}
+		try
+		{
+			$em = $this->getDoctrine()->getManager();
+			$product = $em->getRepository(UserFood::class)->find($id);
+			$em->remove($product);
+			$em->flush();
 
-		return $userStrengthTrainings;
+			$session->set('alert', 'alert-danger');
+			$this->addFlash(
+			   'notice',
+			   'Produkt usunięty!'
+			);
+		}
+		catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
+		{
+		}
+		finally
+		{
+			return $this->redirectToRoute('homepage');
+		}
 	}
 
 }

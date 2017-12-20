@@ -9,7 +9,7 @@
 
 			<li class="list-group-item">
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-4">
 						<a href="#" class="exercise link" id="{{ loop.index0 }}">{{ exercise.name }}</a>
 					</div>
 					<div class="col-md-3 exerciseDiv{{ loop.index0 }}">
@@ -44,7 +44,7 @@
 			</div>
 		</div>
 	</div>
-	<button type="submit" class="btn btn-success btn-default" name="button">Zapisz</button>
+	<button type="submit" class="saveTraining btn btn-success btn-default" name="button">Dodaj trening!</button>
 	{{ form_end(form) }}
 	{% block scripts %}
 		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>

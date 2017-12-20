@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class UserCardioRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function loadUserCardios($pickedDate, $user)
+	{
+		return $this->createQueryBuilder('u')
+			->where('u.date = :dateD AND u.userId = :uId')
+			->setParameter('dateD', $pickedDate)
+			->setParameter('uId', $user->getId())
+			->getQuery()
+			->getResult();;
+	}
 }
