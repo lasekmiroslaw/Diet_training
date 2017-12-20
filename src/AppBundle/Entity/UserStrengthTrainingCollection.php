@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class UserStrengthTrainingCollection
 {
     /**
-     * @ORM\OneToMany(targetEntity="UserStrengthExerciseCollection", mappedBy="trainingCollectionId", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="UserStrengthExerciseCollection", mappedBy="trainingCollectionId", cascade={"persist"}, orphanRemoval=true)
      */
     private $trainingExercises;
 

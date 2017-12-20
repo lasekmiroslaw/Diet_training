@@ -8,8 +8,8 @@
 		{% if userTrainings %}
 			{% for key, userTraining in userTrainings %}
 				<li class="list-group-item training-list">
-					<a class="training-link">{{ key|onlyId }}</a>
-					<a href="{{ path('deleteTraining') }}/{{ key|replace('/[^0-9+]/', '') }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
+					<a class="training-link">{{ key|name }}</a>
+					<a href="{{ path('deleteTraining') }}/silowy/{{ key|onlyId }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
 					<ul class="list-group toggleHide hide">
 						{% for exercise, allseries in userTraining %}
 							<li class="list-group-item exercise">
@@ -50,12 +50,18 @@
 							<th>{{ userCardio.trainingId.name }}</th>
 							<td>{{ userCardio.time }}min</td>
 							<td>{{ userCardio.burnedCalories }} kcal</td>
+							<td><a href="{{ path('deleteTraining') }}/cardio/{{ userCardio.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a></td>
 						</tr>
 					</table>
 				</li>
 			{% endfor %}
 		{% endif %}
 	</ul>
+	{% for message in app.flashes('notice') %}
+		<div class="flash-notice">
+			<div class="alert {% if alert is defined %}{{ alert }}{% endif %}">{{ message }}</div>
+		</div>
+	{% endfor %}
 
 	{% block scripts %}
 		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>

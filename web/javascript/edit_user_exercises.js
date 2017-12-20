@@ -7,10 +7,10 @@
 // });
 $(document).ready(function() {
 
-	$('.training-list').on('click', function(e) {
+	$('li.training-list > a.training-link').on('click', function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
-		$(this).find('.toggleHide').toggleClass('hide');
+		$(this).parent().find('.toggleHide').toggleClass('hide');
 	});
 	$('.exercise').on('click', function(e) {
 		e.preventDefault();

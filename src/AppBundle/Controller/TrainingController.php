@@ -160,28 +160,38 @@ class TrainingController extends Controller
 				}
 			}
 		}
+		$alert = $session->get('alert');
+
 		return $this->render('training/my_trainings.html.twig', [
 			'userTrainings' => $userTrainings,
 			'userCardios' => $userCardios,
+			'alert' => $alert,
 		]);
 	}
 
 	/**
-	 * @Route("/deleteTraining/{id}", name="deleteTraining")
+	 * @Route("/deleteTraining/{training}/{id}", name="deleteTraining")
 	 */
-	public function deleteTrainingAction($id = 1, SessionInterface $session)
+	public function deleteTrainingAction($training = 'trening', $id = 1, SessionInterface $session)
 	{
 		try
 		{
 			$em = $this->getDoctrine()->getManager();
-			$product = $em->getRepository(UserFood::class)->find($id);
-			$em->remove($product);
-			$em->flush();
+			if($training == 'silowy') {
+				$itemToDelete = $em->getRepository(UserStrengthTrainingCollection::class)->find($id);
+				$em->remove($itemToDelete);
+				$em->flush();
+			}
+			if($training == 'cardio') {
+				$itemToDelete = $em->getRepository(UserCardio::class)->find($id);
+				$em->remove($itemToDelete);
+				$em->flush();
+			}
 
 			$session->set('alert', 'alert-danger');
 			$this->addFlash(
 			   'notice',
-			   'Produkt usunięty!'
+			   'Trening usunięty!'
 			);
 		}
 		catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
@@ -189,7 +199,7 @@ class TrainingController extends Controller
 		}
 		finally
 		{
-			return $this->redirectToRoute('homepage');
+			return $this->redirectToRoute('user_trainings');
 		}
 	}
 

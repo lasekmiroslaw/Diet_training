@@ -41,7 +41,7 @@ class StrengthController extends Controller
 	* @Route(*"/dodaj_trening_siłowy_cwiczenia/{training}", name="strength_training_exercise",
 	*)
 	*/
-	public function showExercisesAction(Request $request, SessionInterface $session, $training = 'training')
+	public function addStrengthTrainingAction(Request $request, SessionInterface $session, $training = 'training')
 	{
 		$myStrengtTraining = $this->getDoctrine()
 			->getRepository(StrengthTraining::class)
@@ -87,6 +87,11 @@ class StrengthController extends Controller
 
 			$em->persist($userStrengthTraining);
 			$em->flush();
+			$session->set('alert', 'alert-success');
+			$this->addFlash(
+			   'notice',
+			   'Trening dodany!'
+			);
 			return $this->redirectToRoute('user_trainings');
 		}
 

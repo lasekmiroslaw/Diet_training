@@ -44,6 +44,11 @@ class CardioController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserCardio($form, $userCardio, $session);
+			$session->set('alert', 'alert-success');
+			$this->addFlash(
+			   'notice',
+			   'Trening dodany!'
+			);
 			return $this->redirectToRoute('user_trainings');
 		}
 
