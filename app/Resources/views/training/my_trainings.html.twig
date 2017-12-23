@@ -2,8 +2,7 @@
 {% block title %}Twój trening siłowy{% endblock %}
 {% block resources %}{% endblock %}
 {% block body %}
-	<a href="{{ path('add_training') }}">Dodaj trening</a>
-	<h3>Siłowy</h3>
+	<h3>Siłowy <a href="{{ path('add_training') }}"><span class="glyphicon glyphicon-plus"></span></a></h3>
 	<ul class="list-group">
 		{% if userTrainings %}
 			{% for key, userTraining in userTrainings %}
@@ -40,7 +39,7 @@
 			{% endfor %}
 		{% endif %}
 	</ul>
-	<h3>Cardio</h3>
+	<h3>Cardio  <a href="{{ path('add_training') }}"><span class="glyphicon glyphicon-plus"></span></a></h3>
 	<ul class="list-group">
 		{% if userCardios %}
 			{% for key, userCardio in userCardios %}

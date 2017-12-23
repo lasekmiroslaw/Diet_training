@@ -15,7 +15,6 @@ $(document).ready(function() {
 	$collectionHolder.append($newLinkLi);
 	$collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-
 	$(".exercise").click(function(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
@@ -33,12 +32,12 @@ $(document).ready(function() {
 		$(`#myModal`).modal();
 		$('.exerciseName').html($(this).html());
 		//Make visible current exercise
-		$(`.exercise${$id}`).removeClass('hide');
+		$(`li.exercise${$id}`).removeClass('hide');
 
 		//Make visible only current series and hide rest
 		DisabledId.forEach(function(id) {
-			$(`.exercise${id}`).addClass('hide');
-			$(`.exercise${$id}`).removeClass('hide');
+			$(`li.exercise${id}`).addClass('hide');
+			$(`li.exercise${$id}`).removeClass('hide');
 		});
 
 		//Function works only if user click link first time
@@ -110,8 +109,17 @@ $(document).ready(function() {
 			} else {
 				$exerciseLoadReps.append(`<td>x</td><td>${$(value).val()}</td>`);
 			}
+			$('#myModal').off('hidden.bs.modal');
 			$('#myModal').modal('hide');
 		});
+	});
+	//Remove series if user didnt click save
+	$('#myModal').on('hidden.bs.modal', removeLi);
+	//Reattach event
+	$('#myModal').on('show.bs.modal', function(e){
+		console.log('shit')
+		e.stopImmediatePropagation();
+		$('#myModal').on('hidden.bs.modal', removeLi);
 	});
 });
 //Adding collection form
@@ -156,4 +164,14 @@ function addButtons() {
 	$($previousSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
 	$($addSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
 	$($removeSeries).clone(true).appendTo(`div#training_collection_form_trainingExercises_${$id}_seriesTraining_${counter}`);
+}
+
+function removeLi(e) {
+	e.preventDefault();
+	e.stopImmediatePropagation();
+	$(`li.exercise${$id}`).remove();
+	$(`div.exerciseDiv${$id}`).children('table.kgLoadReps').find('tbody').html('');
+	Indexes[$id] = 1;
+	DisabledId = DisabledId.filter(item => item !== $id)
+	console.log(DisabledId)
 }

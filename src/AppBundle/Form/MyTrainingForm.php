@@ -12,7 +12,7 @@ class MyTrainingForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array());
+            ->add('name', TextType::class, array('label' => 'Nowy trening'));
     }
     public function configureOptions(OptionsResolver $resolver)
     {

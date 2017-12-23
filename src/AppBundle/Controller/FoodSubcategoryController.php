@@ -14,7 +14,7 @@ use AppBundle\Entity\Food;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class SubcategoryController extends Controller
+class FoodSubcategoryController extends Controller
 {
 
 	/**

@@ -56,6 +56,24 @@ class UserStrengthTrainingCollection
     private $trainingId;
 
     /**
+     * @var int
+     *
+     * @ORM\ManyToOne(targetEntity="MyStrengthTraining")
+     * @ORM\JoinColumn(name="myTrainingId", referencedColumnName="id")
+     */
+    private $myTrainingId;
+
+    /**
+     * Get trainingId
+     *
+     * @return int
+     */
+    public function getTrainingId()
+    {
+        return $this->trainingId;
+    }
+
+    /**
      * Set trainingId
      *
      * @param integer $trainingId
@@ -70,13 +88,27 @@ class UserStrengthTrainingCollection
     }
 
     /**
-     * Get trainingId
+     * Get myTrainingId
      *
      * @return int
      */
-    public function getTrainingId()
+    public function getMyTrainingId()
     {
-        return $this->trainingId;
+        return $this->myTrainingId;
+    }
+
+    /**
+     * Set myTrainingId
+     *
+     * @param integer $myTrainingId
+     *
+     * @return UserStrengthTraining
+     */
+    public function setmyTrainingId($myTrainingId)
+    {
+        $this->myTrainingId = $myTrainingId;
+
+        return $this;
     }
 
     /**

@@ -23,7 +23,7 @@ class MyStrengthTraining
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="MyStrengthTrainingExercise", mappedBy="myTrainingId", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="MyStrengthTrainingExercise", mappedBy="myTrainingId", cascade={"persist"}, orphanRemoval=true)
      */
     protected $myExercises;
 

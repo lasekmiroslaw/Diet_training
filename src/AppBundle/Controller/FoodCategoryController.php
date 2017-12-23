@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use AppBundle\Entity\UserFood;
 use AppBundle\Form\UserFoodForm;
 
-class CategoryController extends Controller
+class FoodCategoryController extends Controller
 {
 	/**
     * @Route("/dodaj/{meal}", name="product_categories", requirements={"meal": "sniadanie|lunch|obiad|kolacja|przekaski|inne"})

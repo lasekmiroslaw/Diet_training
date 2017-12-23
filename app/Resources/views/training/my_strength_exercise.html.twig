@@ -3,8 +3,8 @@
 {% block resources %}
 {% endblock %}
 {% block body %}
-	<a href="{{ path('my_strength_training') }}">Poprzednia strona</a>
-	<p class="text-center">{{ training }}</p>
+	<a href="{{ path('create_my_strength_training') }}">Poprzednia strona</a>
+	<h3 class="text-center">{{ training }}</h3>
 	{{ form_start(form) }}
 	<ul class="exersises" data-prototype="{{ form_widget(form.myExercises.vars.prototype)|e('html_attr') }}">
 		{% for myExercise in form.myExercises %}
@@ -14,12 +14,11 @@
 			</li>
 		{% endfor %}
 	</ul>
-	<button type="submit" name="button">Zapisz</button>
+	<button type="submit" class="btn-success btn saveTraining" name="button">Zapisz</button>
 	{{ form_end(form) }}
 
 	{% block scripts %}
         <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
         <script src="{{ asset('javascript/add_my_training.js') }}"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	{% endblock %}
 {% endblock %}

@@ -43,6 +43,14 @@ class UserStrengthExerciseCollection
     /**
      * @var int
      *
+     * @ORM\ManyToOne(targetEntity="MyStrengthTrainingExercise")
+     * @ORM\JoinColumn(name="myExerciseId", referencedColumnName="id")
+     */
+    private $myExerciseId;
+
+    /**
+     * @var int
+     *
      * @ORM\ManyToOne(targetEntity="UserStrengthTrainingCollection", inversedBy="trainingExercises")
      * @ORM\JoinColumn(name="trainingCollectionId", referencedColumnName="id")
      */
@@ -70,6 +78,30 @@ class UserStrengthExerciseCollection
     public function getExerciseId()
     {
         return $this->exerciseId;
+    }
+
+    /**
+     * Set myExerciseId
+     *
+     * @param integer $myExerciseId
+     *
+     * @return UserStrengthTraining
+     */
+    public function setMyExerciseId($myExerciseId)
+    {
+        $this->myExerciseId = $myExerciseId;
+
+        return $this;
+    }
+
+    /**
+     * Get myExerciseId
+     *
+     * @return int
+     */
+    public function getMyExerciseId()
+    {
+        return $this->myExerciseId;
     }
 
     /**

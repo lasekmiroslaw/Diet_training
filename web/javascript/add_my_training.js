@@ -1,5 +1,5 @@
 var $collectionHolder;
-var $addExersiseLink = $('<a href="#" class="add_exersise_link">Add exersise</a>');
+var $addExersiseLink = $('<button type="submit" class="btn btn-info btn-sm" name="button">Dodaj ćwiczenie</button>');
 var $newLinkLi = $('<span></span>').append($addExersiseLink);
 
 $(document).ready(function() {

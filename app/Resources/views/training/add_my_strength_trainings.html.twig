@@ -8,9 +8,15 @@
 		{% for myTraining in myTrainings %}
 				<li class="list-group-item">
 					<a href="{{ path('create_strength_training_exercise') }}/{{ myTraining.id }}">{{ myTraining.name }}</a>
+					<a href="{{ path('deleteMyTraining') }}/{{ myTraining.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
 				</li>
 		{% endfor %}
 	</ul>
+	{{ form_start(form) }}
+	{{ form_row(form.name) }}
+	<button type="submit" class="btn-success btn" name="button">Utórz trening!</button>
+	{{ form_end(form) }}
+
 	{% block scripts %}
 	{% endblock %}
 {% endblock %}

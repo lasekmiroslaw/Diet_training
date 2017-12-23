@@ -24,8 +24,15 @@
 							</li>
 						</a>
 					{% endfor %}
-					<a href="{{ path('my_strength_training') }}">
-						<li class="list-group-item">własny</li>
+					<a href="{{ path('my_strength_trainings') }}">
+						<li class="list-group-item">
+							mój trening
+						</li>
+					</a>
+					<a href="{{ path('create_my_strength_training') }}">
+						<button type="button" class="btn btn-default btn-md btn-info">
+				          <span class="glyphicon glyphicon-plus"></span> Utwórz trening
+				        </button>
 					</a>
 				</ul>
 		</ul>
