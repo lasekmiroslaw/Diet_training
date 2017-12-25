@@ -1,16 +1,16 @@
 {% extends 'base_form.html.twig' %}
 {% block title %}Logowanie{% endblock %}
 {% block body %}
-      <a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a>
-      {% if error %}
-            <div>{{ error.messageKey|trans() }}</div>
-      {% endif %}
-      <div class="loginForm">
-          {{ form_start(form) }}
-                {{ form_row(form.username) }}
-                {{ form_row(form.password) }}
-                <button type="submit" class="btn btn-success">Zaloguj się</button>
-                <input type="hidden" name="_csrf_token"value="{{ csrf_token('authenticate') }}">
-          {{ form_end(form) }}
-      </div>
+	<a href="{{ path('user_registration') }}">Nie masz konta? Zarejestruj się!</a>
+	{% if error %}
+		<div>{{ error.messageKey|trans() }}</div>
+	{% endif %}
+	<div class="loginForm">
+		{{ form_start(form) }}
+		{{ form_row(form.username) }}
+		{{ form_row(form.password) }}
+		<button type="submit" class="btn btn-success">Zaloguj się</button>
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+		{{ form_end(form) }}
+	</div>
 {% endblock %}

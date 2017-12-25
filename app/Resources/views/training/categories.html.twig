@@ -4,39 +4,44 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 {% endblock %}
 {% block body %}
-		<ul class="list-group">
-			<li class="list-group-item " id="cardio"><i class="fa fa-search-plus fa-2x"></i> Cardio</li>
-				<ul class="list-group hide" id="cardioCategory">
-					{% for category in cardioCategories %}
-						<a href="{{ path('cardio_category') }}/{{category.name}}">
-							<li class="list-group-item">
-								{{category.name}}
-							</li>
-						</a>
-					{% endfor %}
-				</ul>
-			<li class="list-group-item" id="strength"><i class="fa fa-search-plus fa-2x"></i> Siłowy</li>
-				<ul class="list-group hide" id="strengthCategory">
-					{% for category in strengthCategories %}
-						<a href="{{ path('strength_category') }}/{{category.name}}">
-							<li class="list-group-item">
-								{{ category.name}}
-							</li>
-						</a>
-					{% endfor %}
-					<a href="{{ path('my_strength_trainings') }}">
-						<li class="list-group-item">
-							mój trening
-						</li>
-					</a>
-					<a href="{{ path('create_my_strength_training') }}">
-						<button type="button" class="btn btn-default btn-md btn-info">
-				          <span class="glyphicon glyphicon-plus"></span> Utwórz trening
-				        </button>
-					</a>
-				</ul>
+	<ul class="list-group">
+		<li class="list-group-item " id="cardio">
+			<i class="fa fa-search-plus fa-2x"></i>
+			Cardio</li>
+		<ul class="list-group hide" id="cardioCategory">
+			{% for category in cardioCategories %}
+				<a href="{{ path('cardio_category') }}/{{category.name}}">
+					<li class="list-group-item">
+						{{category.name}}
+					</li>
+				</a>
+			{% endfor %}
 		</ul>
-	{% block scripts %}
-		<script type="text/javascript" src="{{ asset('javascript/training_category.js') }}"></script>
-	{% endblock %}
+		<li class="list-group-item" id="strength">
+			<i class="fa fa-search-plus fa-2x"></i>
+			Siłowy</li>
+		<ul class="list-group hide" id="strengthCategory">
+			{% for category in strengthCategories %}
+				<a href="{{ path('strength_category') }}/{{category.name}}">
+					<li class="list-group-item">
+						{{ category.name}}
+					</li>
+				</a>
+			{% endfor %}
+			<a href="{{ path('my_strength_trainings') }}">
+				<li class="list-group-item">
+					mój trening
+				</li>
+			</a>
+			<a href="{{ path('create_my_strength_training') }}">
+				<button type="button" class="btn btn-default btn-md btn-info">
+					<span class="glyphicon glyphicon-plus"></span>
+					Utwórz trening
+				</button>
+			</a>
+		</ul>
+</ul>
+{% block scripts %}
+	<script type="text/javascript" src="{{ asset('javascript/training_category.js') }}"></script>
+{% endblock %}
 {% endblock %}

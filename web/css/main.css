@@ -1,3 +1,6 @@
+body {
+	background-image: url('../img/restaurant_icons.png');
+}
 li {
 	list-style-type: none;
 }

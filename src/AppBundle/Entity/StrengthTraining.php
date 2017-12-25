@@ -21,7 +21,7 @@ class StrengthTraining
     /**
      * @ORM\OneToMany(targetEntity="StrengthTrainingExercise", mappedBy="trainingId", cascade={"persist"})
      */
-    protected $exercises;
+    private $exercises;
 
     public function __construct()
     {

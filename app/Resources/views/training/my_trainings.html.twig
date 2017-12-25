@@ -2,7 +2,10 @@
 {% block title %}Twój trening siłowy{% endblock %}
 {% block resources %}{% endblock %}
 {% block body %}
-	<h3>Siłowy <a href="{{ path('add_training') }}"><span class="glyphicon glyphicon-plus"></span></a></h3>
+	<h3>Siłowy
+		<a href="{{ path('add_training') }}">
+			<span class="glyphicon glyphicon-plus"></span></a>
+	</h3>
 	<ul class="list-group">
 		{% if userTrainings %}
 			{% for key, userTraining in userTrainings %}
@@ -24,7 +27,8 @@
 												<tr>
 													<td class="active text-center">{{ series.series }}</td>
 													<td class="danger text-center">x</td>
-													<td class="success text-center">{{ series.kgLoad }} kg</td>
+													<td class="success text-center">{{ series.kgLoad }}
+														kg</td>
 													<td class="danger text-center">x</td>
 													<td class="active text-center">{{ series.reps }}</td>
 												</tr>
@@ -39,7 +43,10 @@
 			{% endfor %}
 		{% endif %}
 	</ul>
-	<h3>Cardio  <a href="{{ path('add_training') }}"><span class="glyphicon glyphicon-plus"></span></a></h3>
+	<h3>Cardio
+		<a href="{{ path('add_training') }}">
+			<span class="glyphicon glyphicon-plus"></span></a>
+	</h3>
 	<ul class="list-group">
 		{% if userCardios %}
 			{% for key, userCardio in userCardios %}
@@ -48,8 +55,11 @@
 						<tr>
 							<th>{{ userCardio.trainingId.name }}</th>
 							<td>{{ userCardio.time }}min</td>
-							<td>{{ userCardio.burnedCalories }} kcal</td>
-							<td><a href="{{ path('deleteTraining') }}/cardio/{{ userCardio.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a></td>
+							<td>{{ userCardio.burnedCalories }}
+								kcal</td>
+							<td>
+								<a href="{{ path('deleteTraining') }}/cardio/{{ userCardio.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
+							</td>
 						</tr>
 					</table>
 				</li>

@@ -1,19 +1,19 @@
 {% extends 'base_form.html.twig' %}
 {% block title %}Dane użytkownika{% endblock %}
 {% block body %}
-	  {{ form_start(form) }}
-			{{ form_row(form.age) }}
-			{{ form_row(form.weight) }}
-			{{ form_row(form.height) }}
-			{{ form_row(form.activity) }}
-			{{ form_row(form.gender) }}
-			{{ form_row(form.calories) }}
-			<button type="button" id = "calculateCaloriesButton">Oblicz</button>
-			<button type="submit">Potwierdź</button>
-	  {{ form_end(form) }}
+	{{ form_start(form) }}
+	{{ form_row(form.age) }}
+	{{ form_row(form.weight) }}
+	{{ form_row(form.height) }}
+	{{ form_row(form.activity) }}
+	{{ form_row(form.gender) }}
+	{{ form_row(form.calories) }}
+	<button type="button" id="calculateCaloriesButton">Oblicz</button>
+	<button type="submit">Potwierdź</button>
+	{{ form_end(form) }}
 
-	  {% block scripts %}
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-			<script src="{{ asset('javascript/caloriesCalculator.js') }}"></script>
-	  {% endblock %}
+	{% block scripts %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="{{ asset('javascript/caloriesCalculator.js') }}"></script>
+	{% endblock %}
 {% endblock %}

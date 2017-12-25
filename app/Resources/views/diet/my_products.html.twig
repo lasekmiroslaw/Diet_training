@@ -1,107 +1,62 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
-{% block resources %}
-{% endblock %}
+{% block resources %}{% endblock %}
 {% block body %}
-<div class="row">
-    <div class="col-md-8">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <td class="text-nowrap">Nazwa produktu</td>
-                    <td class="text-nowrap">Wartość energetyczna kcal</td>
-                    <td class="text-nowrap">Białko</td>
-                    <td class="text-nowrap">Węglowodany</td>
-                    <td class="text-nowrap">Tłuszcz</td>
-                    <td class="text-nowrap">Woda</td>
-                    <td class="text-nowrap">Sód</td>
-                    <td class="text-nowrap">Potas</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-nowrap">
-                        <ul class="productList list-group">
-                            {% for myProduct in myProducts %}
-                                <li id="{{ myProduct.id }}"><a href="">{{ myProduct.name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.calories }}<br>
-                    {% endfor %}
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.totalProtein }}<br>
-                    {% endfor %}
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.carbohydrates }}<br>
-                    {% endfor %}
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.fat }}<br>
-                    {% endfor %}
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.water }}<br>
-                    {% endfor %}
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.sodium }}<br>
-                    {% endfor %}
-                    </td>
-                    <td class="text-nowrap">
-                    {% for myProduct in myProducts %}
-                        {{ myProduct.potassium }}<br>
-                    {% endfor %}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-3">
-        <div class="nutrients">
-            <div class="productForm hide">
-                <div class="productInfo"></div>
-                {{ form_start(form) }}
-                    {{ form_row(form.myProductId) }}
-                    {{ form_row(form.quantity, { 'attr': { 'maxlength': '6' }}) }}
-                    <div id="error"></div>
-                    <table class="table table-striped">
-                        <tr>
-                            <td>Kalorie</td>
-                            <td class="calories">{{ form_row(form.calories, { 'attr': { 'readonly': 'true' }}) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Białko</td>
-                            <td class="protein">{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true' }}) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Węglowodany</td>
-                            <td class="carbohydrates">{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true' }}) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Tłuszcze</td>
-                            <td class="fat">{{ form_row(form.fat, { 'attr': { 'readonly': 'true' }}) }}</td>
-                        </tr>
-                    </table>
-                    <div class="hide hiddenMeal">{{ meal|default('meal') }}</div>
-                    {{ form_row(form.meal) }}
-                    {{ form_row(form.add) }}
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-</div>
-    {% block scripts %}
-        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ asset('javascript/product.js') }}"></script>
-    {% endblock %}
+	<div class="row">
+		<div class="col-md-6">
+			<ul class="productList list-group">
+				{% for myProduct in myProducts %}
+					<li id="{{ myProduct.id }}" class="productItems list-group-item">
+						<a href="">{{ myProduct.name }}</a>
+						<div class="productMacros">
+							Białko:
+							{{ myProduct.totalProtein }}g Węglowodany:
+							{{ myProduct.carbohydrates }}g Tłuszcz:
+							{{ myProduct.fat }}g
+						</div>
+						<div class="productCalories">
+							{{ myProduct.calories }}kcal w 100g
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-3">
+			<div class="nutrients">
+				<div class="productForm hide">
+					<div class="productInfo"></div>
+					{{ form_start(form) }}
+					{{ form_row(form.myProductId) }}
+					{{ form_row(form.quantity, { 'attr': { 'maxlength': '6' }}) }}
+					<div id="error"></div>
+					<table class="table table-striped">
+						<tr>
+							<td>Kalorie</td>
+							<td class="calories">{{ form_row(form.calories, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+						<tr>
+							<td>Białko</td>
+							<td class="protein">{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+						<tr>
+							<td>Węglowodany</td>
+							<td class="carbohydrates">{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+						<tr>
+							<td>Tłuszcze</td>
+							<td class="fat">{{ form_row(form.fat, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+					</table>
+					<div class="hide hiddenMeal">{{ meal|default('meal') }}</div>
+					{{ form_row(form.meal) }}
+					{{ form_row(form.add) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% block scripts %}
+		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('javascript/product.js') }}"></script>
+	{% endblock %}
 {% endblock %}

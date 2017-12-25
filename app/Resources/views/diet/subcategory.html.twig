@@ -1,64 +1,64 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
-{% block resources %}
-{% endblock %}
+{% block resources %}{% endblock %}
 {% block body %}
-    <a href="{{ path('product_category') }}/{{ category }}">Poprzednia strona</a>
-    <div class="row productContainer">
-        <div class="col-md-6">
-            <ul class="productList list-group">
-                {% for product in products %}
-                    <li id="{{ loop.index0 }}" class="productItems list-group-item">
-            		    <a href="#">{{ product.name }}</a>
-                        <div class="productMacros">
-                            Białko: {{ product.totalProtein }}g
-                            Węglowodany: {{ product.carbohydrates }}g
-                            Tłuszcz: {{ product.fat }}g
-                        </div>
-                        <div class="productCalories">
-                            {{ product.calories }}kcal w 100g
-                        </div>
-                    </li>
-            	{% endfor %}
-            </ul>
-        </div>
-        <div class="col-md-3">
-            <div class="nutrients">
-                <div class="productForm hide">
-                    <div class="productInfo"></div>
-                    {{ form_start(form) }}
-                        {{ form_row(form.productId) }}
-                        {{ form_row(form.quantity, { 'attr': { 'maxlength': '6' }}) }}
-                        <div id="error"></div>
-                        <table class="table table-striped">
-                            <tr>
-                                <td>Kalorie</td>
-                                <td class="calories">{{ form_row(form.calories, { 'attr': { 'readonly': 'true' }}) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Białko</td>
-                                <td class="protein">{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true' }}) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Węglowodany</td>
-                                <td class="carbohydrates">{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true' }}) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Tłuszcze</td>
-                                <td class="fat">{{ form_row(form.fat, { 'attr': { 'readonly': 'true' }}) }}</td>
-                            </tr>
-                        </table>
-                        <div class="hide hiddenMeal">{{ meal }}</div>
-                        {{ form_row(form.meal) }}
-                        {{ form_row(form.add) }}
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% block scripts %}
-        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ asset('javascript/product.js') }}"></script>
-    {% endblock %}
+	<a href="{{ path('product_category') }}/{{ category }}">
+		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
+	<div class="row productContainer">
+		<div class="col-md-6">
+			<ul class="productList list-group">
+				{% for product in products %}
+					<li id="{{ loop.index0 }}" class="productItems list-group-item">
+						<a href="#">{{ product.name }}</a>
+						<div class="productMacros">
+							Białko:
+							{{ product.totalProtein }}g Węglowodany:
+							{{ product.carbohydrates }}g Tłuszcz:
+							{{ product.fat }}g
+						</div>
+						<div class="productCalories">
+							{{ product.calories }}kcal w 100g
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col-md-3">
+			<div class="nutrients">
+				<div class="productForm hide">
+					<div class="productInfo"></div>
+					{{ form_start(form) }}
+					{{ form_row(form.productId) }}
+					{{ form_row(form.quantity, { 'attr': { 'maxlength': '6' }}) }}
+					<div id="error"></div>
+					<table class="table table-striped">
+						<tr>
+							<td>Kalorie</td>
+							<td class="calories">{{ form_row(form.calories, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+						<tr>
+							<td>Białko</td>
+							<td class="protein">{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+						<tr>
+							<td>Węglowodany</td>
+							<td class="carbohydrates">{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+						<tr>
+							<td>Tłuszcze</td>
+							<td class="fat">{{ form_row(form.fat, { 'attr': { 'readonly': 'true' }}) }}</td>
+						</tr>
+					</table>
+					<div class="hide hiddenMeal">{{ meal }}</div>
+					{{ form_row(form.meal) }}
+					{{ form_row(form.add) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	{% block scripts %}
+		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('javascript/product.js') }}"></script>
+	{% endblock %}
 {% endblock %}

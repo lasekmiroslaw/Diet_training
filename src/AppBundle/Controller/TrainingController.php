@@ -48,12 +48,23 @@ class TrainingController extends Controller
 		} else {
 			foreach($userStrengthTrainings as $userStrengthTraining) {
 				$exercises = $userStrengthTraining->getTrainingExercises();
-				$userTrainingName = '-'.$userStrengthTraining->getId().'-'.$userStrengthTraining->getTrainingId()->getName();
+				if(!empty($userStrengthTraining->getTrainingId())) {
+					$userTrainingName = '-'.$userStrengthTraining->getId().'-'.$userStrengthTraining->getTrainingId()->getName();
+				}
+				if(!empty($userStrengthTraining->getMyTrainingId())) {
+					$userTrainingName = '-'.$userStrengthTraining->getId().'-'.$userStrengthTraining->getMyTrainingId()->getName();
+				}
 				$counter = $exercises->count();
 
 				for($i = 0; $i<$counter; $i++) {
+					if(!empty($exercises[$i]->getExerciseId())) {
+						$exerciseName = $exercises[$i]->getExerciseId()->getName();
+					}
+					if(!empty($exerciseName = $exercises[$i]->getMyExerciseId())) {
+						$exerciseName = $exercises[$i]->getMyExerciseId()->getName();
+					}
+
             		$seriesCounter = $exercises[$i]->getSeriesTraining()->count();
-					$exerciseName = $exercises[$i]->getExerciseId()->getName();
 					$series = $exercises[$i]->getSeriesTraining();
 					$userTrainings[$userTrainingName][$exerciseName] = [];
 

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
-	    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock %}
 {% block body %}
-<main>
-	{{ form_start(form) }}
+	<main>
+		{{ form_start(form) }}
 		<div class="hiddenInfo hide">
 			{{ form_row(form.water) }}
 			{{ form_row(form.sodium) }}
@@ -18,13 +18,13 @@
 		</div>
 		<div class="moreInfo"></div>
 		<button type="submit" class="btn btn-success center-block addMyProductBtn">Dodaj produkt</button>
-	{{ form_end(form) }}
-	{% for message in app.flashes('notice') %}
-		<div class="flash-notice">
-			<div class="alert alert-success">{{ message }}</div>
-		</div>
-	{% endfor %}
-</main>
+		{{ form_end(form) }}
+		{% for message in app.flashes('notice') %}
+			<div class="flash-notice">
+				<div class="alert alert-success">{{ message }}</div>
+			</div>
+		{% endfor %}
+	</main>
 	{% block scripts %}
 		<script src="{{ asset('javascript/add_my_products.js') }}"></script>
 	{% endblock %}

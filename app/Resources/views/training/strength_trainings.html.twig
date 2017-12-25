@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twój trening siłowy{% endblock %}
-{% block resources %}
-{% endblock %}
+{% block resources %}{% endblock %}
 {% block body %}
-	<a href="{{ path('add_training') }}">Poprzednia strona</a>
+	<a href="{{ path('add_training') }}">
+		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
 	<ul class="list-group trainingList">
 		{% for strengthTraining in strengthTrainings %}
-				<li id="{{ loop.index0 }}" class="list-group-item">
-					<a href="{{ path('strength_training_exercise') }}/{{ strengthTraining.id }}">{{ strengthTraining.name }}</a>
-				</li>
+			<li id="{{ loop.index0 }}" class="list-group-item">
+				<a href="{{ path('default_strength_training_exercise') }}/{{ strengthTraining.id }}">{{ strengthTraining.name }}</a>
+			</li>
 		{% endfor %}
 	</ul>
-	{% block scripts %}
-	{% endblock %}
+	{% block scripts %}{% endblock %}
 {% endblock %}

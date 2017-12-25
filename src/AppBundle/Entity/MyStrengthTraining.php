@@ -23,13 +23,13 @@ class MyStrengthTraining
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="MyStrengthTrainingExercise", mappedBy="myTrainingId", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="MyStrengthTrainingExercise", mappedBy="trainingId", cascade={"persist"})
      */
-    protected $myExercises;
+    private $exercises;
 
     public function __construct()
     {
-        $this->myExercises = new ArrayCollection();
+        $this->exercises = new ArrayCollection();
     }
 
     /**
@@ -106,22 +106,22 @@ class MyStrengthTraining
     }
 
     /**
-     * Get myExercises
+     * Get exercises
      *
      * @return string
      */
-    public function getMyExercises()
+    public function getExercises()
     {
-        return $this->myExercises;
+        return $this->exercises;
     }
 
-    public function addMyExercise(MyStrengthTrainingExercise $myExercise)
+    public function addExercise(StrengthTrainingExercise $exercise)
     {
-        $this->myExercises->add($myExercise);
+        $this->exercises->add($exercise);
     }
 
-    public function removeMyExercise(MyStrengthTrainingExercise $myExercise)
+    public function removeExercise(StrengthTrainingExercise $exercise)
     {
-        $this->myExercises->removeElement($myExercise);
+        $this->exercises->removeElement($exercise);
     }
 }

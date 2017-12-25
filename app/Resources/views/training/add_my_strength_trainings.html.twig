@@ -1,22 +1,20 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twój trening siłowy{% endblock %}
-{% block resources %}
-{% endblock %}
+{% block resources %}{% endblock %}
 {% block body %}
-	<a href="{{ path('add_training') }}">Poprzednia strona</a>
+	<a href="{{ path('add_training') }}">
+		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
 	<ul class="list-group trainingList">
 		{% for myTraining in myTrainings %}
-				<li class="list-group-item">
-					<a href="{{ path('create_strength_training_exercise') }}/{{ myTraining.id }}">{{ myTraining.name }}</a>
-					<a href="{{ path('deleteMyTraining') }}/{{ myTraining.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
-				</li>
+			<li class="list-group-item">
+				<a href="{{ path('create_strength_training_exercise') }}/{{ myTraining.id }}">{{ myTraining.name }}</a>
+				<a href="{{ path('deleteMyTraining') }}/{{ myTraining.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
+			</li>
 		{% endfor %}
 	</ul>
 	{{ form_start(form) }}
 	{{ form_row(form.name) }}
 	<button type="submit" class="btn-success btn" name="button">Utórz trening!</button>
 	{{ form_end(form) }}
-
-	{% block scripts %}
-	{% endblock %}
+	{% block scripts %}{% endblock %}
 {% endblock %}

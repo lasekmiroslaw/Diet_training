@@ -13,10 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 class MyStrengthTrainingExercise
 {
     /**
-     * @ORM\ManyToOne(targetEntity="MyStrengthTraining", inversedBy="myExercises")
-     * @ORM\JoinColumn(name="my_training_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="MyStrengthTraining", inversedBy="exercises")
+     * @ORM\JoinColumn(name="training_id", referencedColumnName="id")
      */
-    private $myTrainingId;
+    private $trainingId;
 
     /**
      * @var int
@@ -70,27 +70,27 @@ class MyStrengthTrainingExercise
     }
 
     /**
-     * Set myTrainingId
+     * Set trainingId
      *
      * @param integer $myTrainingId
      *
      * @return StrengthTrainingExercise
      */
-    public function setMyTrainingId($myTrainingId)
+    public function setTrainingId($trainingId)
     {
-        $this->myTrainingId = $myTrainingId;
+        $this->trainingId = $trainingId;
 
         return $this;
     }
 
     /**
-     * Get myTrainingId
+     * Get trainingId
      *
      * @return int
      */
-    public function getMyTrainingId()
+    public function getTrainingId()
     {
-        return $this->myTrainingId;
+        return $this->trainingId;
     }
 
 }

@@ -2,11 +2,11 @@
 {% block title %}Twój trening siłowy{% endblock %}
 {% block resources %}{% endblock %}
 {% block body %}
-	<a href="{{ path('strength_category') }}/{{ category }}">Poprzednia strona</a>
+	<a href="{{ path('my_strength_trainings') }}">
+		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
 	<h3 class="text-center">{{ training }}</h3>
 	<ul class="list-group">
 		{% for exercise in exercises %}
-
 			<li class="list-group-item">
 				<div class="row">
 					<div class="col-md-4">
@@ -18,16 +18,16 @@
 							<tr class="exerciseReps"></tr>
 						</table>
 					</div>
-			</div>
+				</div>
 			</li>
 		{% endfor %}
 	</ul>
 
-	<div class="modal fade" id="myModal" role="dialog" class="myModal">
+	<div class="myModal" id="myModal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header" style="padding:35px 50px;">
-			  		<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="exerciseName text-center"></h4>
 				</div>
 				<div class="modal-body" style="padding:40px 50px;">

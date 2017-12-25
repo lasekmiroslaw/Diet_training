@@ -1,117 +1,134 @@
 {% extends 'base.html.twig' %}
 {% block title %}Twoja dieta i trening{% endblock %}
 {% block resources %}
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+	<link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
 {% endblock %}
 {% block body %}
-    <div class="row productContainer">
-        <div class="col-md-6">
-            <ul class="productList list-group">
-                <table class="table table-hover table-bordered table-striped">
-                    <thead class="info">
-                        <tr>
-                            <th colspan="4">{{ product.name }} na 100g produktu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>wartosc energetyczna</td>
-                            <td>{{ product.calories }} kcal</td>
-                            <td>woda</td>
-                            <td>{{ product.water }} g</td>
-                        </tr>
-                        <tr>
-                            <td>białko ogółem</td>
-                            <td>{{ product.totalProtein }} g</td>
-                            <td>białko zwierzęce</td>
-                            <td>{{ product.animalProtein }} g</td>
-                        </tr>
-                        <tr>
-                            <td>białko rośline</td>
-                            <td>{{ product.vegetableProtein }} g</td>
-                            <td>tłuszcz</td>
-                            <td>{{ product.fat }} g</td>
-                        </tr>
-                        <tr>
-                            <td>węglowodany</td>
-                            <td>{{ product.carbohydrates }} g</td>
-                            <td>sód</td>
-                            <td>{{ product.sodium }} g</td>
-                        </tr>
-                        <tr>
-                            <td>potas</td>
-                            <td>{{ product.potassium }} mg</td>
-                            <td>wapń</td>
-                            <td>{{ product.calcium }} mg</td>
-                        </tr>
-                        <tr>
-                            <td>fosfor</td>
-                            <td>{{ product.phosphor }} mg</td>
-                            <td>magnez</td>
-                            <td>{{ product.magnesium }} mg</td>
-                        </tr>
-                        <tr>
-                            <td>żelazo</td>
-                            <td>{{ product.iron }} mg</td>
-                            <td>cynk</td>
-                            <td>{{ product.zinc }} mg</td>
-                        </tr>
-                        <tr>
-                            <td>miedź</td>
-                            <td>{{ product.copper }} mg</td>
-                            <td>mangan</td>
-                            <td>{{ product.manganese }} mg</td>
-                        </tr>
-                    </tbody>
-                </table>
+	<div class="row productContainer">
+		<div class="col-md-6">
+			<ul class="productList list-group">
+				<table class="table table-hover table-bordered table-striped">
+					<thead class="info">
+						<tr>
+							<th colspan="4">{{ product.name }}
+								na 100g produktu</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>wartosc energetyczna</td>
+							<td>{{ product.calories }}
+								kcal</td>
+							<td>woda</td>
+							<td>{{ product.water }}
+								g</td>
+						</tr>
+						<tr>
+							<td>białko ogółem</td>
+							<td>{{ product.totalProtein }}
+								g</td>
+							<td>białko zwierzęce</td>
+							<td>{{ product.animalProtein }}
+								g</td>
+						</tr>
+						<tr>
+							<td>białko rośline</td>
+							<td>{{ product.vegetableProtein }}
+								g</td>
+							<td>tłuszcz</td>
+							<td>{{ product.fat }}
+								g</td>
+						</tr>
+						<tr>
+							<td>węglowodany</td>
+							<td>{{ product.carbohydrates }}
+								g</td>
+							<td>sód</td>
+							<td>{{ product.sodium }}
+								g</td>
+						</tr>
+						<tr>
+							<td>potas</td>
+							<td>{{ product.potassium }}
+								mg</td>
+							<td>wapń</td>
+							<td>{{ product.calcium }}
+								mg</td>
+						</tr>
+						<tr>
+							<td>fosfor</td>
+							<td>{{ product.phosphor }}
+								mg</td>
+							<td>magnez</td>
+							<td>{{ product.magnesium }}
+								mg</td>
+						</tr>
+						<tr>
+							<td>żelazo</td>
+							<td>{{ product.iron }}
+								mg</td>
+							<td>cynk</td>
+							<td>{{ product.zinc }}
+								mg</td>
+						</tr>
+						<tr>
+							<td>miedź</td>
+							<td>{{ product.copper }}
+								mg</td>
+							<td>mangan</td>
+							<td>{{ product.manganese }}
+								mg</td>
+						</tr>
+					</tbody>
+				</table>
 
-            </ul>
-        </div>
-        <div class="col-md-3">
-            <div class="nutrients">
-                <div class="productForm">
-                    <div class="productInfo">{{ product.name }}</div>
-                    {{ form_start(form) }}
-                        {{ form_row(form.productId) }}
-                        {{ form_row(form.quantity, { 'attr': { 'maxlength': '6', 'value': 100 }}) }}
-                        <div id="error"></div>
-                        <table class="table table-striped">
-                            <tr>
-                                <td>Kalorie</td>
-                                    <td class="calories">
-                                        {{ form_row(form.calories, { 'attr': { 'readonly': 'true', 'value': product.calories }}) }}
-                                    </td>
-                            </tr>
-                            <tr>
-                                <td>Białko</td>
-                                <td class="protein">
-                                    {{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true', 'value': product.totalProtein }}) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Węglowodany</td>
-                                <td class="carbohydrates">
-                                    {{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true', 'value': product.carbohydrates }}) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Tłuszcze</td>
-                                <td class="fat">
-                                    {{ form_row(form.fat, { 'attr': { 'readonly': 'true', 'value': product.fat }}) }}
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="hide hiddenMeal">{{ meal }}</div>
-                        {{ form_row(form.meal) }}
-                        {{ form_row(form.add) }}
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
-    </div>
+			</ul>
+		</div>
+		<div class="col-md-3">
+			<div class="nutrients">
+				<div class="productForm">
+					<div class="productInfo">{{ product.name }}</div>
+					{{ form_start(form) }}
+					{{ form_row(form.productId) }}
+					{{ form_row(form.quantity, { 'attr': { 'maxlength': '6', 'value': 100 }}) }}
+					<div id="error"></div>
+					<table class="table table-striped">
+						<tr>
+							<td>Kalorie</td>
+							<td class="calories">
+								{{ form_row(form.calories, { 'attr': { 'readonly': 'true', 'value': product.calories }}) }}
+							</td>
+						</tr>
+						<tr>
+							<td>Białko</td>
+							<td class="protein">
+								{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true', 'value': product.totalProtein }}) }}
+							</td>
+						</tr>
+						<tr>
+							<td>Węglowodany</td>
+							<td class="carbohydrates">
+								{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true', 'value': product.carbohydrates }}) }}
+							</td>
+						</tr>
+						<tr>
+							<td>Tłuszcze</td>
+							<td class="fat">
+								{{ form_row(form.fat, { 'attr': { 'readonly': 'true', 'value': product.fat }}) }}
+							</td>
+						</tr>
+					</table>
+					<div class="hide hiddenMeal">{{ meal }}</div>
+					{{ form_row(form.meal) }}
+					{{ form_row(form.add) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+	</div>
 
-    {% block scripts %}
-        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
-        <script src="{{ asset('javascript/add_product.js') }}"></script>
-    {% endblock %}
+	{% block scripts %}
+		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('javascript/add_product.js') }}"></script>
+	{% endblock %}
 {% endblock %}
