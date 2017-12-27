@@ -117,7 +117,6 @@ $(document).ready(function() {
 	$('#myModal').on('hidden.bs.modal', removeLi);
 	//Reattach event
 	$('#myModal').on('show.bs.modal', function(e){
-		console.log('shit')
 		e.stopImmediatePropagation();
 		$('#myModal').on('hidden.bs.modal', removeLi);
 	});

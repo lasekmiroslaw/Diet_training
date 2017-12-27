@@ -7,7 +7,7 @@
 {% block body %}
     <main class="">
         <div class="row">
-            <div class="chart col-md-4" id="graph" data-percent="{{ percentCalories }}">
+            <div class="chart col-md-3" id="graph" data-percent="{{ percentCalories }}">
                 <span class="centerText">{{ percentCalories }}%</span>
             </div>
 
@@ -19,8 +19,27 @@
                 Spożyte kalorie {{ currentCalories }} kcal</br>
                 Pozostało {{ caloriesLeft }} kcal
             </div>
-
-            <div class="calendar col-md-3">
+            <div class="myTrainings col-md-3">
+                <h4>Dzisiejsze treningi</h4>
+                <h5>Siłowe</h5>
+                <ul class="StrengthTrainingList">
+                    {% for userStrengthTraining in userStrengthTrainings %}
+                        {% if userStrengthTraining.trainingId == true %}
+                            <li><a href="{{ path('user_trainings') }}">{{ userStrengthTraining.trainingId.name }}</a></li>
+                        {% endif %}
+                        {% if userStrengthTraining.myTrainingId == true %}
+                            <li><a href="{{ path('user_trainings') }}">{{ userStrengthTraining.myTrainingId.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <h5>Cardio</h5>
+                <ul class="StrengthTrainingList">
+                    {% for userCardio in userCardios %}
+                        <li><a href="{{ path('user_trainings') }}">{{ userCardio.trainingId.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="calendar col-md-2">
                 {{ form_start(form) }}
                 <div class="input-group">
                     {{ form_row(form.pickedDate, {'value': pickedDate })  }}
@@ -39,11 +58,11 @@
                     <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in breakfast %}
+                    {% for product in meals['breakfast'] %}
                         <li class="productItem list-group-item">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="">{{ product.name }}</a>
+                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
@@ -60,11 +79,11 @@
                 <a href="{{ path('product_categories') }}/lunch"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in lunch %}
+                    {% for product in meals['lunch'] %}
                         <li class="productItem list-group-item">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="">{{ product.name }}</a>
+                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
@@ -83,11 +102,11 @@
                     <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in dinner %}
+                    {% for product in meals['dinner'] %}
                         <li class="productItem list-group-item">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="">{{ product.name }}</a>
+                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
@@ -105,11 +124,11 @@
                     <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in supper %}
+                    {% for product in meals['supper'] %}
                         <li class="productItem list-group-item">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="">{{ product.name }}</a>
+                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
@@ -127,11 +146,11 @@
                     <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in snacks %}
+                    {% for product in meals['snacks'] %}
                         <li class="productItem list-group-item">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="">{{ product.name }}</a>
+                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
@@ -149,11 +168,11 @@
                     <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in other %}
+                    {% for product in meals['other'] %}
                         <li class="productItem list-group-item">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="">{{ product.name }}</a>
+                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>

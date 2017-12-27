@@ -23,14 +23,14 @@
 		{% endfor %}
 	</ul>
 
-	<div class="myModal" id="myModal" role="dialog">
+	<div class="modal myModal" id="myModal" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header" style="padding:35px 50px;">
+				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="exerciseName text-center"></h4>
 				</div>
-				<div class="modal-body" style="padding:40px 50px;">
+				<div class="modal-body">
 					{{ form_start(form) }}
 					<ul class="series list-group" data-prototype="{{ form_widget(form.trainingExercises.vars.prototype)|e('html_attr') }}">
 						{% for trainingExercise in form.trainingExercises %}

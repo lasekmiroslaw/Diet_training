@@ -1,22 +1,28 @@
 body {
 	background-image: url('../img/restaurant_icons.png');
 }
+
 li {
 	list-style-type: none;
 }
+
 .logout {
 	margin-top: 1%;
 }
+
 .mainMenu {
 	padding-bottom: 9%;
 }
+
 .normalText {
 	padding-left: 3%;
 	margin-top: 4%;
 }
+
 .calendar {
 	padding-top: 2%;
 }
+
 .meals {
 		margin-top: 2%;
 }
@@ -35,9 +41,9 @@ li {
 
 .productContainer {
 	width: 90%;
-
 	margin: 2% auto 0 auto;
 }
+
 .productItem {
 	font-size: 1rem;
 }
@@ -53,6 +59,7 @@ li {
 	margin-top: 4%;
 	line-height: 164px;
 }
+
 canvas {
     display: block;
     position:absolute;
@@ -73,6 +80,7 @@ form[name="login_form"] {
 	transform: translate(-50%, -50%);
 	width: 70vw;
 }
+
 .footer {
 	margin-top: 100px;
     position: fixed;
@@ -108,3 +116,11 @@ input[aria-invalid="true"] {
 }
 
 .gi-2x{font-size: 2em;}
+
+.modal-header {
+	padding: 35px 50px;
+}
+
+.modal-body {
+	padding: 40px 50px;
+}

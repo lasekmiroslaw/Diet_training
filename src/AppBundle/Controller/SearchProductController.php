@@ -44,7 +44,7 @@ class SearchProductController extends Controller
     /**
     * @Route("/produkt/{id}", name="product_add")
     */
-    public function addProductAction(Food $product, Request $request, SessionInterface $session)
+    public function addProductAction($id = 'id', Food $product, Request $request, SessionInterface $session)
     {
         $sessionMeal = $session->get('meal');
         $userFood = new UserFood();

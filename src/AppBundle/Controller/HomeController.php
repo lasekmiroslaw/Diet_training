@@ -12,6 +12,8 @@ use AppBundle\Form\DateForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
+use AppBundle\Entity\UserStrengthTrainingCollection;
+use AppBundle\Entity\UserCardio;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -25,7 +27,6 @@ class HomeController extends Controller
         $user = $this->getUser();
         $userName = $user->getUsername();
         $userId = $user->getId();
-
         $userDataRepository = $this->getDoctrine()->getRepository(UserData::class);
 
         $pickedDate = new PickedDate();
@@ -48,12 +49,10 @@ class HomeController extends Controller
         $session->set('pickedDate', $date);
         $pickedDate = $session->get('pickedDate');
 
-        $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
-
         $userFoodRepository = $this->getDoctrine()->getRepository(UserFood::class);
-
 		$userMacroNutrients = $userFoodRepository->sumMacroNutrients($userId, $date);
 
+        $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
         $currentCalories = $userMacroNutrients[0]['calories'];
         $caloriesLeft = $dailyCalories - $currentCalories;
         $percentCalories = $this->calculatePercentShare($currentCalories, $dailyCalories);
@@ -75,12 +74,17 @@ class HomeController extends Controller
             'other' => 'inne',
         ];
 
-        $breakfast = $userFoodRepository->findMeals($userId, $meal['breakfast'], $date);
-        $lunch = $userFoodRepository->findMeals($userId, $meal['lunch'], $date);
-        $dinner = $userFoodRepository->findMeals($userId, $meal['dinner'], $date);
-        $supper = $userFoodRepository->findMeals($userId, $meal['supper'], $date);
-        $snacks = $userFoodRepository->findMeals($userId, $meal['snacks'], $date);
-        $other = $userFoodRepository->findMeals($userId, $meal['other'], $date);
+        foreach ($meal as $key => $value) {
+            $$key = $userFoodRepository->findMeals($userId, $meal[$key], $date);
+            $meals[$key] = $$key;
+        }
+
+        $userStrengthTrainings = $this->getDoctrine()
+            ->getRepository(UserStrengthTrainingCollection::class)
+            ->loadUserStrengthTrainings($pickedDate, $user);
+        $userCardios = $this->getDoctrine()
+            ->getRepository(UserCardio::class)
+            ->loadUserCardios($pickedDate, $user);
 
         $alert = $session->get('alert');
         $session->remove('alert');
@@ -97,16 +101,12 @@ class HomeController extends Controller
              'percentCarbohydrates' => $percentCarbohydrates,
              'fat' => $fat,
              'percentFat' => $percentFat,
-
-             'breakfast' => $breakfast,
-             'lunch' => $lunch,
-             'dinner' => $dinner,
-             'supper' => $supper,
-             'snacks' => $snacks,
-             'other' => $other,
+             'meals' => $meals,
              'alert' => $alert,
              'form' => $form->createView(),
              'pickedDate' => $pickedDate,
+             'userStrengthTrainings' => $userStrengthTrainings,
+             'userCardios' => $userCardios,
         ]);
     }
 
