@@ -60,7 +60,7 @@ class TrainingController extends Controller
 					if(!empty($exercises[$i]->getExerciseId())) {
 						$exerciseName = $exercises[$i]->getExerciseId()->getName();
 					}
-					if(!empty($exerciseName = $exercises[$i]->getMyExerciseId())) {
+					if(!empty($exercises[$i]->getMyExerciseId())) {
 						$exerciseName = $exercises[$i]->getMyExerciseId()->getName();
 					}
 
@@ -74,6 +74,7 @@ class TrainingController extends Controller
 				}
 			}
 		}
+		// dump($userTrainings);die;
 		$alert = $session->get('alert');
 
 		return $this->render('training/my_trainings.html.twig', [
