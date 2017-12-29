@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * UserStrengthTrainingCollection
  *
  * @ORM\Table(name="user_strength_training_collection")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserStrengthExerciseCollectionRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserStrengthTrainingCollectionRepository")
  */
 class UserStrengthTrainingCollection
 {

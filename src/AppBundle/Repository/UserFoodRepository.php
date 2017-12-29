@@ -1,7 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
-
+use AppBundle\Entity\User;
 
 /**
  * UserFoodRepository
@@ -65,4 +65,13 @@ class UserFoodRepository extends \Doctrine\ORM\EntityRepository
 	        ))->getResult();
 	}
 
+	public function findItemToDelete(User $user, $id)
+	{
+		return $this->createQueryBuilder('u')
+		  ->where('u.userId = :user AND u.id = :id')
+		  ->setParameter('user', $user)
+		  ->setParameter('id', $id)
+		  ->getQuery()
+		  ->getOneOrNullResult();
+	}
 }

@@ -6,10 +6,10 @@
 		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
 	<h3 class="text-center">{{ training }}</h3>
 	{{ form_start(form) }}
-	<ul class="exersises" data-prototype="{{ form_widget(form.myExercises.vars.prototype)|e('html_attr') }}">
-		{% for myExercise in form.myExercises %}
+	<ul class="exersises" data-prototype="{{ form_widget(form.exercises.vars.prototype)|e('html_attr') }}">
+		{% for exercise in form.exercises %}
 			<li>
-				{{ form_row(myExercise.name) }}
+				{{ form_row(exercise.name) }}
 				<a href="#" class="removeLink">usuń</a>
 			</li>
 		{% endfor %}

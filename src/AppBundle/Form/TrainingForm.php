@@ -13,7 +13,7 @@ class TrainingForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('myExercises', CollectionType::class, array(
+        $builder->add('exercises', CollectionType::class, array(
             'label' => false,
             'entry_type' => ExerciseType::class,
             'entry_options' => array('label' => false),

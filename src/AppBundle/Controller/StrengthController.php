@@ -83,16 +83,17 @@ class StrengthController extends Controller
 	}
 
 	/**
-	 * @Route("/usuntrening/{id}", name="deleteMyTraining")
+	 * @Route("/usun_moj_trening/{id}", name="deleteMyTraining")
 	 */
-	public function deleteMyTrainingAction($id = 1, SessionInterface $session)
+	public function disActiveMyTrainingAction($id = 1, SessionInterface $session)
 	{
 		try
 		{
-		$em = $this->getDoctrine()->getManager();
-		$myTraining = $em->getRepository(MyStrengthTraining::class)->find($id);
-		$em->remove($myTraining);
-		$em->flush();
+			$user = $this->getUser();
+			$em = $this->getDoctrine()->getManager();
+			$myTraining = $em->getRepository(MyStrengthTraining::class)->findItemToDisActive($user, $id);
+			$myTraining->setIsActive(false);
+			$em->flush();
 		}
 		catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
 		{
@@ -116,7 +117,7 @@ class StrengthController extends Controller
 		$trainingName = $myStrengtTraining->getName();
 
 		$originalExersies = new ArrayCollection();
-		foreach($myStrengtTraining->getMyExercises() as $exersise) {
+		foreach($myStrengtTraining->getExercises() as $exersise) {
 			$originalExersies->add($exersise);
 		}
 
@@ -127,12 +128,12 @@ class StrengthController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 		  foreach($originalExersies as $exersise) {
-			if ($myStrengtTraining->getMyExercises()->contains($exersise) === false) {
+			if ($myStrengtTraining->getExercises()->contains($exersise) === false) {
 				$em->remove($exersise);
 			};
 		}
-			foreach($myStrengtTraining->getMyExercises() as $exersise) {
-				$exersise->setMyTrainingId($myStrengtTraining);
+			foreach($myStrengtTraining->getExercises() as $exersise) {
+				$exersise->setTrainingId($myStrengtTraining);
 			}
 			$em->persist($myStrengtTraining);
 			$em->flush();
@@ -192,7 +193,6 @@ class StrengthController extends Controller
 			->find($training);
 		$trainingName = $myStrengtTraining->getName();
 		$exercises = $myStrengtTraining->getExercises();
-		// dump($myStrengtTraining);die;
 
 		$userStrengthTraining = new UserStrengthTrainingCollection();
 		$this->addExercises($myStrengtTraining, $userStrengthTraining);

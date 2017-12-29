@@ -8,22 +8,34 @@
 	</h3>
 	<ul class="list-group">
 		{% if userTrainings %}
-			{% for key, userTraining in userTrainings %}
+			{% for userTraining in userTrainings %}
 				<li class="list-group-item training-list">
-					<a class="training-link">{{ key|name }}</a>
-					<a href="{{ path('deleteTraining') }}/silowy/{{ key|onlyId }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
+					<a class="training-link">
+						{% if userTraining.trainingId %}
+							{{ userTraining.trainingId.name }}
+						{% endif %}
+						{% if userTraining.myTrainingId %}
+							{{ userTraining.myTrainingId.name }}
+						{% endif %}
+					</a>
+					<a href="{{ path('deleteTraining') }}/silowy/{{ userTraining.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
 					<ul class="list-group toggleHide hide">
-						{% for exercise, allseries in userTraining %}
+						{% for exercise in userTraining.trainingExercises %}
 							<li class="list-group-item exercise">
 								<div class="row">
 									<div class="col-md-3">
 										<a href="#" class="exercise-link" id="{{ loop.index0 }}">
-											{{ exercise }}
+											{% if exercise.exerciseId %}
+												{{ exercise.exerciseId.name }}
+											{% endif %}
+											{% if exercise.myExerciseId %}
+												{{ exercise.myExerciseId.name }}
+											{% endif %}
 										</a>
 									</div>
 									<div class="col-md-2 seriesDiv">
 										<table class="table table-condensed">
-											{% for series in allseries %}
+											{% for series in exercise.seriesTraining %}
 												<tr>
 													<td class="active text-center">{{ series.series }}</td>
 													<td class="danger text-center">x</td>

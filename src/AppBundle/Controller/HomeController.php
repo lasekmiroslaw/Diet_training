@@ -121,14 +121,15 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/deleteProduct/{id}", name="deleteProduct")
+     * @Route("/usun_produkt/{id}", name="deleteProduct")
      */
     public function deleteAction($id = 1, SessionInterface $session)
     {
         try
         {
+            $user = $this->getUser();
             $em = $this->getDoctrine()->getManager();
-            $product = $em->getRepository(UserFood::class)->find($id);
+            $product = $em->getRepository(UserFood::class)->findItemToDelete($user, $id);
             $em->remove($product);
             $em->flush();
 

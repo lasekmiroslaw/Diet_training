@@ -23,13 +23,14 @@ class MyStrengthTraining
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="MyStrengthTrainingExercise", mappedBy="trainingId", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="MyStrengthTrainingExercise", mappedBy="trainingId", cascade={"persist"}, orphanRemoval=true)
      */
     private $exercises;
 
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
+        $this->isActive = true;
     }
 
     /**
@@ -46,6 +47,11 @@ class MyStrengthTraining
      * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
      */
     private $userId;
+
+    /**
+     * @ORM\Column(name="aktywny", type="boolean")
+     */
+    private $isActive;
 
     /**
      * Get id
@@ -106,6 +112,30 @@ class MyStrengthTraining
     }
 
     /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
      * Get exercises
      *
      * @return string
@@ -115,12 +145,12 @@ class MyStrengthTraining
         return $this->exercises;
     }
 
-    public function addExercise(StrengthTrainingExercise $exercise)
+    public function addExercise(MyStrengthTrainingExercise $exercise)
     {
         $this->exercises->add($exercise);
     }
 
-    public function removeExercise(StrengthTrainingExercise $exercise)
+    public function removeExercise(MyStrengthTrainingExercise $exercise)
     {
         $this->exercises->removeElement($exercise);
     }

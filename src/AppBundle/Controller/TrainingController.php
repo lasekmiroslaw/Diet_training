@@ -43,62 +43,31 @@ class TrainingController extends Controller
 			->getRepository(UserCardio::class)
 			->loadUserCardios($pickedDate, $user);
 
-		if(empty($userStrengthTrainings)) {
-			$userTrainings = [];
-		} else {
-			foreach($userStrengthTrainings as $userStrengthTraining) {
-				$exercises = $userStrengthTraining->getTrainingExercises();
-				if(!empty($userStrengthTraining->getTrainingId())) {
-					$userTrainingName = '-'.$userStrengthTraining->getId().'-'.$userStrengthTraining->getTrainingId()->getName();
-				}
-				if(!empty($userStrengthTraining->getMyTrainingId())) {
-					$userTrainingName = '-'.$userStrengthTraining->getId().'-'.$userStrengthTraining->getMyTrainingId()->getName();
-				}
-				$counter = $exercises->count();
-
-				for($i = 0; $i<$counter; $i++) {
-					if(!empty($exercises[$i]->getExerciseId())) {
-						$exerciseName = $exercises[$i]->getExerciseId()->getName();
-					}
-					if(!empty($exercises[$i]->getMyExerciseId())) {
-						$exerciseName = $exercises[$i]->getMyExerciseId()->getName();
-					}
-
-            		$seriesCounter = $exercises[$i]->getSeriesTraining()->count();
-					$series = $exercises[$i]->getSeriesTraining();
-					$userTrainings[$userTrainingName][$exerciseName] = [];
-
-					for($x = 0; $x<$seriesCounter; $x++) {
-						array_push($userTrainings[$userTrainingName][$exerciseName], $series[$x]);
-					}
-				}
-			}
-		}
-		// dump($userTrainings);die;
 		$alert = $session->get('alert');
 
 		return $this->render('training/my_trainings.html.twig', [
-			'userTrainings' => $userTrainings,
+			'userTrainings' => $userStrengthTrainings,
 			'userCardios' => $userCardios,
 			'alert' => $alert,
 		]);
 	}
 
 	/**
-	 * @Route("/deleteTraining/{training}/{id}", name="deleteTraining")
+	 * @Route("/usun/{training}/{id}", name="deleteTraining")
 	 */
 	public function deleteTrainingAction($training = 'trening', $id = 1, SessionInterface $session)
 	{
 		try
 		{
+			$user = $this->getUser();
 			$em = $this->getDoctrine()->getManager();
 			if($training == 'silowy') {
-				$itemToDelete = $em->getRepository(UserStrengthTrainingCollection::class)->find($id);
+				$itemToDelete = $em->getRepository(UserStrengthTrainingCollection::class)->findItemToDelete($user, $id);
 				$em->remove($itemToDelete);
 				$em->flush();
 			}
 			if($training == 'cardio') {
-				$itemToDelete = $em->getRepository(UserCardio::class)->find($id);
+				$itemToDelete = $em->getRepository(UserCardio::class)->findItemToDelete($user, $id);
 				$em->remove($itemToDelete);
 				$em->flush();
 			}

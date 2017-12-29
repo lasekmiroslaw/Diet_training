@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * UserStrengthExerciseCollectionRepository
@@ -10,23 +11,4 @@ namespace AppBundle\Repository;
  */
 class UserStrengthExerciseCollectionRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function loadUserStrengthTraining($myStrengtTraining, $pickedDate, $user)
-	{
-		return $this->createQueryBuilder('u')
-			->where('u.trainingId = :tId AND u.date = :dateD AND u.userId = :uId')
-			->setParameter('tId', $myStrengtTraining->getId())
-			->setParameter('dateD', $pickedDate)
-			->setParameter('uId', $user->getId())
-			->getQuery()
-			->getOneOrNullResult();;
-	}
-	public function loadUserStrengthTrainings($pickedDate, $user)
-	{
-		return $this->createQueryBuilder('u')
-			->where('u.date = :dateD AND u.userId = :uId')
-			->setParameter('dateD', $pickedDate)
-			->setParameter('uId', $user->getId())
-			->getQuery()
-			->getResult();;
-	}
 }

@@ -72,9 +72,9 @@ class MyStrengthTrainingExercise
     /**
      * Set trainingId
      *
-     * @param integer $myTrainingId
+     * @param integer $trainingId
      *
-     * @return StrengthTrainingExercise
+     * @return MyStrengthTrainingExercise
      */
     public function setTrainingId($trainingId)
     {

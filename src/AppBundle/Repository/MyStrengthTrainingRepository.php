@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\User;
 
 /**
  * MyStrengthTrainingRepository
@@ -17,8 +18,20 @@ class MyStrengthTrainingRepository extends \Doctrine\ORM\EntityRepository
 			'SELECT m.id, m.name
 			FROM AppBundle:MyStrengthTraining m
 			WHERE m.userId = :userId
+			AND m.isActive = :active
 			ORDER BY m.id')
 		->setParameter('userId', $userId)
+		->setParameter('active', true)
 		->getResult();
+	}
+
+	public function findItemToDisActive(User $user, $id)
+	{
+		return $this->createQueryBuilder('u')
+		  ->where('u.userId = :user AND u.id = :id')
+		  ->setParameter('user', $user)
+		  ->setParameter('id', $id)
+		  ->getQuery()
+		  ->getOneOrNullResult();
 	}
 }
