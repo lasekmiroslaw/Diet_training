@@ -11,6 +11,7 @@ use AppBundle\Entity\UserCardio;
 use AppBundle\Entity\CardioTraining;
 use AppBundle\Form\UserCardioForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Service\MessageGenerator;
 
 class CardioController extends Controller
 {
@@ -21,7 +22,7 @@ class CardioController extends Controller
 	*    }
 	*)
 	*/
-	public function showCardioAction(Request $request, SessionInterface $session, $category = 'kategoria')
+	public function showCardioAction(Request $request, SessionInterface $session, $category = 'kategoria', MessageGenerator $messageGenerator)
 	{
 		$cardioTrainings = $this->getDoctrine()
 			->getRepository(CardioCategory::class)
@@ -44,11 +45,9 @@ class CardioController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserCardio($form, $userCardio, $session);
-			$session->set('alert', 'alert-success');
-			$this->addFlash(
-			   'notice',
-			   'Trening dodany!'
-			);
+			$message = $messageGenerator->addTrainingMessage();
+			$this->addFlash('notice', $message);
+
 			return $this->redirectToRoute('user_trainings');
 		}
 

@@ -16,7 +16,7 @@ class UserFoodRepository extends \Doctrine\ORM\EntityRepository
 	{
 		$mealFood = $this->getEntityManager()
 			->createQuery(
-				'SELECT a.name, s.quantity, s.id, s.calories, a.id as productId, s.date
+				'SELECT a.name, s.quantity, s.id, s.calories, a.id as productId
 				FROM AppBundle:UserFood s
 				JOIN s.productId a
 				WITH s.productId = a.id
@@ -31,7 +31,7 @@ class UserFoodRepository extends \Doctrine\ORM\EntityRepository
 
 		$myMealFood = $this->getEntityManager()
 			->createQuery(
-				'SELECT m.name, s.quantity, s.id, s.calories, s.date
+				'SELECT m.name, s.quantity, s.id, s.calories, s.date, m.id as productId
 				FROM AppBundle:UserFood s
 				JOIN s.myProductId m
 				WITH s.myProductId = m.id

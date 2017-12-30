@@ -7,21 +7,25 @@
 {% block body %}
     <main class="">
         <div class="row">
-            <div class="chart col-md-3" id="graph" data-percent="{{ percentCalories }}">
-                <span class="centerText">{{ percentCalories }}%</span>
+            <div class="chart col-md-3" id="graph" data-percent="">
+                <span class="centerText"></span>
             </div>
 
             <div class="normalText col-md-3">
-                Zapotrzebowanie {{ dailyCalories }} kcal<br>
-                Białko {{ protein }} g <span class="pProtein">{{ percentProtein }}%</span><br>
-                Węglowodany {{ carbohydrates }} g <span class="pCarbohydrates">{{ percentCarbohydrates }}%</span><br>
-                Tłuszcze {{ fat }} g <span class="pFat">{{ percentFat }}%</span><br>
-                Spożyte kalorie {{ currentCalories }} kcal</br>
+                Zapotrzebowanie <span class="dailyCalories">{{ dailyCalories }}</span> kcal<br>
+                Białko <span class="protein">{{ protein }}</span> g <span class="pProtein"></span><br>
+                Węglowodany <span class="carbohydrates">{{ carbohydrates }}</span> g <span class="pCarbohydrates"></span><br>
+                Tłuszcze <span class="fat">{{ fat }}</span> g <span class="pFat"></span><br>
+                Spożyte kalorie <span class="currentCalories">{{ currentCalories }}</span> kcal</br>
                 Pozostało {{ caloriesLeft }} kcal
             </div>
             <div class="myTrainings col-md-3">
                 <h4>Dzisiejsze treningi</h4>
-                <h5>Siłowe</h5>
+                <h5>Siłowy
+                    <a href="{{ path('add_training') }}">
+                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> trening</button>
+                    </a>
+                </h5>
                 <ul class="StrengthTrainingList">
                     {% for userStrengthTraining in userStrengthTrainings %}
                         {% if userStrengthTraining.trainingId == true %}
@@ -32,7 +36,11 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
-                <h5>Cardio</h5>
+                <h5>Cardio
+                    <a href="{{ path('add_training') }}">
+                        <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> trening</button>
+                    </a>
+                </h5>
                 <ul class="StrengthTrainingList">
                     {% for userCardio in userCardios %}
                         <li><a href="{{ path('user_trainings') }}">{{ userCardio.trainingId.name }}</a></li>
@@ -191,9 +199,9 @@
             </div>
         {% endfor %}
     </main>
-
     {% block scripts %}
         <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+        <script src="{{ asset('javascript/homepage.js') }}"></script>
         <script src="{{ asset('javascript/radial-progress-bar.js') }}"></script>
         <script src="{{ asset('javascript/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('javascript/calendar.js') }}"></script>

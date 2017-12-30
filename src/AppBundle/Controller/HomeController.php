@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\UserData;
 use AppBundle\Entity\UserFood;
 use AppBundle\Entity\PickedDate;
@@ -14,8 +15,13 @@ use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
 use AppBundle\Entity\UserStrengthTrainingCollection;
 use AppBundle\Entity\UserCardio;
+use AppBundle\Service\MessageGenerator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class HomeController extends Controller
 {
@@ -25,7 +31,6 @@ class HomeController extends Controller
     public function indexAction(Request $request, SessionInterface $session)
     {
         $user = $this->getUser();
-        $userName = $user->getUsername();
         $userId = $user->getId();
         $userDataRepository = $this->getDoctrine()->getRepository(UserData::class);
 
@@ -55,15 +60,11 @@ class HomeController extends Controller
         $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
         $currentCalories = $userMacroNutrients[0]['calories'];
         $caloriesLeft = $dailyCalories - $currentCalories;
-        $percentCalories = $this->calculatePercentShare($currentCalories, $dailyCalories);
 
         $protein = $userMacroNutrients[0]['protein'];
         $carbohydrates = $userMacroNutrients[0]['carbohydrates'];
         $fat = $userMacroNutrients[0]['fat'];
 
-        $percentProtein = $this->calculatePercentShare($protein, $currentCalories, 4);
-        $percentCarbohydrates = $this->calculatePercentShare($carbohydrates, $currentCalories, 4);
-        $percentFat = $this->calculatePercentShare($fat, $currentCalories, 9);
 
         $meal = [
             'breakfast' => 'sniadanie',
@@ -75,7 +76,7 @@ class HomeController extends Controller
         ];
 
         foreach ($meal as $key => $value) {
-            $$key = $userFoodRepository->findMeals($userId, $meal[$key], $date);
+            $$key = $userFoodRepository->findMeals($userId, $meal[$key], $pickedDate);
             $meals[$key] = $$key;
         }
 
@@ -90,17 +91,14 @@ class HomeController extends Controller
         $session->remove('alert');
 
         return $this->render('default/index.html.twig', [
-             'userName' => $userName,
              'dailyCalories' => $dailyCalories,
              'caloriesLeft' => $caloriesLeft,
              'currentCalories' => $currentCalories,
-             'percentCalories' => $percentCalories,
+
              'protein' => $protein,
-             'percentProtein' => $percentProtein,
              'carbohydrates' => $carbohydrates,
-             'percentCarbohydrates' => $percentCarbohydrates,
              'fat' => $fat,
-             'percentFat' => $percentFat,
+
              'meals' => $meals,
              'alert' => $alert,
              'form' => $form->createView(),
@@ -110,20 +108,10 @@ class HomeController extends Controller
         ]);
     }
 
-    public function calculatePercentShare($value, $totalValue, $factor = 1)
-    {
-        if($totalValue == 0)
-        {
-            $totalValue = 1;
-        }
-        $percentShare = round((($value*$factor)/$totalValue)*100);
-        return $percentShare;
-    }
-
     /**
      * @Route("/usun_produkt/{id}", name="deleteProduct")
      */
-    public function deleteAction($id = 1, SessionInterface $session)
+    public function deletProductAction($id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
     {
         try
         {
@@ -133,11 +121,8 @@ class HomeController extends Controller
             $em->remove($product);
             $em->flush();
 
-            $session->set('alert', 'alert-danger');
-            $this->addFlash(
-               'notice',
-               'Produkt usunięty!'
-            );
+            $message = $messageGenerator->removeProductMessage();
+			$this->addFlash('notice', $message);
         }
         catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
         {

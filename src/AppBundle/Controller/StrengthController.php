@@ -15,6 +15,7 @@ use AppBundle\Entity\MyStrengthTraining;
 use AppBundle\Form\TrainingForm;
 use AppBundle\Form\MyTrainingForm;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Service\MessageGenerator;
 
 class StrengthController extends Controller
 {
@@ -149,7 +150,7 @@ class StrengthController extends Controller
 	* @Route(*"/dodaj_cwiczenia/{training}", name="default_strength_training_exercise",
 	*)
 	*/
-	public function addDefaultExercisesAction(Request $request, SessionInterface $session, $training = 'training')
+	public function addDefaultExercisesAction(Request $request, SessionInterface $session, $training = 'training',  MessageGenerator $messageGenerator)
 	{
 		$myStrengtTraining = $this->getDoctrine()
 			->getRepository(StrengthTraining::class)
@@ -171,6 +172,9 @@ class StrengthController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserTraining($userStrengthTraining, $myStrengtTraining, $session);
+			$message = $messageGenerator->addTrainingMessage();
+			$this->addFlash('notice', $message);
+
 			return $this->redirectToRoute('user_trainings');
 		}
 
@@ -186,7 +190,7 @@ class StrengthController extends Controller
 	* @Route(*"/dodaj_moje_cwiczenia/{training}", name="my_strength_training_exercise",
 	*)
 	*/
-	public function addMyExercisesAction(Request $request, SessionInterface $session, $training = 'training')
+	public function addMyExercisesAction(Request $request, SessionInterface $session, $training = 'training', MessageGenerator $messageGenerator)
 	{
 		$myStrengtTraining = $this->getDoctrine()
 			->getRepository(MyStrengthTraining::class)
@@ -203,6 +207,9 @@ class StrengthController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserTraining($userStrengthTraining, $myStrengtTraining, $session);
+			$message = $messageGenerator->addTrainingMessage();
+			$this->addFlash('notice', $message);
+
 			return $this->redirectToRoute('user_trainings');
 		}
 
@@ -251,11 +258,6 @@ class StrengthController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$em->persist($userStrengthTraining);
 		$em->flush();
-		$session->set('alert', 'alert-success');
-		$this->addFlash(
-		   'notice',
-		   'Trening dodany!'
-		);
 	}
 
 }

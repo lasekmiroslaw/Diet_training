@@ -11,6 +11,7 @@ use AppBundle\Form\UserFoodForm;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
+use AppBundle\Service\MessageGenerator;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -20,7 +21,7 @@ class FoodSubcategoryController extends Controller
 	/**
 	* @Route("/dodaj_produkt/{subcategory}", name="product_subcategory")
 	*/
-	public function showSubcategoryAction(Request $request, $subcategory ='subcategory', SessionInterface $session)
+	public function showSubcategoryAction(Request $request, $subcategory ='subcategory', SessionInterface $session, MessageGenerator $messageGenerator)
 	{
 		$subcategories = $this->getDoctrine()
 			->getRepository(Subcategory::class)
@@ -49,12 +50,9 @@ class FoodSubcategoryController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserFood($form, $userFood, $session);
-			$session->set('alert', 'alert-success');
-			$session->remove('meal');
-			$this->addFlash(
-			   'notice',
-			   'Produkt dodany!'
-		   	);
+			$message = $messageGenerator->addProductMessage();
+			$this->addFlash('notice', $message);
+
 			return $this->redirectToRoute('homepage');
 		}
 

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\UserFood;
 use AppBundle\Form\UserFoodForm;
+use AppBundle\Service\MessageGenerator;
 
 class SearchProductController extends Controller
 {
@@ -44,7 +45,7 @@ class SearchProductController extends Controller
     /**
     * @Route("/produkt/{id}", name="product_add")
     */
-    public function addProductAction($id = 'id', Food $product, Request $request, SessionInterface $session)
+    public function addProductAction($id = 'id', Food $product, Request $request, SessionInterface $session, MessageGenerator $messageGenerator)
     {
         $sessionMeal = $session->get('meal');
         $userFood = new UserFood();
@@ -60,12 +61,9 @@ class SearchProductController extends Controller
         if($form->isSubmitted() && $form->isValid())
         {
             $this->flushUserFood($userFood, $product, $session);
-            $session->set('alert', 'alert-success');
-            $session->remove('meal');
-            $this->addFlash(
-               'notice',
-               'Produkt dodany!'
-            );
+            $message = $messageGenerator->addProductMessage();
+			$this->addFlash('notice', $message);
+            
             return $this->redirectToRoute('homepage');
         }
 

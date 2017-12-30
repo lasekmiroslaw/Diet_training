@@ -10,7 +10,7 @@ use AppBundle\Entity\CardioCategory;
 use AppBundle\Entity\StrengthTrainingCategory;
 use AppBundle\Entity\UserStrengthTrainingCollection;
 use AppBundle\Entity\UserCardio;
-
+use AppBundle\Service\MessageGenerator;
 
 class TrainingController extends Controller
 {
@@ -55,7 +55,7 @@ class TrainingController extends Controller
 	/**
 	 * @Route("/usun/{training}/{id}", name="deleteTraining")
 	 */
-	public function deleteTrainingAction($training = 'trening', $id = 1, SessionInterface $session)
+	public function deleteTrainingAction($training = 'trening', $id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
 	{
 		try
 		{
@@ -72,11 +72,8 @@ class TrainingController extends Controller
 				$em->flush();
 			}
 
-			$session->set('alert', 'alert-danger');
-			$this->addFlash(
-			   'notice',
-			   'Trening usunięty!'
-			);
+			$message = $messageGenerator->removeTrainingMessage();
+			$this->addFlash('notice', $message);
 		}
 		catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
 		{

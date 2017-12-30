@@ -11,14 +11,14 @@ use AppBundle\Entity\UserFood;
 use AppBundle\Form\MyUserFoodForm;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use AppBundle\Service\MessageGenerator;
 
 class MyFoodController extends Controller
 {
 	/**
 	* @Route("/dodaj_moje_produkty", name="add_my_products")
 	*/
-	public function addMyProductAction(Request $request)
+	public function addMyProductAction(Request $request, MessageGenerator $messageGenerator)
 	{
 		$myFood = new MyFood();
 		$form = $this->createForm(MyFoodForm::class, $myFood);
@@ -33,12 +33,8 @@ class MyFoodController extends Controller
 			$dbMyFood->flush();
 			$productName = $myFood->getName();
 
-			$this->addFlash(
-				'notice',
-				"Produkt $productName dodany!"
-			);
+			return $this->redirectToRoute('my_products');
 		}
-
 
 		return $this->render('forms/add_my_products.html.twig', [
 		'form' => $form->createView(),
@@ -48,7 +44,7 @@ class MyFoodController extends Controller
 	/**
 	* @Route("/moje_produkty", name="my_products")
 	*/
-	public function myyProductAction(Request $request, SessionInterface $session)
+	public function myyProductAction(Request $request, SessionInterface $session, MessageGenerator $messageGenerator)
 	{
 		$user = $this->getUser();
 		$myFoodRepository = $this->getDoctrine()->getRepository(MyFood::class);
@@ -70,12 +66,9 @@ class MyFoodController extends Controller
 		if($form->isSubmitted() && $form->isValid())
 		{
 			$this->flushUserFood($form, $userFood, $session);
-			$session->set('alert', 'alert-success');
-			$session->remove('meal');
-			$this->addFlash(
-			   'notice',
-			   'Produkt dodany!'
-			);
+			$message = $messageGenerator->addProductMessage();
+			$this->addFlash('notice', $message);
+
 			return $this->redirectToRoute('homepage');
 		}
 
