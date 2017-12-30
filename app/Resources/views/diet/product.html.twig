@@ -90,31 +90,31 @@
 					<div class="productInfo">{{ product.name }}</div>
 					{{ form_start(form) }}
 					{{ form_row(form.productId) }}
-					{{ form_row(form.quantity, { 'attr': { 'maxlength': '6', 'value': 100 }}) }}
+					{{ form_row(form.quantity, { 'attr': { 'maxlength': '6', 'data': 100 }}) }}
 					<div id="error"></div>
 					<table class="table table-striped">
 						<tr>
 							<td>Kalorie</td>
 							<td class="calories">
-								{{ form_row(form.calories, { 'attr': { 'readonly': 'true', 'value': product.calories }}) }}
+								{{ form_row(form.calories, { 'attr': { 'readonly': 'true', 'data': product.calories }}) }}
 							</td>
 						</tr>
 						<tr>
 							<td>Białko</td>
 							<td class="protein">
-								{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true', 'value': product.totalProtein }}) }}
+								{{ form_row(form.totalProtein, { 'attr': { 'readonly': 'true', 'data': product.totalProtein }}) }}
 							</td>
 						</tr>
 						<tr>
 							<td>Węglowodany</td>
 							<td class="carbohydrates">
-								{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true', 'value': product.carbohydrates }}) }}
+								{{ form_row(form.carbohydrates, { 'attr': { 'readonly': 'true', 'data': product.carbohydrates }}) }}
 							</td>
 						</tr>
 						<tr>
 							<td>Tłuszcze</td>
 							<td class="fat">
-								{{ form_row(form.fat, { 'attr': { 'readonly': 'true', 'value': product.fat }}) }}
+								{{ form_row(form.fat, { 'attr': { 'readonly': 'true', 'data': product.fat }}) }}
 							</td>
 						</tr>
 					</table>

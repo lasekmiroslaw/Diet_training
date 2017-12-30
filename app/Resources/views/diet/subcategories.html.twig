@@ -6,7 +6,7 @@
 		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
 	<ul class="list-group">
 		{% for subcategory in subcategories %}
-			<a href="{{ path('product_subcategory') }}/{{subcategory.name}}">
+			<a href="{{ path('product_subcategory') }}/{{subcategory.id}}">
 				<li class="list-group-item">
 					{{subcategory.name}}
 				</li>

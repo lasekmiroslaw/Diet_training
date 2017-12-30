@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 class PickedDate
 {
     private $pickedDate;
-
+    
     /**
      * Set pickedDate
      *

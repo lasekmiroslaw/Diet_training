@@ -19,13 +19,13 @@ class FoodSubcategoryController extends Controller
 {
 
 	/**
-	* @Route("/dodaj_produkt/{subcategory}", name="product_subcategory")
+	* @Route("/dodaj_produkt/{id}", name="product_subcategory")
 	*/
-	public function showSubcategoryAction(Request $request, $subcategory ='subcategory', SessionInterface $session, MessageGenerator $messageGenerator)
+	public function showSubcategoryAction(Request $request, $id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
 	{
 		$subcategories = $this->getDoctrine()
 			->getRepository(Subcategory::class)
-			->findOneByName($subcategory);
+			->find($id);
 		$products = $subcategories->getProduct();
 
 		$categoryId = $subcategories->getCategoryId();
@@ -68,23 +68,15 @@ class FoodSubcategoryController extends Controller
 	{
 		$request = Request::createFromGlobals();
 		$productId = $request->get('productId');
-		$productQuantity = $request->get('productQuantity');
+
 		$product = $products->get($productId);
 		$foodId = $product->getId();
-
 		$name = $product->getName();
 
-		$caloriesPer100 = $product->getCalories();
-		$calories = $this->calculateNutrients($caloriesPer100, $productQuantity);
-
-		$proteinPer100 = $product->getTotalProtein();
-		$protein = $this->calculateNutrients($proteinPer100, $productQuantity);
-
-		$carbohydratesPer100 = $product->getCarbohydrates();
-		$carbohydrates = $this->calculateNutrients($carbohydratesPer100, $productQuantity);
-
-		$fatPer100 = $product->getFat();
-		$fat = $this->calculateNutrients($fatPer100, $productQuantity);
+		$calories = $product->getCalories();
+		$protein = $product->getTotalProtein();
+		$carbohydrates = $product->getCarbohydrates();
+		$fat = $product->getFat();
 
 		return $productArray = [
 			'name' => $name,
@@ -94,12 +86,6 @@ class FoodSubcategoryController extends Controller
 			'fat' => $fat,
 			'foodId' => $foodId,
 		];
-	}
-
-	private function calculateNutrients($productPer100, $productQuantity)
-	{
-		$productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
-		return $productPerQuantity;
 	}
 
 	private function flushUserFood($form, UserFood $userFood, SessionInterface $session)

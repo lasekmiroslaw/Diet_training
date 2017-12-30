@@ -1,6 +1,10 @@
 var Product = {};
 var $hiddenMeal = $('.hiddenMeal').html();
 Product.activeAjaxConnections = 0;
+var $calories;
+var $protein;
+var $carbohydrates;
+var $fat;
 
 $(`option[value=${$hiddenMeal}]`).attr('selected', 'selected');
 $('.productList').on('click', 'li', getNutrientsOnClick);
@@ -12,10 +16,8 @@ function getNutrientsOnClick(e) {
 	$('.quantityField').val(100);
 	$product_id = $(e.currentTarget).attr('id');
 	Product.$product_id = $product_id;
-	$product_quantity = $('.quantityField').val();
 	product_data = {
 		productId: $product_id,
-		productQuantity: $product_quantity
 	};
 	e.stopImmediatePropagation();
 	addNutrients();
@@ -28,16 +30,14 @@ function getNutrientsOnClick(e) {
 
 function getNutrientsOnKeyup(e) {
 	e.stopImmediatePropagation();
-	$product_id = Product.$product_id;
-	$product_quantity = $('.quantityField').val();
-	product_data = {
-		productId: $product_id,
-		productQuantity: $product_quantity
-	};
-	if($product_quantity.match(/^[1-9][0-9]{0,5}([\.,][0-9]{1,2})?$/)) {
-		setTimeout(addNutrients, 800);
+	let	$product_quantity = $('.quantityField').val();
+
+	if(isNaN($product_quantity) === false) {
+		$('input.caloriesField').val(calculateNutrient($calories, $product_quantity));
+		$('input.proteinField').val(calculateNutrient($protein, $product_quantity));
+		$('input.carbohydratesField').val(calculateNutrient($carbohydrates, $product_quantity));
+		$('input.fatField').val(calculateNutrient($fat, $product_quantity));
 	}
-	return false;
 }
 
 function addNutrients() {
@@ -53,13 +53,18 @@ function addNutrients() {
 		  product_data,
 		success: function(data)
 		{
+			console.log(data)
 		  	$('.productInfo').html(data.name);
-		  	$('.caloriesField').val(data.calories);
-		  	$('.proteinField').val(data.protein);
-		  	$('.carbohydratesField').val(data.carbohydrates);
-		  	$('.fatField').val(data.fat);
+		  	$('input.caloriesField').val(data.calories);
+		  	$('input.proteinField').val(data.protein);
+		  	$('input.carbohydratesField').val(data.carbohydrates);
+		  	$('input.fatField').val(data.fat);
 			$('.hiddenType').val(data.foodId);
 			Product.activeAjaxConnections--;
+			$calories = $('.caloriesField').val();
+			$protein = $('.proteinField').val();
+			$carbohydrates = $('.carbohydratesField').val();
+			$fat = $('.fatField').val();
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
 			Product.activeAjaxConnections--;
@@ -83,4 +88,10 @@ function checkData(e) {
 		e.preventDefault();
 		e.stopImmediatePropagation();
 	}
+}
+
+function calculateNutrient($productPer100, $productQuantity)
+{
+	$productPerQuantity = ((($productPer100 * $productQuantity)/100)).toFixed(1);
+	return $productPerQuantity;
 }

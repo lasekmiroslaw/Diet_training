@@ -5,34 +5,28 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\UserData;
 use AppBundle\Entity\UserFood;
 use AppBundle\Entity\PickedDate;
 use AppBundle\Form\DateForm;
-use AppBundle\Entity\Category;
-use AppBundle\Entity\Subcategory;
 use AppBundle\Entity\Food;
 use AppBundle\Entity\UserStrengthTrainingCollection;
 use AppBundle\Entity\UserCardio;
 use AppBundle\Service\MessageGenerator;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Service\MealGenerator;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class HomeController extends Controller
 {
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request, SessionInterface $session)
+    public function indexAction(Request $request, SessionInterface $session, MealGenerator $mealGenerator)
     {
         $user = $this->getUser();
         $userId = $user->getId();
         $userDataRepository = $this->getDoctrine()->getRepository(UserData::class);
+        $userFoodRepository = $this->getDoctrine()->getRepository(UserFood::class);
 
         $pickedDate = new PickedDate();
         $form = $this->createForm(DateForm::class, $pickedDate);
@@ -50,35 +44,15 @@ class HomeController extends Controller
         {
             $date = strftime("%Y-%m-%d", time());
         }
-
         $session->set('pickedDate', $date);
         $pickedDate = $session->get('pickedDate');
 
-        $userFoodRepository = $this->getDoctrine()->getRepository(UserFood::class);
 		$userMacroNutrients = $userFoodRepository->sumMacroNutrients($userId, $date);
-
         $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
-        $currentCalories = $userMacroNutrients[0]['calories'];
-        $caloriesLeft = $dailyCalories - $currentCalories;
-
-        $protein = $userMacroNutrients[0]['protein'];
-        $carbohydrates = $userMacroNutrients[0]['carbohydrates'];
-        $fat = $userMacroNutrients[0]['fat'];
-
-
-        $meal = [
-            'breakfast' => 'sniadanie',
-            'lunch' => 'lunch',
-            'dinner' => 'obiad',
-            'supper' => 'kolacja',
-            'snacks' => 'przekaski',
-            'other' => 'inne',
-        ];
-
-        foreach ($meal as $key => $value) {
-            $$key = $userFoodRepository->findMeals($userId, $meal[$key], $pickedDate);
-            $meals[$key] = $$key;
-        }
+        $meals = $mealGenerator->returnMeals($userId, $pickedDate);
+        
+        $alert = $session->get('alert');
+        $session->remove('alert');
 
         $userStrengthTrainings = $this->getDoctrine()
             ->getRepository(UserStrengthTrainingCollection::class)
@@ -87,18 +61,9 @@ class HomeController extends Controller
             ->getRepository(UserCardio::class)
             ->loadUserCardios($pickedDate, $user);
 
-        $alert = $session->get('alert');
-        $session->remove('alert');
-
         return $this->render('default/index.html.twig', [
              'dailyCalories' => $dailyCalories,
-             'caloriesLeft' => $caloriesLeft,
-             'currentCalories' => $currentCalories,
-
-             'protein' => $protein,
-             'carbohydrates' => $carbohydrates,
-             'fat' => $fat,
-
+             'userMacroNutrients' => $userMacroNutrients,
              'meals' => $meals,
              'alert' => $alert,
              'form' => $form->createView(),

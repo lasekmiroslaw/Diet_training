@@ -83,23 +83,14 @@ class MyFoodController extends Controller
 	{
 		$request = Request::createFromGlobals();
 		$productId = $request->get('productId');
-		$productQuantity = $request->get('productQuantity');
 		$product = $products->find($productId);
 		$foodId = $product->getId();
-
 		$name = $product->getName();
 
-		$caloriesPer100 = $product->getCalories();
-		$calories = $this->calculateNutrients($caloriesPer100, $productQuantity);
-
-		$proteinPer100 = $product->getTotalProtein();
-		$protein = $this->calculateNutrients($proteinPer100, $productQuantity);
-
-		$carbohydratesPer100 = $product->getCarbohydrates();
-		$carbohydrates = $this->calculateNutrients($carbohydratesPer100, $productQuantity);
-
-		$fatPer100 = $product->getFat();
-		$fat = $this->calculateNutrients($fatPer100, $productQuantity);
+		$calories = $product->getCalories();
+		$protein = $product->getTotalProtein();
+		$carbohydrates = $product->getCarbohydrates();
+		$fat = $product->getFat();
 
 		return $productArray = [
 			'name' => $name,
@@ -109,12 +100,6 @@ class MyFoodController extends Controller
 			'fat' => $fat,
 			'foodId' => $foodId,
 		];
-	}
-
-	private function calculateNutrients($productPer100, $productQuantity)
-	{
-		$productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
-		return $productPerQuantity;
 	}
 
 	private function flushUserFood($form, UserFood $userFood, SessionInterface $session)

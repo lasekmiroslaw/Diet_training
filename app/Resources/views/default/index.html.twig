@@ -13,11 +13,11 @@
 
             <div class="normalText col-md-3">
                 Zapotrzebowanie <span class="dailyCalories">{{ dailyCalories }}</span> kcal<br>
-                Białko <span class="protein">{{ protein }}</span> g <span class="pProtein"></span><br>
-                Węglowodany <span class="carbohydrates">{{ carbohydrates }}</span> g <span class="pCarbohydrates"></span><br>
-                Tłuszcze <span class="fat">{{ fat }}</span> g <span class="pFat"></span><br>
-                Spożyte kalorie <span class="currentCalories">{{ currentCalories }}</span> kcal</br>
-                Pozostało {{ caloriesLeft }} kcal
+                Białko <span class="protein">{{ userMacroNutrients[0]['protein'] }}</span> g <span class="pProtein"></span><br>
+                Węglowodany <span class="carbohydrates">{{ userMacroNutrients[0]['carbohydrates'] }}</span> g <span class="pCarbohydrates"></span><br>
+                Tłuszcze <span class="fat">{{ userMacroNutrients[0]['fat'] }}</span> g <span class="pFat"></span><br>
+                Spożyte kalorie <span class="currentCalories">{{ userMacroNutrients[0]['calories'] }}</span> kcal</br>
+                Pozostało {{ dailyCalories - userMacroNutrients[0]['calories'] }} kcal
             </div>
             <div class="myTrainings col-md-3">
                 <h4>Dzisiejsze treningi</h4>
