@@ -64,7 +64,7 @@ function addNutrients() {
 			$calories = $('.caloriesField').val();
 			$protein = $('.proteinField').val();
 			$carbohydrates = $('.carbohydratesField').val();
-			$fat = $('.fatField').val();
+			$fat = $('input.fatField').val();
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
 			Product.activeAjaxConnections--;

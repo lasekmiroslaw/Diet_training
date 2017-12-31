@@ -66,20 +66,13 @@ class CardioController extends Controller
 		$name = $training->getName();
 		$trainnigRealId = $training->getId();
 
-		$caloriesper60 = $training->getBurnedCalories();
-		$burnedCalories = $this->calculatePerTime($caloriesper60, $trainingTime);
+		$burnedCalories = ($training->getBurnedCalories())/2;
 
 		return $trainingArray = [
 			'name' => $name,
 			'burnedCalories' => $burnedCalories,
 			'trainingId' => $trainnigRealId,
 		];
-	}
-
-	private function calculatePerTime($caloriesper60, $time)
-	{
-		$caloriesPerTime = round(($caloriesper60/60) * $time);
-		return $caloriesPerTime;
 	}
 
 	private function convertToMinutes(array $time)

@@ -1,5 +1,6 @@
 var Training = {};
 Training.activeAjaxConnections = 0;
+var $caloriesper60;
 
 $('.trainingList').on('click', 'li', getCaloriesOnClick);
 $('#user_cardio_form_time_hour').change(getCaloriesOnChange);
@@ -12,7 +13,7 @@ function getCaloriesOnClick(e) {
 	$('#user_cardio_form_time_hour').val(0);
 	$training_id = $(e.currentTarget).attr('id');
 	Training.$training_id = $training_id;
-	$training_time = eval(($('#user_cardio_form_time_hour').val())*60) + eval($('#user_cardio_form_time_minute').val());
+	$training_time = eval(($('input#user_cardio_form_time_hour').val())*60) + eval($('input#user_cardio_form_time_minute').val());
 	trainig_data = {
 		trainingId: $training_id,
 		trainingTime: $training_time
@@ -27,14 +28,9 @@ function getCaloriesOnClick(e) {
 
 function getCaloriesOnChange(e) {
 	e.stopImmediatePropagation();
-	$training_id = Training.$training_id;
-	$training_time = eval(($('#user_cardio_form_time_hour').val())*60) + eval($('#user_cardio_form_time_minute').val());
-	trainig_data = {
-		trainingId: $training_id,
-		trainingTime: $training_time
-	};
-	addCalories();
-	return false;
+	$minutes = timeInMinutes();
+	$burnedCalories = calculatePerTime($caloriesper60, $minutes)
+	$('#user_cardio_form_burnedCalories').val($burnedCalories);
 }
 
 function addCalories() {
@@ -50,15 +46,32 @@ function addCalories() {
 		  trainig_data,
 		success: function(data)
 		{
-		  	$('.trainingName').html(data.name);
-		  	$('#user_cardio_form_burnedCalories').val(data.burnedCalories);
-		  	$('#user_cardio_form_trainingId').val(data.trainingId);
+		  	$('td.trainingName').html(data.name);
+		  	$('input#user_cardio_form_burnedCalories').val(data.burnedCalories);
+		  	$('input#user_cardio_form_trainingId').val(data.trainingId);
 			Training.activeAjaxConnections--;
+			$caloriesper60 = data.burnedCalories*2;
 		},
 		error: function(jqXHR,  textStatus, errorThrown) {
 			Training.activeAjaxConnections--;
 		}
 	});
+}
+
+function timeInMinutes()
+{
+	$time = [];
+	$time['hour'] = $('select#user_cardio_form_time_hour').val();
+	$time['minute'] = $('select#user_cardio_form_time_minute').val();
+	$minute = parseInt(($time['hour']*60)) + parseInt($time['minute']);
+
+	return $minute;
+}
+
+function calculatePerTime($caloriesper60, $minute)
+{
+	$caloriesPerTime = (($caloriesper60/60) * $minute).toFixed(1);
+	return $caloriesPerTime;
 }
 
 function checkData(e) {

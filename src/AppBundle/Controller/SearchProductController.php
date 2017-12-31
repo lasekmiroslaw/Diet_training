@@ -18,7 +18,7 @@ use AppBundle\Service\MessageGenerator;
 class SearchProductController extends Controller
 {
     /**
-     * @Route("/produkt", name="ajax_search")
+     * @Route("/wyszukany_produkt", name="ajax_search")
      * @Method("GET")
      */
     public function searchAction(Request $request)
@@ -43,9 +43,9 @@ class SearchProductController extends Controller
     }
 
     /**
-    * @Route("/produkt/{id}", name="product_add")
+    * @Route("/wyszukany_produkt/{id}", name="product_add")
     */
-    public function addProductAction($id = 'id', Food $product, Request $request, SessionInterface $session, MessageGenerator $messageGenerator)
+    public function addSearchedProductAction($id = 'id', Food $product, Request $request, SessionInterface $session, MessageGenerator $messageGenerator)
     {
         $sessionMeal = $session->get('meal');
         $userFood = new UserFood();
@@ -63,11 +63,11 @@ class SearchProductController extends Controller
             $this->flushUserFood($userFood, $product, $session);
             $message = $messageGenerator->addProductMessage();
 			$this->addFlash('notice', $message);
-            
+
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('diet/product.html.twig', array(
+        return $this->render('diet/searched_product.html.twig', array(
             'product' => $product,
             'form' => $form->createView(),
 			'meal' => $sessionMeal,
