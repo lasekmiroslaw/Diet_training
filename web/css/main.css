@@ -6,6 +6,10 @@ li {
 	list-style-type: none;
 }
 
+div.registerForm {
+	margin-top: 10%;
+}
+
 .logout {
 	margin-top: 1%;
 }
