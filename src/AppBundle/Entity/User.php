@@ -206,12 +206,12 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function __construct()
     {
-    $this->isActive = false;
+        $this->isActive = false;
     }
 
     public function getSalt()
     {
-    return null;
+        return null;
     }
 
     public function getRoles()
@@ -223,7 +223,7 @@ class User implements AdvancedUserInterface, \Serializable
     {
     }
 
-//Active/Not active accunt
+    //Active/Not active accunt
     public function isAccountNonExpired()
     {
         return true;
@@ -258,7 +258,7 @@ class User implements AdvancedUserInterface, \Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->username,
             $this->password,
@@ -276,5 +276,4 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->userData;
     }
-
 }

@@ -10,50 +10,48 @@ namespace AppBundle\Repository;
  */
 class UserDataRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function getUserData(Int $userId)
-	{
-		return $this->findOneBy(
-		    array('userId' => $userId),
-		    array('date' => 'DESC')
-		);
-	}
+    public function getUserData(Int $userId)
+    {
+        return $this->findOneBy(
+            array('userId' => $userId),
+            array('date' => 'DESC')
+        );
+    }
 
-	public function getDailyCalories($userId, $date)
-	{
-		$array = $this->createQueryBuilder('d')
-			->select('d.date')
-			->where('d.userId = :id')
-			->setParameter('id', $userId)
-			->getQuery()
-			->getResult();
+    public function getDailyCalories($userId, $date)
+    {
+        $array = $this->createQueryBuilder('d')
+            ->select('d.date')
+            ->where('d.userId = :id')
+            ->setParameter('id', $userId)
+            ->getQuery()
+            ->getResult();
 
-	    $count = 0;
-	    foreach($array as $day)
-	    {
-	        $interval[] = strtotime($date.' 23:59:59') - strtotime($day['date']->format('Y-m-d H:i:s'));
-	    }
-		arsort($interval);
+        $count = 0;
+        foreach ($array as $day) {
+            $interval[] = strtotime($date.' 23:59:59') - strtotime($day['date']->format('Y-m-d H:i:s'));
+        }
+        arsort($interval);
 
-		$closestInterval = array_filter($interval, function ($v) {
-			return $v >= 0;
-		});
+        $closestInterval = array_filter($interval, function ($v) {
+            return $v >= 0;
+        });
 
-		asort($closestInterval);
-		if(empty($closestInterval))
-		{
-			$closestInterval = $interval;
-		}
+        asort($closestInterval);
+        if (empty($closestInterval)) {
+            $closestInterval = $interval;
+        }
 
-	    $closest = key($closestInterval);
+        $closest = key($closestInterval);
 
-		$closestDate = $array[$closest]['date']->format('Y-m-d H:i:s');
+        $closestDate = $array[$closest]['date']->format('Y-m-d H:i:s');
 
-		return $this->createQueryBuilder('d')
-			->select('d.calories')
-			->where('d.userId = :id')
-			->andWhere('d.date = :date')
-			->setParameters(array('id' => $userId, 'date' => $closestDate))
-			->getQuery()
-			->getSingleScalarResult();
-	}
+        return $this->createQueryBuilder('d')
+            ->select('d.calories')
+            ->where('d.userId = :id')
+            ->andWhere('d.date = :date')
+            ->setParameters(array('id' => $userId, 'date' => $closestDate))
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+
 use AppBundle\Entity\User;
 
 /**
@@ -11,33 +12,35 @@ use AppBundle\Entity\User;
  */
 class UserStrengthTrainingCollectionRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function loadUserStrengthTraining($myStrengtTraining, $pickedDate, $user)
-	{
-		return $this->createQueryBuilder('u')
-			->where('u.trainingId = :tId AND u.date = :dateD AND u.userId = :uId')
-			->setParameter('tId', $myStrengtTraining->getId())
-			->setParameter('dateD', $pickedDate)
-			->setParameter('uId', $user->getId())
-			->getQuery()
-			->getOneOrNullResult();;
-	}
-	public function loadUserStrengthTrainings($pickedDate, $user)
-	{
-		return $this->createQueryBuilder('u')
-			->where('u.date = :dateD AND u.userId = :uId')
-			->setParameter('dateD', $pickedDate)
-			->setParameter('uId', $user->getId())
-			->getQuery()
-			->getResult();;
-	}
+    public function loadUserStrengthTraining($myStrengtTraining, $pickedDate, $user)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.trainingId = :tId AND u.date = :dateD AND u.userId = :uId')
+            ->setParameter('tId', $myStrengtTraining->getId())
+            ->setParameter('dateD', $pickedDate)
+            ->setParameter('uId', $user->getId())
+            ->getQuery()
+            ->getOneOrNullResult();
+        ;
+    }
+    public function loadUserStrengthTrainings($pickedDate, $user)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.date = :dateD AND u.userId = :uId')
+            ->setParameter('dateD', $pickedDate)
+            ->setParameter('uId', $user->getId())
+            ->getQuery()
+            ->getResult();
+        ;
+    }
 
-	public function findItemToDelete(User $user, $id)
-	{
-		return $this->createQueryBuilder('u')
-		  ->where('u.userId = :user AND u.id = :id')
-		  ->setParameter('user', $user)
-		  ->setParameter('id', $id)
-		  ->getQuery()
-		  ->getOneOrNullResult();
-	}
+    public function findItemToDelete(User $user, $id)
+    {
+        return $this->createQueryBuilder('u')
+          ->where('u.userId = :user AND u.id = :id')
+          ->setParameter('user', $user)
+          ->setParameter('id', $id)
+          ->getQuery()
+          ->getOneOrNullResult();
+    }
 }

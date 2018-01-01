@@ -6,11 +6,20 @@
 {% endblock %}
 {% block body %}
     <main class="">
+        <div class="calendar">
+            {{ form_start(form) }}
+            <div class="input-group">
+                {{ form_row(form.pickedDate, {'value': pickedDate })  }}
+                <div class="input-group-addon" value="{{ pickedDate }}">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
         <div class="row">
-            <div class="chart col-md-3" id="graph" data-percent="">
+            <div class="chart col-md-4" id="graph" data-percent="">
                 <span class="centerText"></span>
             </div>
-
             <div class="normalText col-md-3">
                 Zapotrzebowanie <span class="dailyCalories">{{ dailyCalories }}</span> kcal<br>
                 Białko <span class="protein">{{ userMacroNutrients[0]['protein'] }}</span> g <span class="pProtein"></span><br>
@@ -19,7 +28,7 @@
                 Spożyte kalorie <span class="currentCalories">{{ userMacroNutrients[0]['calories'] }}</span> kcal</br>
                 Pozostało {{ dailyCalories - userMacroNutrients[0]['calories'] }} kcal
             </div>
-            <div class="myTrainings col-md-3">
+            <div class="myTrainings col-md-4">
                 <h4>Dzisiejsze treningi</h4>
                 <h5>Siłowy
                     <a href="{{ path('add_training') }}">
@@ -47,23 +56,13 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="calendar col-md-2">
-                {{ form_start(form) }}
-                <div class="input-group">
-                    {{ form_row(form.pickedDate, {'value': pickedDate })  }}
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                    </div>
-                </div>
-                {{ form_end(form) }}
-            </div>
         </div>
 
         <div class="meals row">
             <div class="meal col-md-2">
                 Śniadanie<br>
                 <a href="{{ path('product_categories') }}/sniadanie">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
                     {% for product in meals['breakfast'] %}
@@ -84,7 +83,7 @@
             </div>
             <div class="meal col-md-2">
                 Lunch<br>
-                <a href="{{ path('product_categories') }}/lunch"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                <a href="{{ path('product_categories') }}/lunch"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
                     {% for product in meals['lunch'] %}
@@ -107,7 +106,7 @@
             <div class="meal col-md-2">
                 Obiad<br>
                 <a href="{{ path('product_categories') }}/obiad">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
                     {% for product in meals['dinner'] %}
@@ -129,7 +128,7 @@
             <div class="meal col-md-2">
                 Kolacja<br>
                 <a href="{{ path('product_categories') }}/kolacja">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
                     {% for product in meals['supper'] %}
@@ -151,7 +150,7 @@
             <div class="meal col-md-2">
                 Przekąski<br>
                 <a href="{{ path('product_categories') }}/przekaski">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
                     {% for product in meals['snacks'] %}
@@ -173,7 +172,7 @@
             <div class="meal col-md-2">
                 Inne<br>
                 <a href="{{ path('product_categories') }}/inne">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> Dodaj produkt</button>
+                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
                     {% for product in meals['other'] %}

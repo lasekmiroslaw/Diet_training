@@ -2,53 +2,54 @@
 {% block title %}Twój trening siłowy{% endblock %}
 {% block resources %}{% endblock %}
 {% block body %}
-	<a href="{{ path('strength_category') }}/{{ category }}">
-		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
-	<h3 class="text-center">{{ training }}</h3>
-	<ul class="list-group">
-		{% for exercise in exercises %}
-			<li class="list-group-item">
-				<div class="row">
-					<div class="col-md-4">
-						<a href="#" class="exercise link" id="{{ loop.index0 }}">{{ exercise.name }}</a>
-					</div>
-					<div class="col-md-3 exerciseDiv{{ loop.index0 }}">
-						<table class="kgLoadReps table table-condensed">
-							<tr class="exerciseKgLoad"></tr>
-							<tr class="exerciseReps"></tr>
-						</table>
-					</div>
-				</div>
-			</li>
-		{% endfor %}
-	</ul>
+    <a href="{{ path('strength_category') }}/{{ category }}">
+        <span class="glyphicon glyphicon-arrow-left gi-2x"></span>
+    </a>
+    <h3 class="text-center">{{ training }}</h3>
+    <ul class="list-group">
+        {% for exercise in exercises %}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="#" class="exercise link" id="{{ loop.index0 }}">{{ exercise.name }}</a>
+                    </div>
+                    <div class="col-md-3 exerciseDiv{{ loop.index0 }}">
+                        <table class="kgLoadReps table table-condensed">
+                            <tr class="exerciseKgLoad"></tr>
+                            <tr class="exerciseReps"></tr>
+                        </table>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 
-	<div class="modal myModal" id="myModal" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="exerciseName text-center"></h4>
-				</div>
-				<div class="modal-body">
-					{{ form_start(form) }}
-					<ul class="series list-group" data-prototype="{{ form_widget(form.trainingExercises.vars.prototype)|e('html_attr') }}">
-						{% for trainingExercise in form.trainingExercises %}
-							{{ form_widget(trainingExercise.seriesTraining, { 'attr': { 'class': "exercise#{loop.index0} hide" }}) }}
-						{% endfor %}
-					</ul>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="saveSeries btn btn-success pull-left">Zapisz</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<button type="submit" class="saveTraining btn btn-success btn-default" name="button">Dodaj trening!</button>
-	{{ form_end(form) }}
-	{% block scripts %}
-		<script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="{{ asset('javascript/add_user_exercises.js') }}"></script>
-	{% endblock %}
+    <div class="modal myModal" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="exerciseName text-center"></h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    <ul class="series list-group" data-prototype="{{ form_widget(form.trainingExercises.vars.prototype)|e('html_attr') }}">
+                        {% for trainingExercise in form.trainingExercises %}
+                            {{ form_widget(trainingExercise.seriesTraining, { 'attr': { 'class': "exercise#{loop.index0} hide" }}) }}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="saveSeries btn btn-success pull-left">Zapisz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="saveTraining btn btn-success btn-default" name="button">Dodaj trening!</button>
+    {{ form_end(form) }}
+    {% block scripts %}
+        <script src="{{ asset('javascript/jquery-3.2.1.min.js') }}"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="{{ asset('javascript/add_user_exercises.js') }}"></script>
+    {% endblock %}
 {% endblock %}

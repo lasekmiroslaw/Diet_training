@@ -26,7 +26,7 @@ class MyFood extends BaseFood
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="$userId", referencedColumnName="id")
      */
-     private $userId;
+    private $userId;
 
     /**
      * Get id
@@ -38,14 +38,14 @@ class MyFood extends BaseFood
         return $this->id;
     }
 
-     public function setUserId($userId)
-     {
-         $this->userId = $userId;
-         return $this;
-     }
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
 
-     public function getUserId()
-     {
-         return $this->userId;
-     }
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 }

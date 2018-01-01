@@ -3,7 +3,8 @@
 {% block resources %}{% endblock %}
 {% block body %}
 	<a href="{{ path('product_categories') }}/{{ meal }}">
-		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
+		<span class="glyphicon glyphicon-arrow-left gi-2x"></span>
+	</a>
 	<ul class="list-group">
 		{% for subcategory in subcategories %}
 			<a href="{{ path('product_subcategory') }}/{{subcategory.id}}">

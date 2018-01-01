@@ -15,7 +15,7 @@ use AppBundle\Form\UserFoodForm;
 
 class FoodCategoryController extends Controller
 {
-	/**
+    /**
     * @Route("/dodaj/{meal}", name="product_categories", requirements={"meal": "sniadanie|lunch|obiad|kolacja|przekaski|inne"})
     */
     public function showCategoriesAction(Request $request, SessionInterface $session, $meal = 'meal')
@@ -24,8 +24,8 @@ class FoodCategoryController extends Controller
         $session->set('meal', $meal);
 
         $food = new Food();
-		$form = $this->createForm(SearchForm::class, $food);
-		$form->handleRequest($request);
+        $form = $this->createForm(SearchForm::class, $food);
+        $form->handleRequest($request);
 
         return $this->render('diet/categories.html.twig', [
             'categories' => $categories,
@@ -33,19 +33,19 @@ class FoodCategoryController extends Controller
         ]);
     }
 
-	/**
-	* @Route(
-		*"/dodaj_swoje_posilki/{category}", name="product_category",
-	*    requirements={
-	*        "category": "Nabial|Miesa|Ryby|Tluszcze|Zboza|Warzywa|Owoce, nasiona i orzechy|Slodycze, cukry i przekaski|Napoje i alkohole|Przyprawy i sosy|Zupy|Dania gotowe"
-	*    }
-	*)
-	*/
-	public function showSubcategoriesAction(Request $request, SessionInterface $session, $category = 'kategoria')
-	{
-		$subcategories = $this->getDoctrine()
-			->getRepository(Category::class)
-			->findOneBy(array('name' => $category))
+    /**
+    * @Route(
+        *"/dodaj_swoje_posilki/{category}", name="product_category",
+    *    requirements={
+    *        "category": "Nabial|Miesa|Ryby|Tluszcze|Zboza|Warzywa|Owoce, nasiona i orzechy|Slodycze, cukry i przekaski|Napoje i alkohole|Przyprawy i sosy|Zupy|Dania gotowe"
+    *    }
+    *)
+    */
+    public function showSubcategoriesAction(Request $request, SessionInterface $session, $category = 'kategoria')
+    {
+        $subcategories = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findOneBy(array('name' => $category))
             ->getSubcategory();
         if (!$category) {
             throw $this->createNotFoundException();
@@ -53,10 +53,9 @@ class FoodCategoryController extends Controller
 
         $meal = $session->get('meal');
 
-		return $this->render('diet/subcategories.html.twig', [
-			'subcategories' => $subcategories,
+        return $this->render('diet/subcategories.html.twig', [
+            'subcategories' => $subcategories,
             'meal' => $meal,
-		]);
-	}
-
+        ]);
+    }
 }

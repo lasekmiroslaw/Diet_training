@@ -3,7 +3,8 @@
 {% block resources %}{% endblock %}
 {% block body %}
 	<a href="{{ path('create_my_strength_training') }}">
-		<span class="glyphicon glyphicon-arrow-left gi-2x"></span></a>
+		<span class="glyphicon glyphicon-arrow-left gi-2x"></span>
+	</a>
 	<h3 class="text-center">{{ training }}</h3>
 	{{ form_start(form) }}
 	<ul class="exersises" data-prototype="{{ form_widget(form.exercises.vars.prototype)|e('html_attr') }}">

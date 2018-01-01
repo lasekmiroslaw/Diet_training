@@ -82,5 +82,4 @@ class CardioCategory
     {
         return $this->training;
     }
-
 }

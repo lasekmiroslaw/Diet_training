@@ -22,7 +22,7 @@ class UserDataForm extends AbstractType
                 'choice_translation_domain' => true,
                 'format' => 'dd-MM-yyy',
             ))
-            ->add('weight', NumberType::class ,array('label' => 'Waga', ))
+            ->add('weight', NumberType::class, array('label' => 'Waga', ))
             ->add('height', NumberType::class, array('label' => 'Wzrost',))
             ->add('activity', ChoiceType::class, array('label' => 'Aktywność', 'choices'  => array(
                 'leżący lub siedzący tryb życia/brak aktywności fizycznej' => 1,

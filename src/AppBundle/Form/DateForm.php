@@ -13,11 +13,11 @@ class DateForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$builder->add('pickedDate', DateType::class, array(
-		    'widget' => 'single_text',
-		    'html5' => false,
+        $builder->add('pickedDate', DateType::class, array(
+            'widget' => 'single_text',
+            'html5' => false,
             'label' => false,
-		));
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -25,5 +25,5 @@ class DateForm extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => PickedDate::class,
         ));
-	}
+    }
 }

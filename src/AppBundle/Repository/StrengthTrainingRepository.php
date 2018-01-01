@@ -10,11 +10,11 @@ namespace AppBundle\Repository;
  */
 class StrengthTrainingRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findTraining($training)
-	{
-		return $this->find($training);
-		if (!$training) {
-			throw $this->createNotFoundException();
-		}
-	}
+    public function findTraining($training)
+    {
+        return $this->find($training);
+        if (!$training) {
+            throw $this->createNotFoundException();
+        }
+    }
 }

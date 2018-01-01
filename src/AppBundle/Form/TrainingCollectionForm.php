@@ -16,7 +16,7 @@ class TrainingCollectionForm extends AbstractType
         $builder->add('trainingExercises', CollectionType::class, array(
             'entry_type' => CollectionForm::class,
             'entry_options' => array('label' => false),
-        	'allow_add' => true,
+            'allow_add' => true,
             'by_reference' => false,
             'allow_delete' => true,
         ));

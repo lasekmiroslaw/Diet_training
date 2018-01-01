@@ -29,7 +29,7 @@ class RegisterForm extends AbstractType
             ->add('termsAccepted', CheckboxType::class, array(
                 'mapped' => false,
                 'constraints' => new IsTrue(),
-                'label' => 'Akceptuję regulamin'    
+                'label' => 'Akceptuję regulamin'
             ));
     }
 

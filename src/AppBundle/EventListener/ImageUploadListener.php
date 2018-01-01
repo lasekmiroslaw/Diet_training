@@ -46,7 +46,7 @@ class ImageUploadListener
         }
     }
 
-	public function postLoad(LifecycleEventArgs $args)
+    public function postLoad(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
 
@@ -57,5 +57,5 @@ class ImageUploadListener
         if ($fileName = $entity->getProfileImage()) {
             $entity->setProfileImage(new File($this->uploader->getTargetDir().'/'.$fileName));
         }
-	}
+    }
 }

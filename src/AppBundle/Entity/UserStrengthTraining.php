@@ -166,5 +166,4 @@ class UserStrengthTraining
     {
         return $this->collectionId;
     }
-
 }

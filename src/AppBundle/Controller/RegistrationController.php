@@ -18,8 +18,7 @@ class RegistrationController extends Controller
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        if ($this->isGranted('ROLE_USER'))
-        {
+        if ($this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('homepage');
         }
 
@@ -31,7 +30,6 @@ class RegistrationController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() && $resp->isSuccess()) {
-
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
@@ -44,8 +42,7 @@ class RegistrationController extends Controller
             return $this->redirectToRoute('registration_email', array('email' => $encodedEmail));
         }
 
-        if($form->isSubmitted() &&  $form->isValid() && !$resp->isSuccess()){
-
+        if ($form->isSubmitted() &&  $form->isValid() && !$resp->isSuccess()) {
             $this->addFlash(
                'error',
                'Proszę potwierdzić, że nie jesteś robotem'
@@ -72,7 +69,8 @@ class RegistrationController extends Controller
             ->setTo($decodedEmail)
             ->setBody(
                 $this->renderView(
-                    'emails/registration.html.twig', array('activeLink' => $activateUrl)
+                    'emails/registration.html.twig',
+                    array('activeLink' => $activateUrl)
                 ),
                 'text/html'
             );
@@ -85,7 +83,8 @@ class RegistrationController extends Controller
     /**
      * @Route("/activate{email}", name="user_activation")
      */
-    public function activationAction($email) {
+    public function activationAction($email)
+    {
         $decodedEmail = base64_decode($email);
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository(User::class)->findOneByEmail($decodedEmail);
@@ -104,10 +103,8 @@ class RegistrationController extends Controller
     /**
      * @Route("/confirm", name="user_confirmation")
      */
-    public function confirmAction() {
+    public function confirmAction()
+    {
         return $this->render('default/confirm.html.twig');
     }
-
-
-
 }

@@ -82,5 +82,4 @@ class StrengthTrainingCategory
     {
         return $this->training;
     }
-
 }

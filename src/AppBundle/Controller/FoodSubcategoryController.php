@@ -18,89 +18,88 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class FoodSubcategoryController extends Controller
 {
 
-	/**
-	* @Route("/dodaj_produkt/{id}", name="product_subcategory")
-	*/
-	public function showSubcategoryAction(Request $request, $id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
-	{
-		$subcategories = $this->getDoctrine()
-			->getRepository(Subcategory::class)
-			->find($id);
-		$products = $subcategories->getProduct();
+    /**
+    * @Route("/dodaj_produkt/{id}", name="product_subcategory")
+    */
+    public function showSubcategoryAction(Request $request, $id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
+    {
+        $subcategories = $this->getDoctrine()
+            ->getRepository(Subcategory::class)
+            ->find($id);
+        $products = $subcategories->getProduct();
 
-		$categoryId = $subcategories->getCategoryId();
-		$category = $this->getDoctrine()
-			->getRepository(Category::class)
-			->find($categoryId);
-		$categoryName = $category->getName();
+        $categoryId = $subcategories->getCategoryId();
+        $category = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->find($categoryId);
+        $categoryName = $category->getName();
 
-		$userFood = new UserFood();
-		$form = $this->createForm(UserFoodForm::class, $userFood);
-		$form->handleRequest($request);
+        $userFood = new UserFood();
+        $form = $this->createForm(UserFoodForm::class, $userFood);
+        $form->handleRequest($request);
 
-		if($request->isXmlHttpRequest())
-		{
-			$productArray = $this->getNutrients($products);
-			return new JsonResponse($productArray);
-		}
+        if ($request->isXmlHttpRequest()) {
+            $productArray = $this->getNutrients($products);
+			
+            return new JsonResponse($productArray);
+        }
 
-		$sessionMeal = $session->get('meal');
-		$user = $this->getUser();
+        $sessionMeal = $session->get('meal');
+        $user = $this->getUser();
 
-		if($form->isSubmitted() && $form->isValid())
-		{
-			$this->flushUserFood($form, $userFood, $session);
-			$message = $messageGenerator->addProductMessage();
-			$this->addFlash('notice', $message);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->flushUserFood($form, $userFood, $session);
+            $message = $messageGenerator->addProductMessage();
+            $this->addFlash('notice', $message);
 
-			return $this->redirectToRoute('homepage');
-		}
+            return $this->redirectToRoute('homepage');
+        }
 
-		return $this->render('diet/subcategory.html.twig', [
-			'products' => $products,
-			'category' => $categoryName,
-			'meal' => $sessionMeal,
-			'form' => $form->createView(),
-		]);
-	}
+        return $this->render('diet/subcategory.html.twig', [
+            'products' => $products,
+            'category' => $categoryName,
+            'meal' => $sessionMeal,
+            'form' => $form->createView(),
+        ]);
+    }
 
-	private function getNutrients($products)
-	{
-		$request = Request::createFromGlobals();
-		$productId = $request->get('productId');
+    private function getNutrients($products)
+    {
+        $request = Request::createFromGlobals();
+        $productId = $request->get('productId');
 
-		$product = $products->get($productId);
-		$foodId = $product->getId();
-		$name = $product->getName();
+        $product = $products->get($productId);
+        $foodId = $product->getId();
+        $name = $product->getName();
 
-		$calories = $product->getCalories();
-		$protein = $product->getTotalProtein();
-		$carbohydrates = $product->getCarbohydrates();
-		$fat = $product->getFat();
+        $calories = $product->getCalories();
+        $protein = $product->getTotalProtein();
+        $carbohydrates = $product->getCarbohydrates();
+        $fat = $product->getFat();
 
-		return $productArray = [
-			'name' => $name,
-			'calories' => $calories,
-			'protein' => $protein,
-			'carbohydrates' => $carbohydrates,
-			'fat' => $fat,
-			'foodId' => $foodId,
-		];
-	}
+        return $productArray = [
+            'name' => $name,
+            'calories' => $calories,
+            'protein' => $protein,
+            'carbohydrates' => $carbohydrates,
+            'fat' => $fat,
+            'foodId' => $foodId,
+        ];
+    }
 
-	private function flushUserFood($form, UserFood $userFood, SessionInterface $session)
-	{
-		$productId = $form["productId"]->getData();
-		$product = $this->getDoctrine()->getRepository(Food::class)->find($productId);
-		$userFood->setProductId($product);
+    private function flushUserFood($form, UserFood $userFood, SessionInterface $session)
+    {
+        $productId = $form["productId"]->getData();
+        $product = $this->getDoctrine()->getRepository(Food::class)->find($productId);
+        $userFood->setProductId($product);
 
-		$userFood->setUserId($this->getUser());
+        $userFood->setUserId($this->getUser());
 
-		$pickedDate = $session->get('pickedDate');
-		$userFood->setDate(new \DateTime($pickedDate));
+        $pickedDate = $session->get('pickedDate');
+        $userFood->setDate(new \DateTime($pickedDate));
 
-		$dbUserFood = $this->getDoctrine()->getManager();
-		$dbUserFood->persist($userFood);
-		$dbUserFood->flush();
-	}
+        $dbUserFood = $this->getDoctrine()->getManager();
+        $dbUserFood->persist($userFood);
+        $dbUserFood->flush();
+    }
 }

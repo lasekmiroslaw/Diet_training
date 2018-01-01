@@ -18,7 +18,7 @@ class ChangeUserData extends AbstractType
                 'choice_translation_domain' => true,
                 'format' => 'dd-MM-yyy',
             ))
-            ->add('weight', NumberType::class ,array('label' => false, 'attr' => array('class' => 'narrowFields', )))
+            ->add('weight', NumberType::class, array('label' => false, 'attr' => array('class' => 'narrowFields', )))
             ->add('height', NumberType::class, array('label' => false, 'attr' => array('class' => 'narrowFields', )))
             ->add('calories', NumberType::class, array('label' => false, 'attr' => array('class' => 'narrowFields', )));
     }

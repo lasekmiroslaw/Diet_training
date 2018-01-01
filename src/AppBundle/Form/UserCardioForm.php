@@ -18,7 +18,7 @@ class UserCardioForm extends AbstractType
     {
         $builder
             ->add('trainingId', HiddenType::class, array('attr' => array('class' => 'hiddenType')))
-            ->add('time', TimeType::class ,array('label' => false, 'input' => 'array'))
+            ->add('time', TimeType::class, array('label' => false, 'input' => 'array'))
             ->add('burnedCalories', NumberType::class, array('label' => false,));
     }
 

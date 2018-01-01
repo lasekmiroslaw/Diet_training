@@ -330,28 +330,27 @@ class UserFood
         return $this->fat;
     }
 
-        /**
-         * Set carbohydrates
-         *
-         * @param string $carbohydrates
-         *
-         * @return Food
-         */
-        public function setCarbohydrates($carbohydrates)
-        {
-            $this->carbohydrates = $carbohydrates;
+    /**
+     * Set carbohydrates
+     *
+     * @param string $carbohydrates
+     *
+     * @return Food
+     */
+    public function setCarbohydrates($carbohydrates)
+    {
+        $this->carbohydrates = $carbohydrates;
 
-            return $this;
-        }
+        return $this;
+    }
 
-        /**
-         * Get carbohydrates
-         *
-         * @return string
-         */
-        public function getCarbohydrates()
-        {
-            return $this->carbohydrates;
-        }
-
+    /**
+     * Get carbohydrates
+     *
+     * @return string
+     */
+    public function getCarbohydrates()
+    {
+        return $this->carbohydrates;
+    }
 }

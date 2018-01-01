@@ -126,5 +126,4 @@ class Category
     {
         return $this->subcategory;
     }
-
 }

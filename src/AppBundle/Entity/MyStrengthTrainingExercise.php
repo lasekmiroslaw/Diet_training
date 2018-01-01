@@ -92,5 +92,4 @@ class MyStrengthTrainingExercise
     {
         return $this->trainingId;
     }
-
 }

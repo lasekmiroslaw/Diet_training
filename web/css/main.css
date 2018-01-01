@@ -2,6 +2,10 @@ body {
 	background-image: url('../img/restaurant_icons.png');
 }
 
+div.container {
+	width: 75%;
+}
+
 li {
 	list-style-type: none;
 }
@@ -23,8 +27,12 @@ div.registerForm {
 	margin-top: 4%;
 }
 
-.calendar {
-	padding-top: 2%;
+div.calendar {
+	position: absolute;
+	top: 3%;
+	left: 65%;
+	width: 20%;
+	z-index: 9999;
 }
 
 .meals {
@@ -127,4 +135,17 @@ input[aria-invalid="true"] {
 
 .modal-body {
 	padding: 40px 50px;
+}
+
+@media screen and (max-width: 480px) {
+	div.calendar {
+		position: absolute;
+		z-index: 1;
+		top: 10%;
+		left: 50%;
+		width: 40%;
+	}
+	button.saveTraining {
+		width: 40%;
+	}
 }

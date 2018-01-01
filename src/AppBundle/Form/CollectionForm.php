@@ -12,14 +12,13 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class CollectionForm extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('seriesTraining', CollectionType::class, array(
             'label' => false,
             'entry_type' => UserTrainingForm::class,
             'entry_options' => array('label' => false),
-        	'allow_add' => true,
+            'allow_add' => true,
             'by_reference' => false,
             'allow_delete' => true,
         ));

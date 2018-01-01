@@ -27,7 +27,7 @@ class SearchProductController extends Controller
         $products =$this->getDoctrine()
             ->getRepository(Food::class)
             ->findProducts($requestProducts);
-        if(!$products) {
+        if (!$products) {
             $result['entities']['error'] = "Nie znaleziono";
         } else {
             $result['entities'] = $this->getRealEntities($products);
@@ -35,8 +35,9 @@ class SearchProductController extends Controller
         return new Response(json_encode($result));
     }
 
-    public function getRealEntities($products){
-        foreach ($products as $entity){
+    public function getRealEntities($products)
+    {
+        foreach ($products as $entity) {
             $realEntities[$entity->getId()] = $entity->getName();
         }
         return $realEntities;
@@ -52,17 +53,15 @@ class SearchProductController extends Controller
         $form = $this->createForm(UserFoodForm::class, $userFood);
         $form->handleRequest($request);
 
-        if($request->isXmlHttpRequest())
-        {
+        if ($request->isXmlHttpRequest()) {
             $productArray = $this->getNutrients($product);
             return new JsonResponse($productArray);
         }
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->flushUserFood($userFood, $product, $session);
             $message = $messageGenerator->addProductMessage();
-			$this->addFlash('notice', $message);
+            $this->addFlash('notice', $message);
 
             return $this->redirectToRoute('homepage');
         }
@@ -70,59 +69,58 @@ class SearchProductController extends Controller
         return $this->render('diet/searched_product.html.twig', array(
             'product' => $product,
             'form' => $form->createView(),
-			'meal' => $sessionMeal,
+            'meal' => $sessionMeal,
         ));
     }
 
     private function getNutrients($product)
-	{
-		$request = Request::createFromGlobals();
-		$foodId = $product->getId();
-		$name = $product->getName();
+    {
+        $request = Request::createFromGlobals();
+        $foodId = $product->getId();
+        $name = $product->getName();
         $productQuantity = $request->get('productQuantity');
 
-		$caloriesPer100 = $product->getCalories();
-		$calories = $this->calculateNutrients($caloriesPer100, $productQuantity);
+        $caloriesPer100 = $product->getCalories();
+        $calories = $this->calculateNutrients($caloriesPer100, $productQuantity);
 
-		$proteinPer100 = $product->getTotalProtein();
-		$protein = $this->calculateNutrients($proteinPer100, $productQuantity);
+        $proteinPer100 = $product->getTotalProtein();
+        $protein = $this->calculateNutrients($proteinPer100, $productQuantity);
 
-		$carbohydratesPer100 = $product->getCarbohydrates();
-		$carbohydrates = $this->calculateNutrients($carbohydratesPer100, $productQuantity);
+        $carbohydratesPer100 = $product->getCarbohydrates();
+        $carbohydrates = $this->calculateNutrients($carbohydratesPer100, $productQuantity);
 
-		$fatPer100 = $product->getFat();
-		$fat = $this->calculateNutrients($fatPer100, $productQuantity);
+        $fatPer100 = $product->getFat();
+        $fat = $this->calculateNutrients($fatPer100, $productQuantity);
 
-		return $productArray = [
-			'name' => $name,
-			'calories' => $calories,
-			'protein' => $protein,
-			'carbohydrates' => $carbohydrates,
-			'fat' => $fat,
-			'foodId' => $foodId,
-		];
-	}
+        return $productArray = [
+            'name' => $name,
+            'calories' => $calories,
+            'protein' => $protein,
+            'carbohydrates' => $carbohydrates,
+            'fat' => $fat,
+            'foodId' => $foodId,
+        ];
+    }
 
-	private function calculateNutrients($productPer100, $productQuantity)
-	{
-		$productPerQuantity = round((($productPer100 * $productQuantity)/100),1);
-		return $productPerQuantity;
-	}
+    private function calculateNutrients($productPer100, $productQuantity)
+    {
+        $productPerQuantity = round((($productPer100 * $productQuantity)/100), 1);
+        return $productPerQuantity;
+    }
 
-	private function flushUserFood(UserFood $userFood, Food $product, SessionInterface $session)
-	{
-		$userFood->setProductId($product);
+    private function flushUserFood(UserFood $userFood, Food $product, SessionInterface $session)
+    {
+        $userFood->setProductId($product);
 
-		$user = $this->getUser();
-		$userFood->setUserId($user);
+        $user = $this->getUser();
+        $userFood->setUserId($user);
 
         $date = $session->get('pickedDate');
-		$pickedDate = new \DateTime($date);
-		$userFood->setDate($pickedDate);
+        $pickedDate = new \DateTime($date);
+        $userFood->setDate($pickedDate);
 
-		$dbUserFood = $this->getDoctrine()->getManager();
-		$dbUserFood->persist($userFood);
-		$dbUserFood->flush();
-	}
-
+        $dbUserFood = $this->getDoctrine()->getManager();
+        $dbUserFood->persist($userFood);
+        $dbUserFood->flush();
+    }
 }

@@ -23,5 +23,4 @@ class ChangePasswordType extends AbstractType
             'second_options' => array('label' => 'Powtórz nowe hasło'),
         ));
     }
-
 }

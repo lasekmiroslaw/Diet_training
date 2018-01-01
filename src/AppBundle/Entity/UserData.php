@@ -260,11 +260,12 @@ class UserData
         return $this->calories;
     }
 
-	public function setUserId($userId) {
-		$this->userId = $userId;
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Set date

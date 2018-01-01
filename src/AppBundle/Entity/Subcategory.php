@@ -124,5 +124,4 @@ class Subcategory
     {
         return $this->categoryId;
     }
-
 }

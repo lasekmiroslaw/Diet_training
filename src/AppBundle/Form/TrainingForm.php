@@ -17,7 +17,7 @@ class TrainingForm extends AbstractType
             'label' => false,
             'entry_type' => ExerciseType::class,
             'entry_options' => array('label' => false),
-        	'allow_add' => true,
+            'allow_add' => true,
             'by_reference' => false,
             'allow_delete' => true,
         ));

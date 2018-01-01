@@ -14,14 +14,13 @@
 	<body>
 		<div class="container">
 			<div class="row mainMenu">
-				<div class="col-md-8">
 					<nav id="primary_nav_wrap">
 						<ul>
 							<li class="current-menu-item">
 								<a href="{{ path('homepage') }}">Strona główna</a>
 							</li>
 							<li>
-								<a href="{{ path('homepage') }}">Dieta</a>
+								<a href="#">Dieta</a>
 								<ul>
 									<li>
 										<a href="{{ path('product_categories') }}">Wyszukaj produkt</a>
@@ -45,16 +44,21 @@
 									</li>
 								</ul>
 							</li>
+
 							<li>
-								<a href="{{ path('account') }}">Konto</a>
+								<a href="#"><span class="glyphicon glyphicon-cog"></span></a>
+								<ul>
+									<li>
+										<a href="{{ path('account') }}">Konto</a>
+									</li>
+									<li>
+										<a href="{{ path('logout') }}">Wyloguj się</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</nav>
 				</div>
-				<div class="col-md-3 logout">
-						<a href="{{ path('logout') }}">Wyloguj się!</a>
-				</div>
-			</div>
 			{% block body %}{% endblock %}
 			<footer class="footer">Dieta i trening 2017</footer>
 		</div>

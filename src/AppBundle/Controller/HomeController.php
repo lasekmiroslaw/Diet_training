@@ -32,25 +32,20 @@ class HomeController extends Controller
         $form = $this->createForm(DateForm::class, $pickedDate);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $date = $form["pickedDate"]->getData()->format('Y-m-d');
-        }
-        elseif($session->has('pickedDate'))
-        {
+        } elseif ($session->has('pickedDate')) {
             $date = $session->get('pickedDate');
-        }
-        else
-        {
+        } else {
             $date = strftime("%Y-%m-%d", time());
         }
         $session->set('pickedDate', $date);
         $pickedDate = $session->get('pickedDate');
 
-		$userMacroNutrients = $userFoodRepository->sumMacroNutrients($userId, $date);
+        $userMacroNutrients = $userFoodRepository->sumMacroNutrients($userId, $date);
         $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
         $meals = $mealGenerator->returnMeals($userId, $pickedDate);
-        
+
         $alert = $session->get('alert');
         $session->remove('alert');
 
@@ -78,8 +73,7 @@ class HomeController extends Controller
      */
     public function deletProductAction($id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
     {
-        try
-        {
+        try {
             $user = $this->getUser();
             $em = $this->getDoctrine()->getManager();
             $product = $em->getRepository(UserFood::class)->findItemToDelete($user, $id);
@@ -87,13 +81,9 @@ class HomeController extends Controller
             $em->flush();
 
             $message = $messageGenerator->removeProductMessage();
-			$this->addFlash('notice', $message);
-        }
-        catch(\Doctrine\ORM\ORMInvalidArgumentException $e)
-        {
-        }
-        finally
-        {
+            $this->addFlash('notice', $message);
+        } catch (\Doctrine\ORM\ORMInvalidArgumentException $e) {
+        } finally {
             return $this->redirectToRoute('homepage');
         }
     }

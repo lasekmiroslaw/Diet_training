@@ -8,8 +8,8 @@ $(document).ready(function(){
     autoclose: true,
     };
     date_input.datepicker(options);
-})
 
-$('#date_form_pickedDate').change(function() {
-    $('form[name="date_form"]').submit();
+    $('#date_form_pickedDate').change(function() {
+        $('form[name="date_form"]').submit();
+    })
 })

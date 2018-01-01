@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+
 use AppBundle\Entity\User;
 
 /**
@@ -11,27 +12,28 @@ use AppBundle\Entity\User;
  */
 class MyStrengthTrainingRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findMyTrainings($userId)
-	{
-		return $this->getEntityManager()
-		->createQuery(
-			'SELECT m.id, m.name
+    public function findMyTrainings($userId)
+    {
+        return $this->getEntityManager()
+        ->createQuery(
+            'SELECT m.id, m.name
 			FROM AppBundle:MyStrengthTraining m
 			WHERE m.userId = :userId
 			AND m.isActive = :active
-			ORDER BY m.id')
-		->setParameter('userId', $userId)
-		->setParameter('active', true)
-		->getResult();
-	}
+			ORDER BY m.id'
+        )
+        ->setParameter('userId', $userId)
+        ->setParameter('active', true)
+        ->getResult();
+    }
 
-	public function findItemToDisActive(User $user, $id)
-	{
-		return $this->createQueryBuilder('u')
-		  ->where('u.userId = :user AND u.id = :id')
-		  ->setParameter('user', $user)
-		  ->setParameter('id', $id)
-		  ->getQuery()
-		  ->getOneOrNullResult();
-	}
+    public function findItemToDisActive(User $user, $id)
+    {
+        return $this->createQueryBuilder('u')
+          ->where('u.userId = :user AND u.id = :id')
+          ->setParameter('user', $user)
+          ->setParameter('id', $id)
+          ->getQuery()
+          ->getOneOrNullResult();
+    }
 }

@@ -1,3 +1,7 @@
+div.mainMenu {
+	position: relative;
+	z-index: 100;
+}
 #primary_nav_wrap
 {
 	margin-top:15px
