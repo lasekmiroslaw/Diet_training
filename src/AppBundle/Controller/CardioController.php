@@ -12,25 +12,21 @@ use AppBundle\Entity\CardioTraining;
 use AppBundle\Form\UserCardioForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Service\MessageGenerator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class CardioController extends Controller
 {
     /**
-    * @Route(*"/dodaj_trening_cardio/{category}", name="cardio_category",
+    * @Route(*"/dodaj_trening_cardio/{name}", name="cardio_category",
     *    requirements={
-    *        "category": "|biegi i spacery|rower|fitness i siłownia|czynności codzienne|gry sportowe|wspinaczka|wodne|inne"
+    *        "name": "|biegi i spacery|rower|fitness i siłownia|czynności codzienne|gry sportowe|wspinaczka|wodne|inne"
     *    }
     *)
+    * @ParamConverter("name", options={"mapping": {"name": "name"}})
     */
-    public function showCardioAction(Request $request, SessionInterface $session, $category = 'kategoria', MessageGenerator $messageGenerator)
+    public function showCardioAction(Request $request, SessionInterface $session, CardioCategory $name = null, MessageGenerator $messageGenerator)
     {
-        $cardioTrainings = $this->getDoctrine()
-            ->getRepository(CardioCategory::class)
-            ->findOneBy(array('name' => $category))
-            ->getTraining();
-        if (!$category) {
-            throw $this->createNotFoundException();
-        }
+        $cardioTrainings = $name->getTraining();
 
         $userCardio = new UserCardio();
         $form = $this->createForm(UserCardioForm::class, $userCardio);

@@ -16,29 +16,24 @@ use AppBundle\Form\TrainingForm;
 use AppBundle\Form\MyTrainingForm;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Service\MessageGenerator;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class StrengthController extends Controller
 {
     /**
-    * @Route(*"/dodaj_trening_siłowy/{category}", name="strength_category",
+    * @Route(*"/dodaj_trening_siłowy/{name}", name="strength_category",
     *    requirements={
-    *        "category": "|fbw|split|push-pull|push-pull-legs|góra-dół|kalistenika"
+    *        "name": "|fbw|split|push-pull|push-pull-legs|góra-dół|kalistenika"
     *    }
     *)
+    * @ParamConverter("name", options={"mapping": {"name": "name"}})
     */
-    public function showDefaultStrengthTrainingAction($category = 'kategoria')
+    public function showDefaultStrengthTrainingAction(StrengthTrainingCategory $name = null)
     {
-        $strengthTrainings = $this->getDoctrine()
-            ->getRepository(StrengthTrainingCategory::class)
-            ->findOneBy(array('name' => $category))
-            ->getTraining();
-        if (!$category) {
-            throw $this->createNotFoundException();
-        }
+        $strengthTrainings = $name->getTraining();
 
         return $this->render('training/strength_trainings.html.twig', [
             'strengthTrainings' => $strengthTrainings,
-            'category' => $category,
         ]);
     }
 
@@ -141,20 +136,11 @@ class StrengthController extends Controller
     }
 
     /**
-    * @Route(*"/dodaj_cwiczenia/{training}", name="default_strength_training_exercise",
+    * @Route(*"/dodaj_cwiczenia/{myStrengtTraining}", name="default_strength_training_exercise",
     *)
     */
-    public function addDefaultExercisesAction(Request $request, SessionInterface $session, $training = 'training', MessageGenerator $messageGenerator)
+    public function addDefaultExercisesAction(Request $request, SessionInterface $session, StrengthTraining $myStrengtTraining = null, MessageGenerator $messageGenerator)
     {
-        $myStrengtTraining = $this->getDoctrine()
-            ->getRepository(StrengthTraining::class)
-            ->findTraining($training);
-        $trainingName = $myStrengtTraining->getName();
-
-        $category = $this->getDoctrine()
-            ->getRepository(StrengthTrainingCategory::class)
-            ->find($myStrengtTraining->getCategoryId())
-            ->getName();
         $exercises = $myStrengtTraining->getExercises();
 
         $userStrengthTraining = new UserStrengthTrainingCollection();
@@ -172,23 +158,19 @@ class StrengthController extends Controller
         }
 
         return $this->render('training/add_strength_exercise.html.twig', [
-            'category' => $category,
-            'training' => $trainingName,
+            'category' => $myStrengtTraining->getCategoryId()->getName(),
+            'training' => $myStrengtTraining->getName(),
             'exercises' => $exercises,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-    * @Route(*"/dodaj_moje_cwiczenia/{training}", name="my_strength_training_exercise",
+    * @Route(*"/dodaj_moje_cwiczenia/{myStrengtTraining}", name="my_strength_training_exercise",
     *)
     */
-    public function addMyExercisesAction(Request $request, SessionInterface $session, $training = 'training', MessageGenerator $messageGenerator)
+    public function addMyExercisesAction(Request $request, SessionInterface $session, MyStrengthTraining $myStrengtTraining = null, MessageGenerator $messageGenerator)
     {
-        $myStrengtTraining = $this->getDoctrine()
-            ->getRepository(MyStrengthTraining::class)
-            ->find($training);
-        $trainingName = $myStrengtTraining->getName();
         $exercises = $myStrengtTraining->getExercises();
 
         $userStrengthTraining = new UserStrengthTrainingCollection();
@@ -206,7 +188,7 @@ class StrengthController extends Controller
         }
 
         return $this->render('training/add_my_strength_exercise.html.twig', [
-            'training' => $trainingName,
+            'training' => $myStrengtTraining->getName(),
             'exercises' => $exercises,
             'form' => $form->createView(),
         ]);

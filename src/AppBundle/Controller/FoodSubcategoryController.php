@@ -19,20 +19,12 @@ class FoodSubcategoryController extends Controller
 {
 
     /**
-    * @Route("/dodaj_produkt/{id}", name="product_subcategory")
+    * @Route("/dodaj_produkt/{subcategory}", name="product_subcategory")
     */
-    public function showSubcategoryAction(Request $request, $id = 1, SessionInterface $session, MessageGenerator $messageGenerator)
+    public function showSubcategoryAction(Request $request, Subcategory $subcategory = null, SessionInterface $session, MessageGenerator $messageGenerator)
     {
-        $subcategories = $this->getDoctrine()
-            ->getRepository(Subcategory::class)
-            ->find($id);
-        $products = $subcategories->getProduct();
-
-        $categoryId = $subcategories->getCategoryId();
-        $category = $this->getDoctrine()
-            ->getRepository(Category::class)
-            ->find($categoryId);
-        $categoryName = $category->getName();
+        $products = $subcategory->getProduct();
+        $categoryName = $subcategory->getCategoryId()->getName();
 
         $userFood = new UserFood();
         $form = $this->createForm(UserFoodForm::class, $userFood);
@@ -40,7 +32,7 @@ class FoodSubcategoryController extends Controller
 
         if ($request->isXmlHttpRequest()) {
             $productArray = $this->getNutrients($products);
-			
+
             return new JsonResponse($productArray);
         }
 
