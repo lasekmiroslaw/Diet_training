@@ -18,11 +18,6 @@ class UserStrengthTrainingCollection
      */
     private $trainingExercises;
 
-    public function __construct()
-    {
-        $this->trainingExercises = new ArrayCollection();
-    }
-
     /**
      * @var int
      *
@@ -62,6 +57,11 @@ class UserStrengthTrainingCollection
      * @ORM\JoinColumn(name="myTrainingId", referencedColumnName="id")
      */
     private $myTrainingId;
+
+    public function __construct()
+    {
+        $this->trainingExercises = new ArrayCollection();
+    }
 
     /**
      * Get trainingId

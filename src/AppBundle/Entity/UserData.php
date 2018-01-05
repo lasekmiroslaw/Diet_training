@@ -28,17 +28,6 @@ class UserData
      */
     private $id;
 
-    // /**
-    //  * @ORM\Column(name="age", type="integer")
-    //  * @Assert\NotBlank(message = "Proszę podać swój wiek")
-    //  * @Assert\Regex(
-    //  *      pattern="/^[0-9]{1,3}$/",
-    //  *      htmlPattern ="/^[0-9]{1,3}$/",
-    //  *      message="Proszę wprowadzić odpowiednią liczbę"
-    //  *)
-    //  */
-    // private $age;
-
     /**
      * @var \DateTime
      *

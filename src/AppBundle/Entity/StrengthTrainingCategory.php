@@ -17,11 +17,6 @@ class StrengthTrainingCategory
      */
     private $training;
 
-    public function __construct()
-    {
-        $this->training = new ArrayCollection();
-    }
-
     /**
      * @var int
      *
@@ -38,6 +33,10 @@ class StrengthTrainingCategory
      */
     private $name;
 
+    public function __construct()
+    {
+        $this->training = new ArrayCollection();
+    }
 
     /**
      * Get id

@@ -23,10 +23,6 @@ class Subcategory
      */
     private $categoryId;
 
-    public function __construct()
-    {
-        $this->product = new ArrayCollection();
-    }
     /**
      * @var int
      *
@@ -42,6 +38,11 @@ class Subcategory
      * @ORM\Column(name="name", type="string", length=55)
      */
     protected $name;
+
+    public function __construct()
+    {
+        $this->product = new ArrayCollection();
+    }
 
     /**
      * Get id

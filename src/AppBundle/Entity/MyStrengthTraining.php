@@ -27,12 +27,6 @@ class MyStrengthTraining
      */
     private $exercises;
 
-    public function __construct()
-    {
-        $this->exercises = new ArrayCollection();
-        $this->isActive = true;
-    }
-
     /**
      * @var string
      *
@@ -52,6 +46,12 @@ class MyStrengthTraining
      * @ORM\Column(name="aktywny", type="boolean")
      */
     private $isActive;
+
+    public function __construct()
+    {
+        $this->exercises = new ArrayCollection();
+        $this->isActive = true;
+    }
 
     /**
      * Get id

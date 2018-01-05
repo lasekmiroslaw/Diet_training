@@ -37,12 +37,6 @@ class ProfileImage
      */
     private $profileImage;
 
-    // public function __construct($userId, $profileImage)
-    // {
-    // 	$this->userId = $userId;
-    // 	$hits->$profileImage = $profileImage;
-    // }
-
     /**
      * Get id
      *

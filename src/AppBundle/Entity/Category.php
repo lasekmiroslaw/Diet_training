@@ -22,12 +22,6 @@ class Category
      */
     private $subcategory;
 
-    public function __construct()
-    {
-        $this->food = new ArrayCollection();
-        $this->subcategory = new ArrayCollection();
-    }
-
     /**
      * @var int
      *
@@ -44,7 +38,12 @@ class Category
      */
     protected $name;
 
-
+    public function __construct()
+    {
+        $this->food = new ArrayCollection();
+        $this->subcategory = new ArrayCollection();
+    }
+    
     /**
      * Get id
      *

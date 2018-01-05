@@ -23,12 +23,6 @@ class StrengthTraining
      */
     private $exercises;
 
-    public function __construct()
-    {
-        $this->exercises = new ArrayCollection();
-    }
-
-
     /**
      * @var int
      *
@@ -44,6 +38,11 @@ class StrengthTraining
      * @ORM\Column(name="name", type="string", length=60)
      */
     private $name;
+    
+    public function __construct()
+    {
+        $this->exercises = new ArrayCollection();
+    }
 
     /**
      * Get id
