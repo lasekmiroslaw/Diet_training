@@ -67,3 +67,52 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     host: '%mailer_host%'
+
+easy_admin:
+    site_name: 'dieta <em style="color: red;">trening</em>'
+    design:
+        brand_color: '#164C1C'
+    list:
+        title: 'list.%%entity_label%%'
+    show:
+        title: '%%entity_label%% (#%%entity_id%%)'
+    entities:
+        User:
+            class: AppBundle\Entity\User
+        UserData:
+            class: AppBundle\Entity\UserData
+        Food:
+            class: AppBundle\Entity\Food
+        Category:
+            class: AppBundle\Entity\Category
+        MyFood:
+            class: AppBundle\Entity\MyFood
+        UserFood:
+            class: AppBundle\Entity\UserFood
+        Subcategory:
+            class: AppBundle\Entity\Subcategory
+        CardioCategory:
+            class: AppBundle\Entity\CardioCategory
+        CardioTraining:
+            class: AppBundle\Entity\CardioCategory
+        UserCardio:
+            class: AppBundle\Entity\UserCardio
+        MyStrengthTraining:
+            class: AppBundle\Entity\MyStrengthTraining
+        ProfileImage:
+            class: AppBundle\Entity\ProfileImage
+            list:
+                fields:
+                    - { property: 'profileImage', type: 'image', base_path: '/dieta_trening/web/' }
+        StrengthTraining:
+            class: AppBundle\Entity\StrengthTraining
+        UserStrengthTraining:
+            class: AppBundle\Entity\UserStrengthTraining
+        UserStrengthTrainingCollection:
+            class: AppBundle\Entity\UserStrengthTrainingCollection
+        StrengthTrainingCategory:
+            class: AppBundle\Entity\StrengthTrainingCategory
+        StrengthTrainingExercise:
+            class: AppBundle\Entity\StrengthTrainingExercise
+        UserStrengthExerciseCollection:
+            class: AppBundle\Entity\UserStrengthExerciseCollection

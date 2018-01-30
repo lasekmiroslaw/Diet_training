@@ -81,10 +81,6 @@ class FoodSubcategoryController extends Controller
 
     private function flushUserFood($form, UserFood $userFood, SessionInterface $session)
     {
-        $productId = $form["productId"]->getData();
-        $product = $this->getDoctrine()->getRepository(Food::class)->find($productId);
-        $userFood->setProductId($product);
-
         $userFood->setUserId($this->getUser());
 
         $pickedDate = $session->get('pickedDate');

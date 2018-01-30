@@ -11,10 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use AppBundle\Form\DataTransformer\FoodToNumberTransformer;
 
 class UserFoodForm extends AbstractType
 {
+    private $transformer;
+
+    public function __construct(FoodToNumberTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -32,6 +39,9 @@ class UserFoodForm extends AbstractType
             ->add('totalProtein', NumberType::class, array('label' => false, 'scale' => 1, 'attr' => array('class' => 'proteinField')))
             ->add('fat', NumberType::class, array('label' => false, 'scale' => 1, 'attr' => array('class' => 'fatField')))
             ->add('carbohydrates', NumberType::class, array('label' => false, 'scale' => 1, 'attr' => array('class' => 'carbohydratesField')));
+        
+        $builder->get('productId')
+            ->addModelTransformer($this->transformer);
     }
 
     public function configureOptions(OptionsResolver $resolver)

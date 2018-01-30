@@ -35,6 +35,10 @@ div.calendar {
 	z-index: 9999;
 }
 
+input#date_form_pickedDate {
+	cursor: pointer;
+}
+
 .meals {
 		margin-top: 2%;
 }
