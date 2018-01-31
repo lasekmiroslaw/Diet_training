@@ -13,6 +13,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use AppBundle\Entity\changePassword;
 use AppBundle\Form\ChangePasswordType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class FormsController extends Controller
 {
@@ -38,6 +39,17 @@ class FormsController extends Controller
          ));
     }
 
+    /**
+      * @Route("/admin/login", name="admin_login")
+      */
+    public function adminAction()
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('easyadmin');
+        }
+
+        return $this->render('forms/admin_login.html.twig');
+    }
 
     /**
      * @Route("/data_form", name="data_form")

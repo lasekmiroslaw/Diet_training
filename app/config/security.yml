@@ -5,8 +5,18 @@ security:
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+
     providers:
+        in_memory:
+            memory:
+                users:
+                    admin:
+                        password: $2y$12$4T1PAh/YOeaOyLTDygf6YeZJ/XbkGyTjrwlNOe1DORwQiwpc9Wi1m
+                        roles: 'ROLE_ADMIN'
         our_db_provider:
             entity:
                 class: AppBundle:User
@@ -20,6 +30,27 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        admin_secured_area:
+
+            anonymous: ~
+            pattern:   ^/admin
+            http_basic: ~
+            provider: in_memory
+
+            form_login:
+                login_path: /admin/login
+                check_path: /admin/login
+                always_use_default_target_path: true
+                default_target_path: /admin/panel
+                username_parameter: _username
+                password_parameter: _password
+                csrf_token_generator: security.csrf.token_manager
+                require_previous_session: false
+
+            logout:
+                path:   /admin_logout
+                target: /admin/login
+            context: my_context
         secured_area:
 
             anonymous: ~
@@ -28,26 +59,21 @@ security:
             provider: our_db_provider
 
             form_login:
-                # submit the login form here
                 check_path: /login
-
-                # the user is redirected here when they need to log in
                 login_path: /login
-
-                # login success redirecting options (read further below)
                 always_use_default_target_path: true
                 default_target_path: /data_form
                 username_parameter: login_form[username]
                 password_parameter: login_form[password]
-
                 csrf_token_generator: security.csrf.token_manager
 
             logout:
                 path:   /logout
                 target: /login
-
+            context: my_context
     access_control:
-        # require ROLE_ADMIN for /admin*
+        - { path: ^/admin/panel, roles: ROLE_ADMIN }
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/confirm, roles: IS_AUTHENTICATED_ANONYMOUSLY }

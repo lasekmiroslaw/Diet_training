@@ -34,6 +34,10 @@ class StrengthTrainingExercise
      */
     private $trainingId;
 
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
 
     /**
      * Get id

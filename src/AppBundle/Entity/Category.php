@@ -43,7 +43,12 @@ class Category
         $this->food = new ArrayCollection();
         $this->subcategory = new ArrayCollection();
     }
-    
+
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
+
     /**
      * Get id
      *

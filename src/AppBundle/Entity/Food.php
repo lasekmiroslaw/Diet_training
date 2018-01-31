@@ -33,6 +33,11 @@ class Food extends BaseFood
      */
     private $id;
 
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
+    
     /**
      * Get id
      *

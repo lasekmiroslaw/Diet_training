@@ -38,6 +38,11 @@ class StrengthTrainingCategory
         $this->training = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }    
+
     /**
      * Get id
      *

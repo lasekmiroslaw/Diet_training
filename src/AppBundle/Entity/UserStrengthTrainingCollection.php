@@ -63,6 +63,11 @@ class UserStrengthTrainingCollection
         $this->trainingExercises = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }    
+
     /**
      * Get trainingId
      *

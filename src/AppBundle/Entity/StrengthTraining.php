@@ -38,11 +38,16 @@ class StrengthTraining
      * @ORM\Column(name="name", type="string", length=60)
      */
     private $name;
-    
+
     public function __construct()
     {
         $this->exercises = new ArrayCollection();
     }
+
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }    
 
     /**
      * Get id

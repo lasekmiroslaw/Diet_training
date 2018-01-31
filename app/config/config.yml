@@ -74,21 +74,38 @@ easy_admin:
         brand_color: '#164C1C'
     list:
         title: 'list.%%entity_label%%'
+        actions:
+            - { name: 'show', icon: 'search', label: '' }
+            - { name: 'edit', icon: 'pencil', label: '' }
+            - { name: 'delete', icon: 'remove', label: '' }
+            - { name: 'new', icon: 'plus-square-o', label: 'new' }
+            - { name: 'search', icon: 'search', label: 'search' }
     show:
         title: '%%entity_label%% (#%%entity_id%%)'
+    edit:
+        title: '%%entity_label%%_edit'
+    new:
+        title: 'New %%entity_label%%'
     entities:
         User:
             class: AppBundle\Entity\User
+            export_path: '%kernel.root_dir/../var/export/user'
+            password: { algorithm: 'bcrypt', cost: 12 }
         UserData:
             class: AppBundle\Entity\UserData
+            form:
+                fields: ['age', 'weight', 'height', 'gender', 'calories', { property: 'date', type: 'datetime' }]
         Food:
             class: AppBundle\Entity\Food
+            form:
         Category:
             class: AppBundle\Entity\Category
         MyFood:
             class: AppBundle\Entity\MyFood
         UserFood:
             class: AppBundle\Entity\UserFood
+            form:
+                fields: ['quantity', 'meal', 'calories', 'totalProtein', 'fat', 'carbohydrates', 'productId', 'myProductId', 'userId', { property: 'date', type: 'datetime' }]
         Subcategory:
             class: AppBundle\Entity\Subcategory
         CardioCategory:

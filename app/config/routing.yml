@@ -1,12 +1,14 @@
 easy_admin_bundle:
     resource: "@EasyAdminBundle/Controller/AdminController.php"
     type:     annotation
-    prefix:   /miroadmin
+    prefix:   /admin/panel
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
 logout:
     path: /logout
+admin_logout:
+    path: /admin_logout
 user_registration:
     path:     /register
     defaults: { _controller: AppBundle:Registration:register }

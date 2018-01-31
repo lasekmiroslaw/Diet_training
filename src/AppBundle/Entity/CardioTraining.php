@@ -41,6 +41,10 @@ class CardioTraining
      */
     private $burnedCalories;
 
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
 
     /**
      * Get id

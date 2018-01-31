@@ -61,6 +61,11 @@ class UserStrengthTraining
      */
     private $kgLoad;
 
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
+
     /**
      * Get id
      *
@@ -162,7 +167,7 @@ class UserStrengthTraining
      *
      * @return int
      */
-    public function geCollectionId()
+    public function getCollectionId()
     {
         return $this->collectionId;
     }

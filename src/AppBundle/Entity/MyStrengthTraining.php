@@ -53,6 +53,11 @@ class MyStrengthTraining
         $this->isActive = true;
     }
 
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }    
+
     /**
      * Get id
      *

@@ -28,6 +28,11 @@ class MyFood extends BaseFood
      */
     private $userId;
 
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }    
+
     /**
      * Get id
      *
