@@ -86,6 +86,7 @@ class RegistrationController extends Controller
     public function activationAction($email)
     {
         $decodedEmail = base64_decode($email);
+
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository(User::class)->findOneByEmail($decodedEmail);
 
@@ -95,8 +96,12 @@ class RegistrationController extends Controller
             );
         }
 
-        $user->setIsActive(1);
-        $em->flush();
+        if(!$user->getIsActive()) {
+          $user->setIsActive(1);
+
+          $em->flush();
+        }
+
         return $this->redirectToRoute('login');
     }
 

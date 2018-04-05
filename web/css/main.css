@@ -2,12 +2,12 @@ body {
 	background-image: url('../img/restaurant_icons.png');
 }
 
-div.container {
-	width: 75%;
-}
-
 li {
 	list-style-type: none;
+}
+
+.container {
+	margin-bottom: 70px;
 }
 
 div.registerForm {

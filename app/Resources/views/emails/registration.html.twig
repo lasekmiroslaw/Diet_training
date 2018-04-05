@@ -2,6 +2,6 @@
 
 
 {# example, assuming you have a route named "login" #}
-W celu dokończenia rejestracji kliknij w ten link <a href="localhost{{activeLink}}">Aktywuj konto!</a>
+W celu dokończenia rejestracji kliknij w ten link <a href="{{ app.request.getSchemeAndHttpHost() }}{{ activeLink }}">Aktywuj konto!</a>
 
 Dziękujemy za rejestrację!

@@ -15,20 +15,11 @@ class MealGenerator
         $this->repository = $entityManager->getRepository(UserFood::class);
     }
 
-    public function returnMeals($userId, $pickedDate)
+    public function returnMeals($userId, $pickedDate, array $meals)
     {
-        $meal = [
-            'breakfast' => 'sniadanie',
-            'lunch' => 'lunch',
-            'dinner' => 'obiad',
-            'supper' => 'kolacja',
-            'snacks' => 'przekaski',
-            'other' => 'inne',
-        ];
-
-        foreach ($meal as $key => $value) {
-            $$key = $this->repository->findMeals($userId, $meal[$key], $pickedDate);
-            $meals[$key] = $$key;
+        foreach ($meals as $key => $value) {
+            $meal = $this->repository->findMeals($userId, $meals[$key], $pickedDate);
+            $meals[$key] = $meal;
         }
         return $meals;
     }

@@ -20,7 +20,7 @@
             <div class="chart col-md-4" id="graph" data-percent="">
                 <span class="centerText"></span>
             </div>
-            <div class="normalText col-md-3">
+            <div class="normalText col-md-4">
                 Zapotrzebowanie <span class="dailyCalories">{{ dailyCalories }}</span> kcal<br>
                 Białko <span class="protein">{{ userMacroNutrients[0]['protein'] }}</span> g <span class="pProtein"></span><br>
                 Węglowodany <span class="carbohydrates">{{ userMacroNutrients[0]['carbohydrates'] }}</span> g <span class="pCarbohydrates"></span><br>
@@ -59,138 +59,30 @@
         </div>
 
         <div class="meals row">
+          {% for key, val in meals %}
             <div class="meal col-md-2 col-sm-4 col-sm-4">
-                Śniadanie<br>
+                {{ val }}<br>
                 <a href="{{ path('product_categories') }}/sniadanie">
                     <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
                 </a>
                 <ul class="productList list-group">
-                    {% for product in meals['breakfast'] %}
+                    {% for product in products[key] %}
                         <li class="productItem list-group-item">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-9">
                                     <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
                                     <div class="text-muted small">{{ product.quantity }} g</div>
                                     <div class="text-muted small">{{ product.calories }} kcal</div>
                                 </div>
-                                <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
+                                <div class="col-md-2">
+                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton"><i class="fa fa-times"></i></a>
                                 </div>
                             </div>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
-            <div class="meal col-md-2 col-sm-4 col-sm-4">
-                Lunch<br>
-                <a href="{{ path('product_categories') }}/lunch"><button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
-                </a>
-                <ul class="productList list-group">
-                    {% for product in meals['lunch'] %}
-                        <li class="productItem list-group-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
-                                    <div class="text-muted small">{{ product.quantity }} g</div>
-                                    <div class="text-muted small">{{ product.calories }} kcal</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="meal col-md-2 col-sm-4">
-                Obiad<br>
-                <a href="{{ path('product_categories') }}/obiad">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
-                </a>
-                <ul class="productList list-group">
-                    {% for product in meals['dinner'] %}
-                        <li class="productItem list-group-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
-                                    <div class="text-muted small">{{ product.quantity }} g</div>
-                                    <div class="text-muted small">{{ product.calories }} kcal</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="meal col-md-2 col-sm-4">
-                Kolacja<br>
-                <a href="{{ path('product_categories') }}/kolacja">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
-                </a>
-                <ul class="productList list-group">
-                    {% for product in meals['supper'] %}
-                        <li class="productItem list-group-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
-                                    <div class="text-muted small">{{ product.quantity }} g</div>
-                                    <div class="text-muted small">{{ product.calories }} kcal</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="meal col-md-2 col-sm-4">
-                Przekąski<br>
-                <a href="{{ path('product_categories') }}/przekaski">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
-                </a>
-                <ul class="productList list-group">
-                    {% for product in meals['snacks'] %}
-                        <li class="productItem list-group-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
-                                    <div class="text-muted small">{{ product.quantity }} g</div>
-                                    <div class="text-muted small">{{ product.calories }} kcal</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="meal col-md-2 col-sm-4">
-                Inne<br>
-                <a href="{{ path('product_categories') }}/inne">
-                    <button class="addProduct"><i class="fa fa-plus-square-o" aria-hidden="true"></i> produkt</button>
-                </a>
-                <ul class="productList list-group">
-                    {% for product in meals['other'] %}
-                        <li class="productItem list-group-item">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <a href="{{ path('product_add') }}/{{ product.productId }}">{{ product.name }}</a>
-                                    <div class="text-muted small">{{ product.quantity }} g</div>
-                                    <div class="text-muted small">{{ product.calories }} kcal</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="{{ path('deleteProduct') }}/{{ product.id }}" class="btn btn-danger btn-xs deleteButton">Usuń</a>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+          {% endfor %}
         </div>
         {% for message in app.flashes('notice') %}
             <div class="flash-notice">

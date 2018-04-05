@@ -44,7 +44,15 @@ class HomeController extends Controller
 
         $userMacroNutrients = $userFoodRepository->sumMacroNutrients($userId, $date);
         $dailyCalories = $userDataRepository->getDailyCalories($userId, $date);
-        $meals = $mealGenerator->returnMeals($userId, $pickedDate);
+        $meals = [
+            'breakfast' => 'sniadanie',
+            'lunch' => 'lunch',
+            'dinner' => 'obiad',
+            'supper' => 'kolacja',
+            'snacks' => 'przekaski',
+            'other' => 'inne',
+        ];
+        $products = $mealGenerator->returnMeals($userId, $pickedDate, $meals);
 
         $alert = $session->get('alert');
         $session->remove('alert');
@@ -60,6 +68,7 @@ class HomeController extends Controller
              'dailyCalories' => $dailyCalories,
              'userMacroNutrients' => $userMacroNutrients,
              'meals' => $meals,
+             'products' => $products,
              'alert' => $alert,
              'form' => $form->createView(),
              'pickedDate' => $pickedDate,
