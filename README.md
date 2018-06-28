@@ -6,6 +6,6 @@ Add your training and see your progress in time.
 
 setup project:
 
-composer install
-php bin/console doctrine:migrations:migrate
-export database from dieta_trening-2018-01-01.sql (include products, trainings)
+- composer install
+- php bin/console doctrine:migrations:migrate
+- export database from dieta_trening-2018-01-01.sql (include products, trainings)
